@@ -55,6 +55,16 @@ class bank:
         print(self.balance)
         pass
 
+    def initReWriteBalance(self):
+        #clear the list and supply it with fresh information
+        self.info[2] = '{:n}'.format(self.balance)
+        #write the fresh account information
+        with open('accounts/account-000-0001.txt','w') as file:
+            for data in self.info:
+                file.write(data)
+
+
+
 bank_system = bank()
 exit_answer = False
 answer = ''
@@ -74,6 +84,7 @@ while not exit_answer:
         bank_system.initDeposite()
     elif answer == '4':
         print('==========[Exit Successful!]==========')
+        bank_system.initReWriteBalance()
         break
     else:
         print("[Invalid Input]")
@@ -81,6 +92,7 @@ while not exit_answer:
     answer = input('[Do you want to exit?] [ Y or N ]: ')
     if answer is 'Y' or answer is 'y':
         print('==========[Exit Successful!]==========')
+        bank_system.initReWriteBalance()
         exit_answer = True
     elif answer is 'N' or answer is 'n':
         exit_answer = False
