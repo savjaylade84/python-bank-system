@@ -1,8 +1,8 @@
 # Simple Terminal Bank System 
 ## using a file for accounts and transaction using python 3
-``` Author: John Jayson B. De Leon ```
-``` Github: github.com/savjaylade84 ```
-``` Email: savjaylade84@gmail.com ```
+``` Author: John Jayson B. De Leon ``` <br>
+``` Github: github.com/savjaylade84 ``` <br> 
+``` Email: savjaylade84@gmail.com ``` <br>
 ``` Version: 1.20v ``` <br>
 ``` Functionality ``` <br>
 Login user account<br>
