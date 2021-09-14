@@ -45,7 +45,7 @@ class bank:
             print('[Ineffecient Amount]')
             pass
         self.balance = self.balance + self.amount
-        print(self.balance)
+        print(f'(Balance):{self.balance}')
         pass
     
     def initWithdraw(self):
@@ -54,11 +54,11 @@ class bank:
             print('[Ineffecient Amount!]')
             pass
         self.balance = self.balance - self.amount
-        print(self.balance)
+        print(f'(Balance):{self.balance}')
         pass
 
     def initBalance(self):
-        print(self.balance)
+        print(f'(Balance):{self.balance}')
         pass
 
     #------------------- basic account functionality -----------------------------------
@@ -133,9 +133,11 @@ class bank:
 bank_system = bank()
 exit_answer = False
 answer = ''
- 
+
+print("<<<<<<<<<<( Welcome to Mock Bank System!)>>>>>>>>>>>")
+print(f"\n[Creator]: John Jayson B. De Leon\n[Gmail]: savjaylade84@gmail.com\n[Github]: savjaylade84\n[Version]: 1.20v\n")
 while True:
-    print("==========[Welcome to Mock Bank System!]==========")
+    print("==========[New Transaction]==========")
     answer = input(f'Enter a the command\n(1) Login\n(2) Signup\n(3) Quit / Exit\n[Enter]:')
 
     if answer == '1':
@@ -173,10 +175,14 @@ while True:
                     print("[Invalid Input]")
     elif answer == '2':
         bank_system.initSignup()
+        bank_system.initClear()
     elif answer == '3':
+        bank_system.initClear()
+        print('==========[Exit Successful!]==========')
         exit(0)
     else:
         print('[Wrong Input!]')
+    bank_system.initClear()
         
     
 
