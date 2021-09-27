@@ -96,6 +96,7 @@ class bank:
         return False
 
     def initSignup(self):
+        print("==========[Registration]==========")
         #get the list of accounts in the system
         with open(f'accounts/account-numbers.txt','r') as file:
             for data in file:
@@ -115,6 +116,7 @@ class bank:
         #update the account list
         with open(f'accounts/account-numbers.txt','a') as file:
             file.write(f'\n{self.info[0]}|{self.user_id}')
+        print(f'\nDetails:\nAccount-ID:{self.info[1]}\nAccount Name:{self.info[0]}\nAccount Username:{self.info[1]}\n')
         print("==========[Successful Login!]==========")
 
     #clear everything
@@ -135,7 +137,7 @@ exit_answer = False
 answer = ''
 
 print("<<<<<<<<<<( Welcome to Mock Bank System!)>>>>>>>>>>>")
-print(f"\n[Creator]: John Jayson B. De Leon\n[Gmail]: savjaylade84@gmail.com\n[Github]: savjaylade84\n[Version]: 1.20v\n")
+print(f"\n[Creator]: John Jayson B. De Leon\n[Gmail]: savjaylade84@gmail.com\n[Github]: savjaylade84\n[Version]: 2.1v\n")
 while True:
     print("==========[New Transaction]==========")
     answer = input(f'Enter a the command\n(1) Login\n(2) Signup\n(3) Quit / Exit\n[Enter]:')
