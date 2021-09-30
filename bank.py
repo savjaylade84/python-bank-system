@@ -96,6 +96,7 @@ class bank:
         return False
 
     def initSignup(self):
+        print('==========[Registration]==========')
         #get the list of accounts in the system
         with open(f'accounts/account-numbers.txt','r') as file:
             for data in file:
@@ -115,6 +116,7 @@ class bank:
         #update the account list
         with open(f'accounts/account-numbers.txt','a') as file:
             file.write(f'\n{self.info[0]}|{self.user_id}')
+        print(f'\nDetails:\nAccount-ID{self.info[0]}\nAccount-Name:{self.info[1]}\nAccount-Username:{self.info[0]}\n')
         print("==========[Successful Login!]==========")
 
     #clear everything
