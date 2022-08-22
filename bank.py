@@ -6,6 +6,7 @@
 from time import gmtime, strftime
 from pathlib import Path
 
+
 class BankError(Exception):
     ''' 
         Custom made error class for any error that
@@ -68,8 +69,6 @@ class bank:
                 break
             else:
                 print('[Wrong Input!]')
-
-        pass
 
         pass
     
