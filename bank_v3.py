@@ -653,14 +653,16 @@ class Admin:
         
         
         return False
+   
+#####################################################################################################
+###############################[ Run Bank Sytem ]###############################################  
+##################################################################################################### 
     
-bank_system = Bank_v3()
-admin = Admin()
-exit_answer = False
-answer = ''
-
-
-if __name__ == '__main__':
+def Run_Bank() -> None:
+    bank_system = Bank_v3()
+    admin = Admin()
+    exit_answer = False
+    answer = ''
 
     print("<<<<<<<<<<( Welcome to Mock Bank System! )>>>>>>>>>>>")
     print(f"\n[ Creator ]: John Jayson B. De Leon\n"+
@@ -736,5 +738,8 @@ if __name__ == '__main__':
             exit(0)
         else:
             print('[ Wrong Input! ]')
-del bank_system
-del admin
+    del bank_system
+    del admin
+
+if __name__ == '__main__':
+    Run_Bank()
