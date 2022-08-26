@@ -17,12 +17,14 @@ class BankError(Exception):
     def __init__(self,message:str) -> None:
         self.message = message
 
+#####################################################################################################
+###############################[ Data Storage Classes ]###############################################  
+#####################################################################################################
 
 '''
         hold the data for the account
 
 '''
-
 class Account:
     
     def __init__(self,account_id:str):
@@ -127,16 +129,15 @@ class Account:
             'Balance':self.Balance,
             'Transaction-History':self.Transaction_History
         }
-        print(self.__json)
         with open(f'accounts_v3/account-{self.__account_id}.json','w+') as file:
             json.dump(self.__json,file,indent=4)
         pass
+
 
 ''' 
         hold the data for the transaction history data
         
 '''
-
 class Transaction:
     
     def __init__(self):
@@ -145,7 +146,7 @@ class Transaction:
         self.__amount:float = 0.0
         self.__balance:float = 0.0
   
-#-------------------[ Date Time ]----------------------------------- 
+
     
     @property
     def Date_Time(self) -> str:
@@ -210,6 +211,87 @@ class Transaction:
         self.__balance:float = 0.0
         pass
 
+''' 
+        hold the data for the edited account history data
+        
+'''
+class Edited_Account:
+    
+    def __init__(self) -> None:
+        self.__date_time:str=""
+        self.__account_id:str=""
+        self.__type:str=""
+        self.__value:str=""
+        self.__edited:dict={}
+
+#-------------------[ Date Time ]----------------------------------- 
+
+    @property
+    def Date_Time(self) -> str:
+        return self.__date_time
+    
+    @Date_Time.setter
+    def Date_time(self,date_time:str) -> None:
+        if(self.__date_time != ""):
+            self.__date_time = date_time
+        pass
+
+#-------------------[ Account ID ]----------------------------------- 
+
+    @property
+    def Account_ID(self) -> str:
+        return self.__account_id
+    
+    @Account_ID.setter
+    def Account_ID(self,account_id:str) -> None:
+        if(self.__account_id != ""):
+            self.__account_id = account_id
+        pass
+    
+#-------------------[ Type ]-----------------------------------
+ 
+    @property
+    def Type(self) -> str:
+        return self.__type
+ 
+    @Type.setter
+    def Type(self,type:str) -> None:
+        if(type != ""):
+            self.__type = type
+        pass
+   
+#-------------------[ Value ]-----------------------------------
+ 
+    @property
+    def Value(self) -> str:
+        return self.__value
+ 
+    @Value.setter
+    def Value(self,value:str) -> None:
+        if(value != ""):
+            self.__value = value
+        pass
+    
+#-------------------[ Edited ]-----------------------------------
+
+    @property
+    def Edited(self) -> list:
+        return self.__edited
+    
+    @Edited.setter
+    def Edited(self,edited:list) -> None:
+        if(edited != {}):
+            self.__edited = edited
+        pass
+
+#####################################################################################################
+###############################[ Process Account Classes ]###############################################  
+#####################################################################################################
+
+''' 
+        regular transaction or process for the client/user
+        
+'''
 class Bank_v3:
     
     def __init__(self) -> None:
@@ -273,7 +355,7 @@ class Bank_v3:
                 print(f'( Balance ): {self.__account.Balance}')
                 break
             else:
-                print('[Wrong Input!]')
+                print('[ Failed ]: Wrong Input!')
 
         self.__transaction.Clear()
         pass
@@ -305,14 +387,14 @@ class Bank_v3:
                 print(f'( Balance ): {self.__account.Balance}')
                 break
             else:
-                print('[ Wrong Input! ]')
+                print('[ Failed ]: Wrong Input!')
 
         self.__transaction.Clear()
         pass
     
     def Balance(self) -> None:
         print('\n==========[Current Balance]==========')
-        print(f'(Balance):{self.__account.Balance}')
+        print(f'( Balance ):{self.__account.Balance}')
         pass
     
     def Transaction_History(self) -> None:
@@ -338,7 +420,6 @@ class Bank_v3:
         print('\n==========[ Account Login ]==========')
         __user_id:str = input('[ Enter Account-ID ]: ')
         __pin:str = input('[ Enter Pin ]: ')
-        print(__user_id)
         self.__account = Account(__user_id) 
 
         #retry until the login is success
@@ -437,10 +518,11 @@ class Bank_v3:
                     if __confirm == 'Y':
                         self.__account.Pin = __pin
                         self.__account.Save()
+                        print("\n==========[ Successfully to Change Pin! ]==========")
                     break
                 
                 if __index > 3:
-                    print("\n==========[ Failed to Change Pin ]==========")
+                    print("\n==========[ Failed to Change Pin! ]==========")
                     break
                 
                 __index = __index + 1
@@ -449,11 +531,131 @@ class Bank_v3:
             __confirm = input('[ Confirm New Pin [Y] yes / [N] no]: ')
             if __confirm == 'Y':
                 self.__account.Pin = __pin
-                self.__account.Save()    
+                self.__account.Save()
+                print("\n==========[ Successfully to Change Pin! ]==========")    
                       
         pass
+
+#####################################################################################################
+###############################[ Process Admin Classes ]###############################################  
+#####################################################################################################
+
+''' 
+        adminitration process for the internal force
+        
+'''
+class Admin:
+    
+    def __init__(self) -> None:
+        
+        self.__account_list:dict = {}
+        self.__account:Account
+        self.__date:str = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()) 
+        
+        with open(f'accounts_v3/account-list.json','r') as file:
+            self.__account_list = json.load(file)
+            
+#-------------------[ instruction command ]-----------------------------------    
+
+    def get_instruction(self) -> int:
+        print(f'\n==========[New Transaction]==========\n'+
+              f'[ Enter A Instruction ]\n'+
+              f'[ 1 ]: View Account List\n'+
+              f'[ 2 ]: View Account Information\n'+
+              f'[ 3 ]: View Account History\n'+
+              f'[ 4 ]: View Edited Account History\n'+
+              f'[ 5 ]: Edit Account\n'+
+              f'[ 6 ]: Change Password\n'+
+              f'[ 7 ]: Exist')
+        return int(input('[Enter]: ')) 
+
+#-------------------[ print account information ]-----------------------------------   
+    
+    def print_account_info(self) -> None:
+        print(f'\n==========[ Administration ]==========\n'+
+              f'( Date ): {self.__date}\n')   
+  
+#-------------------[ Manage Account ]----------------------------------- 
+    
+    def Edit_Account(self) -> None:
+        pass
+    
+    def View_Account_Information(self) -> None:
+        pass
+    
+    def View_List(self) -> None:
+        print('==========[ Account List ]==========')
+        for info in self.__account_list['Account-List']:
+            print('\n( Account Name ): {}\n( Account-ID ): {}'.format(info['Name'],info['Account-ID']))
+            print('\n======================================')
+        pass
+    
+    def View_Account_History(self) -> None:
+        
+        __account_id:str = input('\n[ Enter Account-ID ]: ')
+        __temp:dict = {}
+        
+        #check if any of the account list exit a account-id that user input
+        for id in self.__account_list['Account-List']:
+            
+            #check for empty result first
+            if id == '':
+                print("\n==========[ Account Not Found! ]==========")
+                break
+            
+            if(__account_id == id['Account-ID']) and id != '':
+                print('\n==========[ Account Information ]==========')
+                print('\n( Name ): {}\n( Account-ID ): {}'.format(id['Name'],id['Account-ID']))
+                print('\n==========[ Account History ]==========')
+                with open(id['Path'],'r') as file:
+                    __temp = json.load(file)
+                for transaction in __temp['Transaction-History']:
+                    print('\n( Date ): {}\n'.format(transaction['Date-Time'])+
+                          '( Type ): {}\n'.format(transaction['Type'])+
+                          '( Amount ): {}\n'.format(transaction['Amount'])+
+                          '( Balance ): {}'.format(transaction['Balance']))
+                    print('\n======================================')
+        pass
+    
+    def View_Edited_Account_History(self) -> None:
+        print('\n==========[ Edit History ]==========')
+        for edit in self.__account_list['Edited-Account-History']:
+            print('\n( Date Time ): {}\n'.format(edit['Date-Time'])+
+                  '( Account-ID ): {}\n'.format(edit['Account-ID'])+
+                  '( Edited ):\n\t => ( Type ): {}\n\t => ( Value ): {}'.format(edit['Edited']['Type'],edit['Edited']['Value']))
+            print('\n======================================')
+        pass
+    
+#-------------------[ Other Function ]----------------------------------- 
+    
+    def Change_Password(self) -> None:
+        pass
+    
+    def Login(self) -> bool:
+        print('\n==========[ Admin Login ]==========')
+        __username:str = input('[ Enter Username ]: ')
+        __password:str = input('[ Enter Password ]: ') 
+
+        if __password == self.__account_list['Admin-Password'] and __username == self.__account_list['Admin-Username']:
+            return True
+
+        #retry until the login is success
+        index:int = 1
+        if __password != self.__account_list['Admin-Password'] or __username != self.__account_list['Admin-Username']:
+            while True:
+                if __password == self.__account_list['Admin-Password'] and __username == self.__account_list['Admin-Username']:
+                    return True
+                if index < 3:
+                    print('==========[ Login Attempt Failed! ]==========')
+                    exit(1)
+                index = index + 1
+                
+        
+        
+        return False
     
 bank_system = Bank_v3()
+admin = Admin()
 exit_answer = False
 answer = ''
 
@@ -470,7 +672,8 @@ if __name__ == '__main__':
         answer:int = int(input(f'Enter a the command\n'+
                                f'( 1 ) Login\n'+
                                f'( 2 ) Signup\n'+
-                               f'( 3 ) Quit / Exit\n'+
+                               f'( 3 ) Admin\n'+
+                               f'( 4 ) Quit / Exit\n'+
                                f'[ Enter ]:'))
 
         if answer == 1:
@@ -502,8 +705,36 @@ if __name__ == '__main__':
         elif answer == 2:
             bank_system.Signup()
         elif answer == 3:
+            #get account info
+            if admin.Login():
+                admin.print_account_info()
+                while not exit_answer:
+
+                    #get user instruction
+                    answer = admin.get_instruction()
+
+                    if answer == 1:
+                        admin.View_List()
+                    elif answer == 2:
+                        admin.View_Account_Information()
+                    elif answer == 3: 
+                        admin.View_Account_History()
+                    elif answer == 4:
+                        admin.View_Edited_Account_History()
+                    elif answer == 5:
+                        admin.Edit_Account()
+                    elif answer == 6:
+                        admin.Change_Password()
+                    elif answer == 7:
+                        print('==========[ Exit Successful! ]==========')
+                        #bank_system.Save()
+                        break
+                    else:
+                        print("[ Invalid Input ]")
+        elif answer == 4:
             print('\n==========[ Exit Successful! ]==========')
             exit(0)
         else:
             print('[ Wrong Input! ]')
 del bank_system
+del admin
