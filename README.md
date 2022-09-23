@@ -12,8 +12,8 @@ deposite a money<br>
 withdraw a money<br>
 check a balance<br>
 exit a transaction<br>
-exit a system<br>
+exit a system<br><br>
 ``` Note ``` <br>
 all the accounts in the accounts folder are all plain text temporarily.<br>
-Other feature will be like secure account storing,user friendly terminal<br>
-design,and etc in the future
+Other feature will be added like secure account storing,user friendly terminal<br>
+design,and etc in the future update.
