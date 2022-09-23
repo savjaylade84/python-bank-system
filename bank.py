@@ -5,6 +5,7 @@
 
 from time import gmtime, strftime
 from pathlib import Path
+from getpass import getpass
 
 #hold most of the the bank functionlity
 class bank:
@@ -150,7 +151,7 @@ class bank:
                     for data in file:
                         self._info.append(data.rstrip())
         
-                self._password = input('[Enter Password]:')        
+                self._password = getpass('[Enter Password]:')        
                 if self._password == self._info[3]:
                     return True
                 return False
@@ -180,7 +181,7 @@ class bank:
                         allowed re-entry of password is done.
         
                     '''
-                    temp = input('[Enter Password]:')
+                    temp = getpass('[Enter Password]:')
                     if(self._password_max_length(temp) and index < 2):
                         self._info.append(temp)
                                 #write the user info in the new file
@@ -397,11 +398,11 @@ bank_system = bank()
 exit_answer = False
 answer = ''
 
-print("<<<<<<<<<<( Welcome to Mock Bank System!)>>>>>>>>>>>")
-print(f"\n[Creator]: John Jayson B. De Leon\n[Gmail]: savjaylade84@gmail.com\n[Github]: savjaylade84\n[Version]: 1.20v\n")
+print("<<<<<<<<<<( Welcome to Mock Bank System!)>>>>>>>>>>>",end='\r')
+print(f"\n[Creator]: John Jayson B. De Leon\n[Gmail]: savjaylade84@gmail.com\n[Github]: savjaylade84\n[Version]: 1.20v\n",end='\r')
 while True:
     print("==========[New Transaction]==========")
-    answer = input(f'Enter a the command\n(1) Login\n(2) Signup\n(3) Quit / Exit\n[Enter]:')
+    answer = input(f'Enter a the command\n(1) Login\n(2) Signup\n(3) Quit / Exit\n[Enter]:',end='\r')
 
     if answer == '1':
         #get account info
@@ -427,12 +428,12 @@ while True:
                     print("[Invalid Input]")
                     
                 answer = input('[Do you want to exit?] [ Y or N ]: ')
-                if answer is 'Y' or answer is 'y':
+                if answer == 'Y' or answer == 'y':
                     print('==========[Exit Successful!]==========')
                     bank_system.initReWriteBalance()
                     bank_system.initClear()
                     exit_answer = True
-                elif answer is 'N' or answer is 'n':
+                elif answer == 'N' or answer == 'n':
                     exit_answer = False
                 else:
                     print("[Invalid Input]")
