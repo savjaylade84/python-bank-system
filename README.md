@@ -3,7 +3,7 @@
 ``` Author: John Jayson B. De Leon ``` <br>
 ``` Github: github.com/savjaylade84 ``` <br> 
 ``` Email: savjaylade84@gmail.com ``` <br>
-``` First Version: 1.30Vlv```<br>
+``` First Version: 1.30v```<br>
 ``` Current Version: 2.60v => 2.61v ``` <br><br>
 ``` Functionality ``` <br>
 Login user account<br>
