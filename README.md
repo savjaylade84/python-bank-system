@@ -3,7 +3,8 @@
 ``` Author: John Jayson B. De Leon ``` <br>
 ``` Github: github.com/savjaylade84 ``` <br> 
 ``` Email: savjaylade84@gmail.com ``` <br>
-``` Version: 1.20v => 2.60v ``` <br><br>
+``` First Version: 1.30Vlv```<br>
+``` Current Version: 2.60v => 2.61v ``` <br><br>
 ``` Functionality ``` <br>
 Login user account<br>
 Register or signup a user account<br>
@@ -13,4 +14,6 @@ check a balance<br>
 exit a transaction<br>
 exit a system<br>
 ``` Note ``` <br>
-all the accounts in the accounts folder are all plain text
+all the accounts in the accounts folder are all plain text temporarily.<br>
+Other feature will be like secure account storing,user friendly terminal<br>
+design,and etc in the future
