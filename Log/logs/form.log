@@ -1,0 +1,5 @@
+[ INFO ] >>>  log-name [ form.log ] : date [ 2022-09-26 02:19:08 ] : module [ Operation - Login - 176 ] : message [ user:anonymous => [Login]: Starting ]
+[ INFO ] >>>  log-name [ form.log ] : date [ 2022-09-26 02:19:13 ] : module [ Operation - Login - 187 ] : message [ user:anonymous => [Login]: Success Input => user-id(000-000-0001) ]
+[ INFO ] >>>  log-name [ form.log ] : date [ 2022-09-26 02:19:17 ] : module [ Operation - Login - 208 ] : message [ user:anonymous => [Login]: Success Input => pin(123456) ]
+[ INFO ] >>>  log-name [ form.log ] : date [ 2022-09-26 02:19:17 ] : module [ Operation - Login - 223 ] : message [ user:anonymous => [Login]: Success Login => account-id(000-000-0001) ]
+[ INFO ] >>>  log-name [ form.log ] : date [ 2022-09-26 02:19:17 ] : module [ Operation - Login - 224 ] : message [ user:anonymous => [Login]: Ended ]

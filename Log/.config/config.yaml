@@ -1,0 +1,71 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+    detail:
+      format: '[ %(levelname)s ] >>>  log-name [ %(name)s ] : date [ %(asctime)s ] : file-name [ %(filename)s ] : file-path[ %(pathname)s ] :	module [ %(module)s - %(funcName)s - %(lineno)d ] : message [ %(message)s ]'
+      datefmt: '%Y-%m-%d %H:%M:%S'
+    data:
+      format: '[ %(levelname)s ] >>>  log-name [ %(name)s ] : date [ %(asctime)s ] : module [ %(module)s - %(funcName)s - %(lineno)d ] : message [ %(message)s ]'
+      datefmt: '%Y-%m-%d %H:%M:%S'
+    transac:
+      format: '[ %(levelname)s ] >>>  log-name [ %(name)s ] : date [ %(asctime)s ] : Transaction [ %(message)s ]'
+      datefmt: '%Y-%m-%d %H:%M:%S'
+handlers:
+    console:
+      class: logging.StreamHandler
+      level: INFO
+      formatter: detail
+    transaction.file:
+      class: logging.FileHandler
+      level: DEBUG
+      filename: Log/logs/transaction.log
+      formatter: transac
+      mode: a
+    form.file:
+      class: logging.FileHandler
+      level: DEBUG
+      filename: Log/logs/form.log
+      formatter: data
+      mode: a
+    storage.file:
+      class: logging.FileHandler
+      level: DEBUG
+      filename: Log/logs/storage.log
+      formatter: data
+      mode: a
+    account.file:
+      class: logging.FileHandler
+      level: DEBUG
+      filename: Log/logs/account.log
+      formatter: detail
+      mode: a
+    admin.file:
+      class: logging.FileHandler
+      level: DEBUG
+      filename: Log/logs/admin.log
+      formatter: detail
+      mode: a
+loggers:
+  transaction.log:
+    level: DEBUG
+    handlers: [transaction.file]
+    propagate: no
+  form.log:
+    level: DEBUG
+    handlers: [form.file]
+    propagate: no
+  account.log:
+    level: DEBUG
+    handlers: [account.file]
+    propagate: no
+  admin.log:
+    level: DEBUG
+    handlers: [admin.file]
+    propagate: no
+  storage.log:
+    level: DEBUG
+    handlers: [storage.file]
+    propagate: no
+root:
+  level: DEBUG
+  handlers: [console]

@@ -22,7 +22,7 @@ def main() -> None:
     print(f"\n[ Creator ]: John Jayson B. De Leon\n"+
           f"[ Gmail ]: savjaylade84@gmail.com\n"+
           f"[ Github ]: savjaylade84\n"+
-          f"[ Version ]: 3.9v\n")
+          f"[ Version ]: 3.9v")
     while True:
         _print.header("Main Menu")
         _answer:int = int(_print.menu(

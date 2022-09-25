@@ -1,16 +1,22 @@
 ''' 
-        regular transaction or process for the client/user
+form or process for the client/user
         
 '''
 
+from email import message
 import json
 from time import gmtime, strftime
 
 from Account.Account import Account
 from Account.Transaction import Transaction
 from Terminal.print import Print
+from Terminal.bank_form import validate_pin,validate_userid
 from storage_accounts_v3.storage import Storage
+from Log.log import Log
 
+
+transaction_log = Log('transaction.log').open()
+form_log = Log('form.log').open()
 _print = Print()
 _storage = Storage()
 
@@ -61,82 +67,99 @@ class Operation:
 
     def Deposite(self) -> None:
         _print.header('Deposite Process')
+        transaction_log.info(f'account:{self.__account.Account_ID} => [Deposite]: Starting')
         
         self.__transaction.Date_Time = self.__date
         self.__transaction.Type = "Deposite"
         self.__transaction.Balance = self.__account.Balance
         
         while True:
-            self.__transaction.Amount = float(input('[ Enter a Amount ]: '))
+            self.__transaction.Amount = float(_print.input('Enter a Amount'))
 
             if(self.__transaction.Amount < 0):
-                print('[ Ineffecient Amount ]')
+                _print.status(state='Warning',message='Ineffecient Amount')
 
-            answer:str = input('[ Confirm Transaction [Y] yes / [N] no ]: ')
+            answer:str = _print.input('Confirm Transaction [Y] yes / [N] no')
             if(answer == 'N'):
-                answer = input('[ Proceed To Exit [Y] yes / [N] no ]: ')
+                answer = _print.input('Proceed To Exit [Y] yes / [N] no')
                 if(answer == 'Y'):
+                    transaction_log.info(f'account:{self.__account.Account_ID} => [Deposite]: Terminate')
                     break
             elif(answer == 'Y'):
                 self.__account.Balance = self.__account.Balance + self.__transaction.Amount
                 self.__transaction.Balance = self.__account.Balance
                 self.__account.Transaction_History.append(self.__transaction.Data())
                 self.__account.Save()
-                print('[ Success ]: Process is Successfully Done!')
-                print(f'( Balance ): {self.__account.Balance}')
+                _print.status(state='Success', message='Process is Successfully Done!')
+                _print.data(header='',data_header='Balance',data=f'{self.__account.Balance}')
+                transaction_log.info(f'account:{self.__account.Account_ID} => [Deposite]: Successful')
                 break
             else:
-                print('[ Failed ]: Wrong Input!')
-
+                _print(state='Failed',message='Wrong Input!')
+                
+        transaction_log.info(f'account:{self.__account.Account_ID} => [Deposite]: Ended')
         self.__transaction.Clear()
         pass
     
     def Withdraw(self) -> None:
-        print('\n==========[ Withdraw Process ]==========')
+        _print.header('Withdraw Process')
+        transaction_log.info(f'account:{self.__account.Account_ID} => [Withdraw]: Starting')
         
         self.__transaction.Date_Time = self.__date
         self.__transaction.Type = "Withdraw"
         self.__transaction.Balance = self.__account.Balance
         
         while True:
-            self.__transaction.Amount = float(input('[ Enter a Amount ]: '))
+            self.__transaction.Amount = float(_print.input('Enter a Amount'))
 
             if(self.__transaction.Amount > self.__account.Balance or self.__transaction.Amount < 0):
-                print('[ Ineffecient Amount ]')
+                _print.status(state='Warning',message='Ineffecient Amount!')
 
-            answer:str = input('[ Confirm Transaction [Y] yes / [N] no ]: ')
+            answer:str = _print.input('Confirm Transaction [Y] yes / [N] no')
             if(answer == 'N'):
-                answer = input('[ Proceed To Exit [Y] yes / [N] no ]: ')
+                answer = _print.input('Proceed To Exit [Y] yes / [N] no')
                 if(answer == 'Y'):
+                    transaction_log.info(f'account:{self.__account.Account_ID} => [Withdraw]: Terminate')
                     break
             elif(answer == 'Y'):
                 self.__account.Balance = self.__account.Balance - self.__transaction.Amount
                 self.__transaction.Balance = self.__account.Balance
                 self.__account.Transaction_History.append(self.__transaction.Data())
                 self.__account.Save()
-                print('[ Success ]: Process is Successfully Done!')
-                print(f'( Balance ): {self.__account.Balance}')
+                _print.status(state='Success',message='Process is Successfully Done!')
+                _print.data(header='',data_header='Balance',data=f'{self.__account.Balance}')
+                transaction_log.info(f'account:{self.__account.Account_ID} => [Withdraw]: Successful')
                 break
             else:
-                print('[ Failed ]: Wrong Input!')
+                _print.status(state='Failed',message='Wrong Input!')
 
+        transaction_log.info(f'account:{self.__account.Account_ID} => [Withdraw]: Ended')
         self.__transaction.Clear()
         pass
     
     def Balance(self) -> None:
-        print('\n==========[Current Balance]==========')
-        print(f'( Balance ):{self.__account.Balance}')
+        _print.header('Current Balance')
+        _print.data(header='',data_header='Balance',data=f'{self.__account.Balance}')
+        transaction_log.info(f'account:{self.__account.Account_ID} => [Balance]: Show')
         pass
     
     def Transaction_History(self) -> None:
-        print('\n==========[ Transaction History ]==========')
+        _print.header('Transaction History')
+        transaction_log.info(f'account:{self.__account.Account_ID} => [Transaction History]: Show')
         __index:int = 1
         for transaction in self.__account.Transaction_History:
-            print(f'\n==========[ Transaction {__index} ]==========\n'+
-                '( Date ): {}\n'.format(transaction['Date-Time'])+
-                '( Type ): {}\n'.format(transaction['Type'])+
-                '( Amount ): {}\n'.format(transaction['Amount'])+
-                '( Balance ): {}'.format(transaction['Balance']))
+            _print.datas(header='Transaction',
+                         data_header=[
+                             'Date',
+                             'Type',
+                             'Amount',
+                             'Balance'
+                         ],datas=[
+                             transaction['Date-Time'],
+                             transaction['Type'],
+                             transaction['Amount'],
+                             transaction['Balance']
+                         ])
             __index = __index + 1
         pass
 
@@ -144,63 +167,105 @@ class Operation:
 
 
     def Save(self) -> None:
+        transaction_log.info(f'account:{self.__account.Account_ID} => [Account]: Save Information')
         self.__account.Save()
         self.__transaction.Clear()
 
     def Login(self) -> bool:
-        print('\n==========[ Account Login ]==========')
-        __user_id:str = input('[ Enter Account-ID ]: ')
-        __pin:str = input('[ Enter Pin ]: ')
-        self.__account.Setup(__user_id)
-
-        #retry until the login is success
-        index:int = 1
-        if self.__account.Exist:
-            while True:
-                if __pin == self.__account.Pin and len(__pin) < 7:
-                    return True
-                if index < 3 or __user_id != self.__account.Account_ID:
-                    print('==========[ Login Attempt Failed! ]==========')
-                    exit(1)
-                index = index + 1
+        _print.header('Account Login')
+        form_log.info(f'user:anonymous => [Login]: Starting')
         
+        __user_id:str = _print.input('Enter Account-ID')
+        '''
+            validate user id format before passing 
+            for fetching and setup the account 
+            information in the account object
+        '''
+        index:int = 1
+        while True:
+            if validate_userid(__user_id):
+                form_log.info(f'user:anonymous => [Login]: Success Input => user-id({__user_id})')
+                break
+            if not validate_userid(__user_id):
+                _print.status(state='Warning',message='Wrong format of user id  - Pls! Try again')
+            
+            if index > 3:
+                form_log.info(f'user:anonymous => [Login]: Failed User-ID input')
+                _print.header('Login Attempt Failed!')
+                exit(1)
+            __user_id:str = _print.input('Enter Account-ID Again')  
+            index = index + 1
+            
+        __pin:str = _print.password('Enter Pin')
+        '''
+            validate user id format before passing 
+            for fetching and setup the account 
+            information in the account object
+        '''
+        index = 1
+        while True:
+            if validate_pin(__pin):
+                form_log.info(f'user:anonymous => [Login]: Success Input => pin({__pin})')
+                break
+            if not validate_pin(__pin):
+                _print.status(state='Warning',message='Only 6 digit pin number only - Pls! Try again')
+            if index > 3:
+                form_log.info(f'user:anonymous => [Login]: Failed Pin input')
+                _print.header('Login Attempt Failed!')
+                exit(1)
+            __pin:str = _print.password('Enter Pin Again')
+            index = index + 1
+            
+        self.__account.Setup(__user_id)
+        print(self.__account.Balance)
+        if self.__account.Exist:
+            if self.__account.Account_ID == __user_id and self.__account.Pin:
+                form_log.info(f'user:anonymous => [Login]: Success Login => account-id({self.__account.Account_ID})')
+                form_log.info(f'user:anonymous => [Login]: Ended')
+                return True
+            
         return False
     
     def Signup(self) -> None:
-        print("\n==========[ Registration ]==========")
-
-        with open(f'accounts_v3/account-list.json','r') as file:
-            self.__account_list:dict = json.load(file)
+        _print.header("Registration")
+        self.__account_list:dict = _storage.fetch(list=True)
 
         #get basic information
-        __account_id:str = '000-000-{}'.format(len(self.__account_list['Account-List']) + 1)  
-        __name:str = input('[ Enter Name ]: ')
+        __account_id:str = f"000-000-{(len(self.__account_list['Account-List']) + 1):4}" 
+        __name:str = _print.input('Enter Name')
         
         # re-ask pin number until the exact number is given
-        __balance:float = float(input('[ Enter First Deposite ( Min: 1000 ) ]: '))
+        __balance:float = float(_print.input('Enter First Deposite ( Min: 1000 )'))
         if __balance < 1000:
             while True:
                 
-                __balance:float = float(input('[ Enter First Deposite ( Min: 1000 ) Again ]: '))
+                __balance:float = float(_print.input('Enter First Deposite ( Min: 1000 ) Again'))
                 if __balance >= 1000:
                     break
         
-        # re-ask pin number until the exact number is given    
-        __pin:str = input('[ Enter 6-Digit Pin ]: ')
-        if len(__pin) > 7:
+        # re-ask pin number until the right format of pin is given
+        __pin:str = _print.input('Enter 6-Digit Pin')
+        if validate_pin(__pin):
             while True:
                 
-                __pin:str = input('[ Enter Pin Again ]: ')
+                __pin:str = _print.input('Enter Pin Again')
                 
-                if len(__pin) < 7 and len(__pin) == 6:
+                if validate_pin(__pin):
                     break
-            
-        print("\n==========[ Summary Details ]==========")
-        print(f'[ Name ]: {__name}\n'+
-              f'[ Account-ID ]:{__account_id}\n'+
-              f'[ Pin ]: ******\n'+
-              f'[ Balance ]:{__balance}')
-        __confirm = input('[ Confirm Register [Y] yes / [N] no]: ')
+                
+        _print.datas(header='Summary Details',
+                     data_header=[
+                         'Name',
+                         'Account-ID',
+                         'Pin',
+                         'Balance'
+                     ],datas=[
+                         __name,
+                         __account_id,
+                         __balance
+                     ])
+        __confirm = _print.input('Confirm Register [Y] yes / [N] no')
+        
         
         if __confirm == 'Y':
             
@@ -210,8 +275,7 @@ class Operation:
                 'Account-ID':__account_id,
                 'Path':f'accounts_v3/account-{__account_id}.json'
                 })
-            with open(f'accounts_v3/account-list.json','w') as file:
-                json.dump(self.__account_list,file,indent=4)
+            _storage.store(self.__account_list,list=True)
               
             #create account file  
             __template = {
@@ -221,15 +285,14 @@ class Operation:
             'Balance':__balance,
             'Transaction-History':[]
             }
-            with open(f'accounts_v3/account-{__account_id}.json','w') as file:
-                json.dump(__template,file,indent=4)
+            _storage.store(id=__account_id,data=__template)
             
             self.__account_list = {}
-            print("\n==========[ Successfully Register! ]==========")
+            _print.header("Successfully Register!")
             pass
         
         if __confirm == 'N':
-            print("\n==========[ Failed Registration! ]==========")
+            _print.header("Failed Registration!")
             pass
         
         pass
@@ -239,12 +302,12 @@ class Operation:
         
         __index:int = 1
         __pin:str = _print.input('Enter 6-Digit Pin')
-        if len(__pin) > 7:
+        if not validate_pin(__pin):
             while True:
                 
                 __pin = _print.input('Enter Pin Again')
                 
-                if len(__pin) < 7 and len(__pin) == 6:
+                if validate_pin(__pin):
                     __confirm = _print.input('Confirm New Pin [Y] yes / [N] no')
                     if __confirm == 'Y':
                         self.__account.Pin = __pin
@@ -258,7 +321,7 @@ class Operation:
                 
                 __index = __index + 1
                 
-        if len(__pin) < 7 and len(__pin) == 6:
+        if validate_pin(__pin):
             __confirm = _print.input('Confirm New Pin [Y] yes / [N] no')
             if __confirm == 'Y':
                 self.__account.Pin = __pin

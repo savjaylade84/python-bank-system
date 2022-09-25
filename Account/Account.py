@@ -21,16 +21,16 @@ class Account:
 
     def Setup(self,id:str) -> None:
         self.__json = _storage.fetch(id)
-        if self.__json != {}:
-            self.__account_exist = True
         try:
-            self.__name:str = self.__json['Name']
-            self.__account_id:str = self.__json['Account-ID']
-            self.__pin:str = self.__json['Pin']
-            self.__balance:float = self.__json['Balance']
-            self.__transaction_history:list[Transaction] = self.__json['Transaction-History']
+            if self.__json != {}:
+                self.__account_exist = True
+            self.__name = self.__json['Name']
+            self.__account_id = self.__json['Account-ID']
+            self.__pin = self.__json['Pin']
+            self.__balance = self.__json['Balance']
+            self.__transaction_history = self.__json['Transaction-History']
         except Exception as e:
-            raise e('Json Error: Data Does Not Exist')
+            raise e('Json Error: Data or File Does Not Exist')
         
 #-------------------[ Name ]-----------------------------------    
         
@@ -101,7 +101,7 @@ class Account:
 #-------------------[ Other ]----------------------------------- 
 
     def Save(self) -> None:
-        _storage.store(self.account_id,{
+        _storage.store(id=self.__account_id,data={
             'Name':self.Name,
             'Account-ID':self.Account_ID,
             'Pin':self.Pin,
