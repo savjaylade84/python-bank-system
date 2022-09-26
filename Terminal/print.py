@@ -78,6 +78,6 @@ class Print:
     def status(self,state:str='',message:str='') -> None:
         print(f'[ {state} ]: {message}')
         
-    def border() -> None:
+    def border(self) -> None:
         print('=' * 30)
         
