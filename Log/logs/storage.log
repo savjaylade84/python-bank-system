@@ -202,3 +202,7 @@ TypeError: Object of type Account is not JSON serializable
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 01:18:16 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 01:18:21 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 01:18:21 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 03:02:23 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 03:02:23 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 03:02:46 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 03:02:46 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
