@@ -1,0 +1,62 @@
+{
+    "Name": "Jayson De Leon",
+    "Account-ID": "000-000-0001",
+    "Pin": "$2b$12$o7lqLlzfWqf.0CJdBhA0vOy79TWFobPLBYZrYaGDaxyk5tSiRG3sW",
+    "Balance": 10546.0,
+    "Transaction-History": [
+        {
+            "Date-Time": "Sun, 21 Aug 2021 20:54:46 +0000",
+            "Type": "Deposite",
+            "Amount": 1000.0,
+            "Balance": 10000.0
+        },
+        {
+            "Date-Time": "Sat, 20 Aug 2022 20:54:46 +0000",
+            "Type": "Deposite",
+            "Amount": 2000.0,
+            "Balance": 9000.0
+        },
+        {
+            "Date-Time": "Mon, 22 Aug 2022 03:56:13 +0000",
+            "Type": "Deposite",
+            "Amount": 100.0,
+            "Balance": 9100.0
+        },
+        {
+            "Date-Time": "Mon, 22 Aug 2022 04:00:07 +0000",
+            "Type": "Withdraw",
+            "Amount": 10.0,
+            "Balance": 9090.0
+        },
+        {
+            "Date-Time": "Sun, 25 Sep 2022 17:34:59 +0000",
+            "Type": "Deposite",
+            "Amount": 1234.0,
+            "Balance": 10324.0
+        },
+        {
+            "Date-Time": "Sun, 25 Sep 2022 17:39:03 +0000",
+            "Type": "Deposite",
+            "Amount": 123.0,
+            "Balance": 10447.0
+        },
+        {
+            "Date-Time": "Sun, 25 Sep 2022 18:12:48 +0000",
+            "Type": "Withdraw",
+            "Amount": 12.0,
+            "Balance": 10435.0
+        },
+        {
+            "Date-Time": "Sun, 25 Sep 2022 18:19:07 +0000",
+            "Type": "Deposite",
+            "Amount": 123.0,
+            "Balance": 10558.0
+        },
+        {
+            "Date-Time": "Sun, 25 Sep 2022 18:19:07 +0000",
+            "Type": "Withdraw",
+            "Amount": 12.0,
+            "Balance": 10546.0
+        }
+    ]
+}
