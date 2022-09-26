@@ -8,7 +8,7 @@
 Login user account<br>
 Register or signup a user account<br>
 deposite a money<br>
-withdraw a money<br>
+withdraw a money<br> 
 check a balance<br>
 exit a transaction<br>
 exit a system<br>
