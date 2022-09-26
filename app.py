@@ -59,7 +59,7 @@ def main() -> None:
                         #_bank_system.Save()
                         break
                     else:
-                        print("[ Invalid Input ]")
+                        _print.status("Warning","Invalid Input!")
 
         elif _answer == 2:
             _bank_system.Signup()
@@ -89,12 +89,12 @@ def main() -> None:
                         #_bank_system.Save()
                         break
                     else:
-                        print("[ Invalid Input ]")
+                        _print.status("Warning","Invalid Input!")
         elif _answer == 4:
             _print.header('Exit Successful')
             exit(0)
         else:
-            print('[ Wrong Input! ]')
+            _print.status("Warning","Invalid Input!")
     del _bank_system
     del _admin
 

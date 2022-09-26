@@ -11,7 +11,6 @@ _storage = Storage()
 class Account:
 
     def __init__(self):
-        self.__account_exist:bool = False 
         self.__name:str = ''
         self.__account_id:str = ''
         self.__pin:str = ''
@@ -22,8 +21,6 @@ class Account:
     def Setup(self,id:str) -> None:
         self.__json = _storage.fetch(id)
         try:
-            if self.__json != {}:
-                self.__account_exist = True
             self.__name = self.__json['Name']
             self.__account_id = self.__json['Account-ID']
             self.__pin = self.__json['Pin']
@@ -91,12 +88,6 @@ class Account:
         if(transaction_history != []):
             self.__transaction_history = transaction_history
         pass
-   
-#-------------------[ Account Exist ]-----------------------------------     
-    
-    @property
-    def Exist(self) -> bool:
-        return self.__account_exist   
     
 #-------------------[ Other ]----------------------------------- 
 
@@ -110,4 +101,12 @@ class Account:
         })
         pass
 
+    def get_copy(self) ->dict:
+        return  {
+            'Name':self.__name,
+            'Account-ID':self.__account_id,
+            'Pin':self.__pin,
+            'Balance':self.__balance,
+            'Transaction-History':self.__transaction_history
+            }
 

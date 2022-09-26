@@ -10,7 +10,7 @@ from time import gmtime, strftime
 from Account.Account import Account
 from Account.Transaction import Transaction
 from Terminal.print import Print
-from Terminal.bank_form import validate_pin,validate_userid
+from Terminal.bank_form import encrypt_pin, validate_pin,validate_userid,compare_pin,generate_id
 from storage_accounts_v3.storage import Storage
 from Log.log import Log
 
@@ -76,9 +76,11 @@ class Operation:
         while True:
             self.__transaction.Amount = float(_print.input('Enter a Amount'))
 
+            # checking for valid min amount
             if(self.__transaction.Amount < 0):
                 _print.status(state='Warning',message='Ineffecient Amount')
 
+            # confirmation of the transaction
             answer:str = _print.input('Confirm Transaction [Y] yes / [N] no')
             if(answer == 'N'):
                 answer = _print.input('Proceed To Exit [Y] yes / [N] no')
@@ -96,7 +98,7 @@ class Operation:
                 break
             else:
                 _print(state='Failed',message='Wrong Input!')
-                
+         
         transaction_log.info(f'account:{self.__account.Account_ID} => [Deposite]: Ended')
         self.__transaction.Clear()
         pass
@@ -112,9 +114,11 @@ class Operation:
         while True:
             self.__transaction.Amount = float(_print.input('Enter a Amount'))
 
+            # checking for valid min amount
             if(self.__transaction.Amount > self.__account.Balance or self.__transaction.Amount < 0):
                 _print.status(state='Warning',message='Ineffecient Amount!')
 
+            # confirmation of the transaction
             answer:str = _print.input('Confirm Transaction [Y] yes / [N] no')
             if(answer == 'N'):
                 answer = _print.input('Proceed To Exit [Y] yes / [N] no')
@@ -177,36 +181,47 @@ class Operation:
         
         __user_id:str = _print.input('Enter Account-ID')
         '''
-            validate user id format before passing 
-            for fetching and setup the account 
-            information in the account object
+            validate user id format input
+            and checking for existing account id
+            and files in the storage folder
         '''
         index:int = 1
         while True:
-            if validate_userid(__user_id):
+            if validate_userid(__user_id) and _storage.validate_id(__user_id):
                 form_log.info(f'user:anonymous => [Login]: Success Input => user-id({__user_id})')
                 break
+            if not _storage.validate_id(__user_id):
+                _print.status(state='Warning',message='Wrong format of user id  - Pls! Try again')
             if not validate_userid(__user_id):
                 _print.status(state='Warning',message='Wrong format of user id  - Pls! Try again')
-            
             if index > 3:
                 form_log.info(f'user:anonymous => [Login]: Failed User-ID input')
                 _print.header('Login Attempt Failed!')
                 exit(1)
             __user_id:str = _print.input('Enter Account-ID Again')  
             index = index + 1
-            
+        
+        '''
+            setup the account information
+            before proceeding pin validation and comparing
+            because this part needed to compare of account pin
+            and user pin input
+        '''
+        self.__account.Setup(__user_id)
+        
         __pin:str = _print.password('Enter Pin')
         '''
-            validate user id format before passing 
-            for fetching and setup the account 
-            information in the account object
+            validate user id format input and 
+            comparing account pin and user pin 
+            input
         '''
         index = 1
         while True:
-            if validate_pin(__pin):
+            if validate_pin(__pin) and compare_pin(__pin,self.__account.Pin):
                 form_log.info(f'user:anonymous => [Login]: Success Input => pin({__pin})')
                 break
+            if not compare_pin(__pin,self.__account.Pin):
+                _print.status(state='Warning',message='Wrong pin number - Pls! Try again')
             if not validate_pin(__pin):
                 _print.status(state='Warning',message='Only 6 digit pin number only - Pls! Try again')
             if index > 3:
@@ -215,42 +230,47 @@ class Operation:
                 exit(1)
             __pin:str = _print.password('Enter Pin Again')
             index = index + 1
-            
-        self.__account.Setup(__user_id)
-        print(self.__account.Balance)
-        if self.__account.Exist:
-            if self.__account.Account_ID == __user_id and self.__account.Pin:
-                form_log.info(f'user:anonymous => [Login]: Success Login => account-id({self.__account.Account_ID})')
-                form_log.info(f'user:anonymous => [Login]: Ended')
-                return True
-            
-        return False
-    
+             
+        '''
+            only prompt for finally success login process
+        '''
+        form_log.info(f'user:anonymous => [Login]: Success Login => account-id({self.__account.Account_ID})')
+        form_log.info(f'user:anonymous => [Login]: Ended')
+        return True
+
     def Signup(self) -> None:
         _print.header("Registration")
+        form_log.info('user:anonymous => [Signup]: Starting')
         self.__account_list:dict = _storage.fetch(list=True)
 
-        #get basic information
-        __account_id:str = f"000-000-{(len(self.__account_list['Account-List']) + 1):4}" 
+        #Generate user id
+        __account_id:str = f"{generate_id(len(self.__account_list['Account-List']) + 1)}"
+        form_log.info(f'user:anonymous => [Signup]: Generate Account ID => id({__account_id})') 
+        
+        # account name
         __name:str = _print.input('Enter Name')
+        form_log.info(f'user:anonymous => [Signup]: Input Name => name({__name})')
         
         # re-ask pin number until the exact number is given
-        __balance:float = float(_print.input('Enter First Deposite ( Min: 1000 )'))
+        __balance:float = float(_print.input('Enter Initial Deposite ( Min: 1000 )'))
         if __balance < 1000:
             while True:
                 
                 __balance:float = float(_print.input('Enter First Deposite ( Min: 1000 ) Again'))
                 if __balance >= 1000:
+                    form_log.info(f'user:anonymous => [Signup]: Input Initial Deposite => deposite({__balance})')
                     break
         
         # re-ask pin number until the right format of pin is given
-        __pin:str = _print.input('Enter 6-Digit Pin')
+        __pin:str = _print.password('Enter 6-Digit Pin')
         if validate_pin(__pin):
             while True:
                 
-                __pin:str = _print.input('Enter Pin Again')
+                __pin:str = _print.password('Enter Pin to Confirm')
                 
                 if validate_pin(__pin):
+                    __pin = bytes(encrypt_pin(__pin)).decode()
+                    form_log.info(f'user:anonymous => [Signup]: Input Pin => pin({__pin})')
                     break
                 
         _print.datas(header='Summary Details',
@@ -268,6 +288,17 @@ class Operation:
         
         
         if __confirm == 'Y':
+              
+            #create account file 
+            __account = Account()
+            __account.Name = __name
+            __account.Account_ID = __account_id
+            __account.Pin = __pin
+            __account.Balance = __balance
+            print(__account)
+        
+            _storage.store(id=__account_id,data=__account.get_copy())
+            form_log.info(f'user:anonymous => [Signup]: Created Account => account({__account.get_copy()})')
             
             #update list
             self.__account_list['Account-List'].append({
@@ -275,23 +306,18 @@ class Operation:
                 'Account-ID':__account_id,
                 'Path':f'accounts_v3/account-{__account_id}.json'
                 })
-            _storage.store(self.__account_list,list=True)
-              
-            #create account file  
-            __template = {
-            'Name':__name,
-            'Account-ID':__account_id,
-            'Pin':__pin,
-            'Balance':__balance,
-            'Transaction-History':[]
-            }
-            _storage.store(id=__account_id,data=__template)
+            _storage.store(id='',data=self.__account_list,list=True)
+            form_log.info(f'user:anonymous => [Signup]: Update the Account List')
             
             self.__account_list = {}
+            form_log.info(f'user:anonymous => [Signup]: Successful Signup')
+            form_log.info(f'user:anonymous => [Signup]: Ended')
             _print.header("Successfully Register!")
             pass
         
         if __confirm == 'N':
+            form_log.info(f'user:anonymous => [Signup]: Failed Signup')
+            form_log.info(f'user:anonymous => [Signup]: Ended')
             _print.header("Failed Registration!")
             pass
         
@@ -299,18 +325,18 @@ class Operation:
     
     def Change_Pin(self) -> None:
         _print.header("Change Pin")
-        
+        form_log.info(f'user:anonymous => [Change Pin]: Started')
         __index:int = 1
-        __pin:str = _print.input('Enter 6-Digit Pin')
+        __pin:str = _print.password('Enter 6-Digit Pin')
         if not validate_pin(__pin):
             while True:
                 
-                __pin = _print.input('Enter Pin Again')
+                __pin = _print.password('Enter Pin Again')
                 
                 if validate_pin(__pin):
                     __confirm = _print.input('Confirm New Pin [Y] yes / [N] no')
                     if __confirm == 'Y':
-                        self.__account.Pin = __pin
+                        self.__account.Pin = bytes(encrypt_pin(__pin)).decode()
                         self.__account.Save()
                         _print("Successfully to Change Pin!")
                     break
@@ -324,7 +350,7 @@ class Operation:
         if validate_pin(__pin):
             __confirm = _print.input('Confirm New Pin [Y] yes / [N] no')
             if __confirm == 'Y':
-                self.__account.Pin = __pin
+                self.__account.Pin = bytes(encrypt_pin(__pin)).decode()
                 self.__account.Save()
                 _print.header("Successfully to Change Pin!")    
                       

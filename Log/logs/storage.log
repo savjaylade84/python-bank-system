@@ -3,3 +3,202 @@
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 02:19:17 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 02:19:23 ] : module [ storage - store - 41 ] : message [ store information @ account:000-000-0001 ]
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 02:19:35 ] : module [ storage - store - 41 ] : message [ store information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 22:26:18 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 22:31:56 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 22:31:56 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 22:32:45 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 22:32:46 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 22:43:54 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 22:43:54 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 22:44:02 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:09:52 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:09:52 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:10:20 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:10:21 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:11:07 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:11:07 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:11:40 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:11:40 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:11:45 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:11:58 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:11:58 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:12:04 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:12:04 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:12:09 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:1 ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:12:09 ] : module [ storage - validate_id - 62 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "C:\Users\jayson\source\repos\python-test\Bank-System\storage_accounts_v3\storage.py", line 60, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-1.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:12:13 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:12:13 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:12:19 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:13:12 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:13:12 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:13:20 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:14:57 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:14:57 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:15:04 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:15:36 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:15:36 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:15:42 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:16:04 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:16:04 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:16:10 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:18:14 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:18:14 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:18:18 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:19:28 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:19:28 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:19:33 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:20:00 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:20:00 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:20:05 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:21:09 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:21:09 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:21:14 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:23:16 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:23:16 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:23:20 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:23:58 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:23:58 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:24:04 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:24:04 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:50:23 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:50:23 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:50:24 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:50:40 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:50:40 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:50:41 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:51:45 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:51:45 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:51:46 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:52:49 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:52:49 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:52:51 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:54:01 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:54:01 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:54:02 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:54:48 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:54:48 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:54:49 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:55:16 ] : module [ storage - store - 41 ] : message [ store information @ account:236-199-0003 ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:55:16 ] : module [ storage - store - 51 ] : message [ File Error: Unable to Write File ]
+Traceback (most recent call last):
+  File "C:\Users\jayson\source\repos\python-test\Bank-System\storage_accounts_v3\storage.py", line 42, in store
+    json.dump(data,open(f'storage_accounts_v3/account-{id}.json','w'),indent=4)
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bytes is not JSON serializable
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:57:56 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:57:56 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:57:58 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:58:47 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:58:47 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:58:49 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:59:16 ] : module [ storage - store - 41 ] : message [ store information @ account:927-663-0003 ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2022-09-26 23:59:16 ] : module [ storage - store - 51 ] : message [ File Error: Unable to Write File ]
+Traceback (most recent call last):
+  File "C:\Users\jayson\source\repos\python-test\Bank-System\storage_accounts_v3\storage.py", line 42, in store
+    json.dumps(data,open(f'storage_accounts_v3/account-{id}.json','w'),indent=4)
+TypeError: dumps() takes 1 positional argument but 2 positional arguments (and 1 keyword-only argument) were given
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:08:57 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:08:57 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:08:59 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:10:07 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:10:07 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:10:08 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:11:16 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:11:16 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:11:17 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:11:37 ] : module [ storage - store - 41 ] : message [ store information @ account:793-850-8845 ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:11:37 ] : module [ storage - store - 51 ] : message [ File Error: Unable to Write File ]
+Traceback (most recent call last):
+  File "C:\Users\jayson\source\repos\python-test\Bank-System\storage_accounts_v3\storage.py", line 42, in store
+    json.dumps(data,open(f'storage_accounts_v3/account-{id}.json','w'),indent=4)
+TypeError: dumps() takes 1 positional argument but 2 positional arguments (and 1 keyword-only argument) were given
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:14:01 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:14:01 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:14:02 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:14:16 ] : module [ storage - store - 41 ] : message [ store information @ account:374-461-8252 ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:14:16 ] : module [ storage - store - 51 ] : message [ File Error: Unable to Write File ]
+Traceback (most recent call last):
+  File "C:\Users\jayson\source\repos\python-test\Bank-System\storage_accounts_v3\storage.py", line 42, in store
+    json.dump(data,open(f'storage_accounts_v3/account-{id}.json','w'),indent=4)
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\encoder.py", line 431, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\encoder.py", line 405, in _iterencode_dict
+    yield from chunks
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bytes is not JSON serializable
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:14:56 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:14:56 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:14:57 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:15:13 ] : module [ storage - store - 41 ] : message [ store information @ account:412-044-2273 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:18:33 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:18:33 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:18:34 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:19:21 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:19:21 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:19:25 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:19:40 ] : module [ storage - store - 41 ] : message [ store information @ account:336-220-5832 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:23:25 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:23:25 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:23:26 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:23:42 ] : module [ storage - store - 47 ] : message [ store information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:33:16 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:33:16 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:33:17 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:33:30 ] : module [ storage - store - 47 ] : message [ store information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:33:30 ] : module [ storage - store - 41 ] : message [ store information @ account:074-574-9037 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:40:32 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:40:32 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:40:33 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:40:46 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:40:46 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:40:50 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:41:06 ] : module [ storage - store - 47 ] : message [ store information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:42:35 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:42:35 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:42:36 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:42:57 ] : module [ storage - store - 41 ] : message [ store information @ account:387-227-1362 ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:42:57 ] : module [ storage - store - 51 ] : message [ File Error: Unable to Write File ]
+Traceback (most recent call last):
+  File "C:\Users\jayson\source\repos\python-test\Bank-System\storage_accounts_v3\storage.py", line 42, in store
+    json.dump(data,open(f'storage_accounts_v3/account-{id}.json','w'),indent=4)
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\encoder.py", line 438, in _iterencode
+    o = _default(o)
+  File "C:\WPy64-3950\python-3.9.5.amd64\lib\json\encoder.py", line 179, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type Account is not JSON serializable
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:44:37 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:44:37 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:44:38 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:44:52 ] : module [ storage - store - 41 ] : message [ store information @ account:194-192-3106 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:44:52 ] : module [ storage - store - 47 ] : message [ store information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:57:30 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:57:30 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:57:36 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:57:36 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:57:51 ] : module [ storage - store - 41 ] : message [ store information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:58:06 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 00:58:06 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 01:18:16 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 01:18:16 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 01:18:21 ] : module [ storage - validate_id - 59 ] : message [ fetch information @ account:000-000-0001 ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2022-09-27 01:18:21 ] : module [ storage - fetch - 21 ] : message [ fetch information @ account:000-000-0001 ]

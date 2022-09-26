@@ -1,15 +1,30 @@
 import unittest as unit
+import bcrypt
+
+
 from Account.Account import Account
+from Terminal.bank_form import compare_pin,encrypt_pin,validate_pin
 
 
 class test_account(unit.TestCase):
 
     def setup(self):
-        self.account = Account()
-        self.account.Setup('000-000-0001')
-    def test_account_properties(self):
+        self.pin = '123456'
+    
+        
+    def test_pin_encryption(self):
         self.setup()
-        self.assertFalse(self.account.Name,None)
+        #test the encryption
+        encrypt_temp = encrypt_pin(self.pin)
+        self.assertEqual(compare_pin(self.pin,encrypt_temp.decode()),True)
+        
+    def test_pin_validation(self):
+        self.setup()
+        #test regex of the pin
+        self.assertEqual(validate_pin(self.pin),True)
+        
+        
+        
         
         
         

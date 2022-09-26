@@ -51,3 +51,17 @@ class Storage:
 			log.exception(f'File Error: Unable to Write File')
 			raise e('File Error: Unable to Write File')
 
+	def validate_id(self,id:str) -> bool:
+		temp:dict = {}
+		try:
+			#fetch account information
+			if(id != ''):
+				log.info(f'fetch information @ account:{id}')
+				temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+		except Exception as e:
+			log.exception(f'File Error: Non-existing File')
+			raise e('File Error: Non-existing File')
+		if(temp != {}):
+			if(temp['Account-ID'] == id):
+				return True
+		return False
