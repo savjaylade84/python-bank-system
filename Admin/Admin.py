@@ -115,9 +115,8 @@ class Admin:
         pass
     
     def View_Edited_Account_History(self) -> None:
-        _print.header('Edit History')
         for edit in self.__account_list['Edited-Account-History']:
-            _print.datas([
+            _print.datas('Edit History',[
                             'Date-Time',
                             'Account-ID',
                             'Edit',

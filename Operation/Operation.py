@@ -304,7 +304,7 @@ class Operation:
             self.__account_list['Account-List'].append({
                 'Name': __name,
                 'Account-ID':__account_id,
-                'Path':f'accounts_v3/account-{__account_id}.json'
+                'Path':f'storage_accounts_v3/account-{__account_id}.json'
                 })
             _storage.store(id='',data=self.__account_list,list=True)
             form_log.info(f'user:anonymous => [Signup]: Update the Account List')
