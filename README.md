@@ -31,7 +31,7 @@ Functionality For Admin (Under-Developement)<br>
 - [x] login admin user
 - [x] admin view account list
 - [x] admin view the admin edit history
-- [ ] admin view account history
+- [x] admin view account history
 - [ ] admin edit account
 - [ ] admin change password
 - [ ] admin view account
