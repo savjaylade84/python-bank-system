@@ -97,7 +97,7 @@ class Operation:
                 transaction_log.info(f'account:{self.__account.Account_ID} => [Deposite]: Successful')
                 break
             else:
-                _print(state='Failed',message='Wrong Input!')
+                _print.status(state='Failed',message='Wrong Input!')
          
         transaction_log.info(f'account:{self.__account.Account_ID} => [Deposite]: Ended')
         self.__transaction.Clear()

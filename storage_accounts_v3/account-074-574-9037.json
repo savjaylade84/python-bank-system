@@ -1,7 +1,20 @@
 {
     "Name": "jojo de leon",
     "Account-ID": "074-574-9037",
-    "Pin": "$2b$12$Nhid3wczn8ayKO5pvBEu6ev3dwJFtwith.qUgMc09gSQ6g/5y7FLi",
-    "Balance": 1000.0,
-    "Transaction-History": []
+    "Pin": "$2b$12$Cp6y739WuV05RowzIlL2su2wZuhsDWiFhN0Mst7D97lvzYfkpXjUa",
+    "Balance": 1008.0,
+    "Transaction-History": [
+        {
+            "Date-Time": "Sun, 16 Jun 2024 19:21:37 +0000",
+            "Type": "Deposite",
+            "Amount": 10.0,
+            "Balance": 1010.0
+        },
+        {
+            "Date-Time": "Sun, 16 Jun 2024 19:21:37 +0000",
+            "Type": "Withdraw",
+            "Amount": 2.0,
+            "Balance": 1008.0
+        }
+    ]
 }

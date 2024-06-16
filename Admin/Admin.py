@@ -138,7 +138,7 @@ class Admin:
         pass
     
     def Login(self) -> bool:
-        _print.Header('Admin Login')
+        _print.header('Admin Login')
         __username:str = _print.input('Enter Username')
         __password:str = _print.input('Enter Password') 
 

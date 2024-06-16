@@ -28,7 +28,7 @@ def compare_pin(pin:str,encrypt_string:str) -> bool:
 def encrypt_pin(pin:str) -> str:
     if(not validate_pin(pin)):
         raise Exception('Input Error: Wrong Pin Formatt')
-     return bcrypt.hashpw(pin.encode('utf-8'),bcrypt.gensalt())
+    return bcrypt.hashpw(pin.encode('utf-8'),bcrypt.gensalt())
 
 def generate_id(num_account:str) -> str:
     rand = Random()
