@@ -96,16 +96,17 @@ class Admin:
                                 id['Name'],
                                 id['Account-ID']
                             ])
-                _print.header('Account History')
                 with open(id['Path'],'r') as file:
                     __temp = json.load(file)
                 for transaction in __temp['Transaction-History']:
-                    _print.datas([
+                    _print.datas(header='Account History',
+                                 data_header=[
                                     'Date',
                                     'Type',
                                     'Amount',
                                     'Balance',
-                                ],[
+                                ],
+                                datas=[
                                     transaction['Date-Time'],
                                     transaction['Type'],
                                     transaction['Amount'],
@@ -116,12 +117,14 @@ class Admin:
     
     def View_Edited_Account_History(self) -> None:
         for edit in self.__account_list['Edited-Account-History']:
-            _print.datas('Edit History',[
+            _print.datas(header='Edit History',
+                         data_header=[
                             'Date-Time',
                             'Account-ID',
                             'Edit',
                             'Value'
-                        ],[
+                        ],
+                        datas=[
                             edit['Date-Time'],
                             edit['Account-ID'],
                             edit['Edited']['Edit'],
