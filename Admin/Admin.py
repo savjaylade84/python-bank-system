@@ -11,9 +11,12 @@ from time import gmtime, strftime
 from Account.Account import Account
 from Terminal.print import Print
 from storage_accounts_v3.storage import Storage
+from Log.log import Log
 
 _print = Print()
 _storage = Storage()
+admin_log = Log('admin.log').open()
+form_log = Log('form.log').open()
 
 class Admin:
     
@@ -58,6 +61,7 @@ class Admin:
     
     def View_List(self) -> None:
         _print.header('Account List')
+        admin_log.info(f'admin => view account list')
         for info in self.__account_list['Account-List']:
             _print.datas(
                         header='',
@@ -77,6 +81,7 @@ class Admin:
         __account_id:str = _print.input('Enter Account-ID')
         __temp:dict = {}
         
+        admin_log.info(f'admin => view account:{__account_id} history')
         #check if any of the account list exit a account-id that user input
         for id in self.__account_list['Account-List']:
             
@@ -116,6 +121,7 @@ class Admin:
         pass
     
     def View_Edited_Account_History(self) -> None:
+        admin_log.info(f'admin => view edited accounts history')
         for edit in self.__account_list['Edited-Account-History']:
             _print.datas(header='Edit History',
                          data_header=[
@@ -136,28 +142,39 @@ class Admin:
     
 #-------------------[ Other Function ]----------------------------------- 
     
+    # Todo: under construction
     def Change_Password(self) -> None:
-        pass
+        
+        _print.header('Admin Change Password')
+        new_password:str =  _print.input('Enter New Password')
+        
+        # change the plain password to encrypt password
+        if _print.input("Re-Enter New Password") == new_password:
+            self.__account_list["Admin-Password"] = new_password
+            _storage.store(data = self.__account_list, list=True)
+
     
     def Login(self) -> bool:
         _print.header('Admin Login')
-        __username:str = _print.input('Enter Username')
+        form_log.info(f'admin => [Login]: starting')
         __password:str = _print.input('Enter Password') 
 
-        if __password == self.__account_list['Admin-Password'] and __username == self.__account_list['Admin-Username']:
+        if __password == self.__account_list['Admin-Password']:
+            form_log.info(f'admin => [Login]: Success')
             return True
 
         #retry until the login is success
         index:int = 1
-        if __password != self.__account_list['Admin-Password'] or __username != self.__account_list['Admin-Username']:
+        if __password != self.__account_list['Admin-Password']:
             while True:
-                if __password == self.__account_list['Admin-Password'] and __username == self.__account_list['Admin-Username']:
+                form_log.info(f'admin => [Login]: Retry({index})')
+                if __password == self.__account_list['Admin-Password']:
+                    form_log.info(f'admin => [Login]: Success at Retry({index})')
                     return True
                 if index < 3:
+                    form_log.info(f'admin: => [Login]: Failed')
                     _print.header('Login Attempt Failed!')
                     exit(1)
                 index = index + 1
                 
-        
-        
         return False
