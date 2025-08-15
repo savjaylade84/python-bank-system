@@ -286,3 +286,52 @@ TypeError: Object of type Account is not JSON serializable
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 19:40:30 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 19:40:30 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 19:40:46 ] : module [ storage - store - 47 ] : message [ store information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:13:05 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:13:05 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:15:35 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:15:35 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:17:58 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:17:58 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:18:21 ] : module [ storage - store - 47 ] : message [ store information @ account-list ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:18:21 ] : module [ storage - store - 51 ] : message [ File Error: Unable to Write File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 48, in store
+    json.dump(data,open(f'storage_accounts_v3/account-list.json','w'),indent=4)
+  File "/usr/lib/python3.12/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/usr/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bytes is not JSON serializable
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:20:06 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:20:06 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:24:47 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:24:47 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:25:04 ] : module [ storage - store - 47 ] : message [ store information @ account-list ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:25:04 ] : module [ storage - store - 51 ] : message [ File Error: Unable to Write File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 48, in store
+    json.dump(data,open(f'storage_accounts_v3/account-list.json','w'),indent=4)
+  File "/usr/lib/python3.12/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/usr/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/usr/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/usr/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bytes is not JSON serializable
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:27:02 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:27:02 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:27:18 ] : module [ storage - store - 47 ] : message [ store information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:36:14 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-15 21:36:14 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]

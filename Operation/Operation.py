@@ -176,15 +176,16 @@ class Operation:
         self.__transaction.Clear()
 
     def Login(self) -> bool:
+
         _print.header('Account Login')
         form_log.info(f'user:anonymous => [Login]: Starting')
-        
         __user_id:str = _print.input('Enter Account-ID')
         '''
             validate user id format input
             and checking for existing account id
             and files in the storage folder
         '''
+
         index:int = 1
         while True:
             if validate_userid(__user_id) and _storage.validate_id(__user_id):
@@ -216,6 +217,7 @@ class Operation:
             input
         '''
         index = 1
+        
         while True:
             if validate_pin(__pin) and compare_pin(__pin,self.__account.Pin):
                 form_log.info(f'user:anonymous => [Login]: Success Input => pin({__pin})')
@@ -229,6 +231,7 @@ class Operation:
                 _print.header('Login Attempt Failed!')
                 exit(1)
             __pin:str = _print.password('Enter Pin Again')
+
             index = index + 1
              
         '''

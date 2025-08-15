@@ -10,6 +10,7 @@ from time import gmtime, strftime
 
 from Account.Account import Account
 from Terminal.print import Print
+from Terminal.bank_form import validate_password,compare_password,encrypt_password
 from storage_accounts_v3.storage import Storage
 from Log.log import Log
 
@@ -146,35 +147,56 @@ class Admin:
     def Change_Password(self) -> None:
         
         _print.header('Admin Change Password')
-        new_password:str =  _print.password('Enter New Password')
-        
-        # change the plain password to encrypt password
-        if _print.password("Re-Enter New Password") == new_password:
-            self.__account_list["Admin-Password"] = new_password
-            _storage.store(data = self.__account_list, list=True)
+        new_password:str = ""
+        index = 0
+
+        while True:
+
+            new_password = _print.password('Enter New Password')
+
+            if validate_password(new_password):
+                if _print.password('Re-Enter New Password') == new_password:
+                    self.__account_list['Admin-Password'] = bytes(encrypt_password(new_password)).decode()
+                    _storage.store(data=self.__account_list,list=True)
+                    break
+
+            _print.status('Warning', message='Wrong Format of Password - Pls! Try Again')
+
+            if index > 3:
+                break
+
+            index += 1
+
 
     
     def Login(self) -> bool:
+
         _print.header('Admin Login')
         form_log.info(f'admin => [Login]: starting')
         __password:str = _print.password('Enter Password') 
 
-        if __password == self.__account_list['Admin-Password']:
+        if compare_password(__password,self.__account_list['Admin-Password']):
             form_log.info(f'admin => [Login]: Success')
             return True
 
+        # update this code
         #retry until the login is success
         index:int = 1
-        if __password != self.__account_list['Admin-Password']:
+        if not compare_password(__password, self.__account_list['Admin-Password']):
+
             while True:
+
                 form_log.info(f'admin => [Login]: Retry({index})')
-                if __password == self.__account_list['Admin-Password']:
+
+                if compare_password(__password,self.__account_list['Admin-Password']):
                     form_log.info(f'admin => [Login]: Success at Retry({index})')
                     return True
+                
                 if index < 3:
                     form_log.info(f'admin: => [Login]: Failed')
                     _print.header('Login Attempt Failed!')
                     exit(1)
+
                 index = index + 1
                 
         return False
