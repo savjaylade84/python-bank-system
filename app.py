@@ -85,7 +85,7 @@ def main() -> None:
                         case 4:
                             _admin.View_Edited_Account_History()
                         case 5:
-                            _admin.Edit_Account()
+                            _admin.Change_Account_Password()
                         case 6:
                             _admin.Change_Password()
                         case 7:

@@ -10,7 +10,7 @@ from time import gmtime, strftime
 
 from Account.Account import Account
 from Terminal.print import Print
-from Terminal.bank_form import validate_password,compare_password,encrypt_password
+from Terminal.bank_form import validate_password,compare_password,encrypt_password,validate_userid
 from storage_accounts_v3.storage import Storage
 from Log.log import Log
 
@@ -38,7 +38,7 @@ class Admin:
                                 'View Account Information',
                                 'View Account History',
                                 'View Edited Account History',
-                                'Edit Account',
+                                'Change Account Password',
                                 'Change Password',
                                 'Exist'  
                             ],prompt='Enter')) 
@@ -54,7 +54,16 @@ class Admin:
   
 #-------------------[ Manage Account ]----------------------------------- 
     
-    def Edit_Account(self) -> None:
+    # change this from edit account to edit account password
+    def Change_Account_Password(self) -> None:
+        
+        userid:str = _print.input('Enter Account-ID')
+        
+        if validate_userid(userid):
+            self.__account = _storage.fetch(userid)
+
+        
+
         pass
     
     def View_Account_Information(self) -> None:
@@ -148,7 +157,7 @@ class Admin:
         
         _print.header('Admin Change Password')
         new_password:str = ""
-        index = 0
+        index:int = 0
 
         while True:
 
