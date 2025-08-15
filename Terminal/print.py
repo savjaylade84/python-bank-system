@@ -54,7 +54,7 @@ class Print:
         return input(f'[ {string} ]: ')
     
     def password(self,string:str) -> str:
-        return getpass(f'[ {string} ]')
+        return getpass(f'[ {string} ]:')
     
     # print a menu or command to user to choose
     def menu(self,header:str,menu_header:str,menu:list,prompt:str = '') -> str:

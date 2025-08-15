@@ -146,10 +146,10 @@ class Admin:
     def Change_Password(self) -> None:
         
         _print.header('Admin Change Password')
-        new_password:str =  _print.input('Enter New Password')
+        new_password:str =  _print.password('Enter New Password')
         
         # change the plain password to encrypt password
-        if _print.input("Re-Enter New Password") == new_password:
+        if _print.password("Re-Enter New Password") == new_password:
             self.__account_list["Admin-Password"] = new_password
             _storage.store(data = self.__account_list, list=True)
 
@@ -157,7 +157,7 @@ class Admin:
     def Login(self) -> bool:
         _print.header('Admin Login')
         form_log.info(f'admin => [Login]: starting')
-        __password:str = _print.input('Enter Password') 
+        __password:str = _print.password('Enter Password') 
 
         if __password == self.__account_list['Admin-Password']:
             form_log.info(f'admin => [Login]: Success')
