@@ -10,7 +10,7 @@ from time import gmtime, strftime
 
 from Account.Account import Account
 from Terminal.print import Print
-from Terminal.bank_form import validate_password,compare_password,encrypt_password,validate_userid
+from Terminal.bank_form import validate_password,compare_password,encrypt_password,validate_userid,validate_pin,encrypt_pin
 from storage_accounts_v3.storage import Storage
 from Log.log import Log
 
@@ -54,15 +54,31 @@ class Admin:
   
 #-------------------[ Manage Account ]----------------------------------- 
     
-    # change this from edit account to edit account password
-    def Change_Account_Password(self) -> None:
+    # change this from edit account to edit account pin
+    def Change_Account_Pin(self) -> None:
         
         userid:str = _print.input('Enter Account-ID')
         
         if validate_userid(userid):
             self.__account = _storage.fetch(userid)
 
-        
+            new_pin:str = ''
+            index:int = 0
+            
+            while True:
+                
+                new_pin = _print.password('Enter Password')
+                if validate_pin(new_pin):
+                    if _print.pin('Re-Enter Pin') == new_pin:
+                        self.__account['Pin'] = bytes(encrypt_pin(new_pin)).decode()
+                        break
+
+                _print.status(state='Warning',message='Wrong Format of Pin - Pls Try Again')
+
+                if index > 3:
+                    break
+
+                index += 1
 
         pass
     
@@ -169,7 +185,7 @@ class Admin:
                     _storage.store(data=self.__account_list,list=True)
                     break
 
-            _print.status('Warning', message='Wrong Format of Password - Pls! Try Again')
+            _print.status(state='Warning', message='Wrong Format of Password - Pls! Try Again')
 
             if index > 3:
                 break
