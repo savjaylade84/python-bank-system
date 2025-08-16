@@ -8,7 +8,23 @@ class string_formatter:
     
     def __init__(self) -> None:
         self.header_formatter:str = ''
+        self.__title:str = ''
+        self.__length:int = 0
     
+    @property
+    def title(self) -> str:
+        return self.__title
+
+    @title.setter
+    def title(self,title:str) -> None:
+        self.__title =  title
+        pass
+
+    @property
+    def title_length(self) -> int:
+        return len(self.__title)
+
+
     @property
     def header(self) -> None:
         pass
@@ -19,8 +35,10 @@ class string_formatter:
     
     @header.setter
     def header(self,string:str) -> None:
+        self.title = string
         self.header_formatter = f''' 
-{"="*15}[ {string} ]{"="*15}
+{"="*17}{"=" * len(string)}{"="*17}
+{"="*15}[ {self.title.upper()} ]{"="*15}
 {"="*17}{"=" * len(string)}{"="*17}
 '''
 class Print:
@@ -78,6 +96,6 @@ class Print:
     def status(self,state:str='',message:str='') -> None:
         print(f'[ {state} ]: {message}')
         
-    def border(self) -> None:
-        print('=' * 30)
+    def border(self,extend_border:int = 30) -> None:
+        print(f'{"=" * (extend_border + self.__formatter.title_length + 4)}'.strip())
         

@@ -211,28 +211,26 @@ class Admin:
         form_log.info(f'admin => [Login]: starting')
         __password:str = _print.password('Enter Password') 
 
-        if compare_password(__password,self.__account_list['Admin-Password']):
-            form_log.info(f'admin => [Login]: Success')
-            return True
-
         # update this code
         #retry until the login is success
         index:int = 1
-        if not compare_password(__password, self.__account_list['Admin-Password']):
 
-            while True:
+        while True:
 
-                form_log.info(f'admin => [Login]: Retry({index})')
+            form_log.info(f'admin => [Login]: Retry({index})')
 
-                if compare_password(__password,self.__account_list['Admin-Password']):
-                    form_log.info(f'admin => [Login]: Success at Retry({index})')
-                    return True
+            admin_log.info(f'{compare_password(__password,self.__account_list['Admin-Password'])}')
+            if compare_password(__password,self.__account_list['Admin-Password']):
+                form_log.info(f'admin => [Login]: Success at Retry({index})')
+                return True
                 
-                if index < 3:
-                    form_log.info(f'admin: => [Login]: Failed')
-                    _print.header('Login Attempt Failed!')
-                    exit(1)
+            if index > 3:
+                form_log.info(f'admin: => [Login]: Failed')
+                _print.header('Login Attempt Failed!')
+                exit(1)
 
-                index = index + 1
+            __password = _print.password('Re-Enter Password')
+
+            index = index + 1
                 
         return False
