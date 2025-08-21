@@ -60,7 +60,7 @@ class Admin:
         userid:str = _print.input('Enter Account-ID')
         
         if validate_userid(userid):
-            self.__account = _storage.fetch(userid)
+            self.__account.Setup(userid)
             form_log.info(f'admin:edit account pin => account - {userid}')
 
             new_pin:str = ''
