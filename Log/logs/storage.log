@@ -387,3 +387,103 @@ TypeError: Object of type bytes is not JSON serializable
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-16 22:29:39 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-16 22:30:23 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-16 22:30:23 ] : module [ storage - fetch - 25 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:37:34 ] : module [ storage - validate_id - 70 ] : message [ fetch information @ account:dummy ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:37:34 ] : module [ storage - validate_id - 73 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 71, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-dummy.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:38:11 ] : module [ storage - validate_id - 70 ] : message [ fetch information @ account:dummy ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:38:11 ] : module [ storage - validate_id - 73 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 71, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-dummy.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:40:50 ] : module [ storage - validate_id - 77 ] : message [ fetch information @ account:dummy ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:40:50 ] : module [ storage - validate_id - 80 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 78, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-dummy.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:43:44 ] : module [ storage - validate_id - 77 ] : message [ fetch information @ account:dummy ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:43:44 ] : module [ storage - validate_id - 80 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 78, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-dummy.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:44:08 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:44:08 ] : module [ storage - validate_id - 77 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 75, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-dummy.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:44:57 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:44:57 ] : module [ storage - validate_id - 77 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 75, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-dummy.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:46:04 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:46:04 ] : module [ storage - validate_id - 77 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 75, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-dummy.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:46:24 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:46:24 ] : module [ storage - validate_id - 77 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 75, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-dummy.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:46:36 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:46:36 ] : module [ storage - validate_id - 77 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 75, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-dummy.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:47:30 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:47:30 ] : module [ storage - validate_id - 77 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 75, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-dummy.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:49:08 ] : module [ storage - validate_id - 72 ] : message [ fetch information @ account:dummy ]
+[ ERROR ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:49:08 ] : module [ storage - validate_id - 75 ] : message [ File Error: Non-existing File ]
+Traceback (most recent call last):
+  File "/home/savjaylade84/Documents/python_project/python-bank-system/storage_accounts_v3/storage.py", line 73, in validate_id
+    temp = json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/account-dummy.json'
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:50:44 ] : module [ storage - validate_id - 72 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:53:03 ] : module [ storage - validate_id - 75 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:53:03 ] : module [ storage - delete - 65 ] : message [ File Execution: Failed to Deleting Account-dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:54:38 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:54:38 ] : module [ storage - delete - 64 ] : message [ File Execution: Failed to Deleting Account-dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:57:14 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:57:14 ] : module [ storage - delete - 64 ] : message [ File Execution: Failed to Deleting Account-dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:57:35 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:57:35 ] : module [ storage - delete - 64 ] : message [ File Execution: Failed to Deleting Account-dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:59:59 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 21:59:59 ] : module [ storage - delete - 64 ] : message [ File Execution: Failed to Deleting Account-dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:03:07 ] : module [ storage - validate_id - 75 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:03:07 ] : module [ storage - delete - 64 ] : message [ File Execution: Failed to Deleting Account-dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:06:49 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:07:12 ] : module [ storage - validate_id - 74 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:07:12 ] : module [ storage - delete - 61 ] : message [ File Execution: Success Deleting Account-dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:21:11 ] : module [ storage - validate_id - 83 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:24:17 ] : module [ storage - validate_id - 85 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:24:17 ] : module [ storage - delete - 72 ] : message [ File Execution: Success Deleting Account-dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:50:07 ] : module [ storage - validate_id - 88 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:50:07 ] : module [ storage - delete - 78 ] : message [ File Execution: Failed to Deleting Account-dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:50:49 ] : module [ storage - validate_id - 88 ] : message [ fetch information @ account:dummy ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2025-08-26 22:50:49 ] : module [ storage - delete - 75 ] : message [ File Execution: Success Deleting Account-dummy ]

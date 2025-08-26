@@ -1,10 +1,10 @@
 import unittest as unit
-import bcrypt
+#import bcrypt
 
 
 from Account.Account import Account
 from Terminal.bank_form import compare_pin,encrypt_pin,validate_pin
-
+from storage_accounts_v3 import storage
 
 class test_account(unit.TestCase):
 
@@ -22,9 +22,12 @@ class test_account(unit.TestCase):
         self.setup()
         #test regex of the pin
         self.assertEqual(validate_pin(self.pin),True)
+
+
+    def test_delete_storage(self):
+        self.assertEqual(storage.Storage().delete('dummy'),True)
         
-        
-        
+
         
         
         

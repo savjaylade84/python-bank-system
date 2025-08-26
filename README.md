@@ -33,6 +33,7 @@ Functionality For Admin (Under-Developement)<br>
 - [x] admin view the admin edit history
 - [x] admin view account history
 - [ ] admin change account pin
+- [ ] admin delete account
 - [x] admin change password
 - [ ] admin view account
 - [x] exit a system
