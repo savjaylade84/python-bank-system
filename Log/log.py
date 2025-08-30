@@ -23,6 +23,7 @@ import yaml
 class Log:
     
     def __init__(self,log_file:str=''):
+        
         with open('Log/.config/config.yaml','r') as file:
             __yaml = yaml.load(file,Loader=yaml.FullLoader)
         logging.config.dictConfig(__yaml)

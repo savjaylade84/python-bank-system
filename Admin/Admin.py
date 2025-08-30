@@ -22,7 +22,6 @@ form_log = Log('form.log').open()
 class Admin:
     
     def __init__(self) -> None:
-        
         self.__account_list:dict = _storage.fetch(list=True)
         self.__account:Account
         self.__date:str = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()) 
@@ -85,14 +84,17 @@ class Admin:
                     break
 
                 index += 1
-
-        pass
     
     def View_Account_Information(self) -> None:
         pass
+
+    def delete_account(self) -> None:
+        pass
     
     def View_List(self) -> None:
+        
         _print.header('Account List')
+
         admin_log.info(f'admin => view account list')
         for info in self.__account_list['Account-List']:
             _print.datas(
@@ -114,11 +116,12 @@ class Admin:
         __temp:dict = {}
         
         admin_log.info(f'admin => view account:{__account_id} history')
+
         #check if any of the account list exit a account-id that user input
         for id in self.__account_list['Account-List']:
             
             #check for empty result first
-            if id == '':
+            if id == '' or id == None:
                 _print.header("Account Not Found!")
                 break
             
@@ -133,8 +136,15 @@ class Admin:
                                 id['Name'],
                                 id['Account-ID']
                             ])
-                with open(id['Path'],'r') as file:
-                    __temp = json.load(file)
+                
+                try:
+                    with open(id['Path'],'r') as file:
+                        __temp = json.load(file)
+                except IOError:
+                    admin_log.exception(f'Account Error: attempted to open account-{id} file failed')
+                except Exception as e:
+                    admin_log.exception(f'Account Error: {e}')
+
                 for transaction in __temp['Transaction-History']:
                     _print.datas(header='Account History',
                                  data_header=[
@@ -150,10 +160,12 @@ class Admin:
                                     transaction['Balance']
                                 ])
                     _print.border()
-        pass
+        del __temp
     
     def View_Edited_Account_History(self) -> None:
+
         admin_log.info(f'admin => view edited accounts history')
+
         for edit in self.__account_list['Edited-Account-History']:
             _print.datas(header='Edit History',
                          data_header=[
@@ -170,7 +182,6 @@ class Admin:
                             
                         ])
             _print.border()
-        pass
     
 #-------------------[ Other Function ]----------------------------------- 
     

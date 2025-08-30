@@ -53,13 +53,20 @@ class Storage:
 	def delete(self,id:str) -> bool:
 		
 		if self.validate_id(id):
+
 			try:
 				os.remove(f'storage_accounts_v3/account-{id}.json')
 			except Exception as e:
 				log.exception(f'File Error: Account-{id} could\'nt find in the account list ->{e}')
 			
-			acc_list:dict = json.load(open(f'storage_accounts_v3/account-list.json','r'))
-			
+			try:
+				with open(f'storage_accounts_v3/account-list.json','r') as file: 
+					acc_list:dict = json.load(file)
+			except IOError:
+				log.exception('File Error: could\'t read the json file of the account list')
+			except Exception as e:
+				log.exception(f'Failed Error: {e}')
+
 			if acc_list == {} or acc_list == None:
 				return False
 
@@ -86,7 +93,15 @@ class Storage:
 			#fetch account information
 			if id != '':
 				log.info(f'fetch information @ account:{id}')
-				acc_list = json.load(open(f'storage_accounts_v3/account-list.json','r'))
+
+				try:
+					with open(f'storage_accounts_v3/account-list.json','r') as file:
+						acc_list = json.load(file)
+				except IOError:
+					log.exception('File Error: could\'t read the json file of the account list')
+				except Exception as e:
+					log.exception(f'Failed Error: {e}')
+
 		except Exception as e:
 			log.exception(f'File Error: Non-existing File')
 
