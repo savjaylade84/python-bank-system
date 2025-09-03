@@ -7,18 +7,20 @@ from getpass import getpass
 class string_formatter:
     
     def __init__(self) -> None:
+
         self.header_formatter:str = ''
         self.__title:str = ''
         self.__length:int = 0
     
     @property
     def title(self) -> str:
+        
         return self.__title
 
     @title.setter
     def title(self,title:str) -> None:
         self.__title =  title
-        pass
+
 
     @property
     def title_length(self) -> int:

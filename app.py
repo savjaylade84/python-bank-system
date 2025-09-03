@@ -85,10 +85,12 @@ def main() -> None:
                         case 4:
                             _admin.View_Edited_Account_History()
                         case 5:
-                            _admin.Change_Account_Password()
+                            _admin.Change_Account_Pin()
                         case 6:
                             _admin.Change_Password()
                         case 7:
+                            _admin.Delete_Account()
+                        case 8:
                             _print.header('Exit Successful!')
                             #_bank_system.Save()
                             _exit_answer = True

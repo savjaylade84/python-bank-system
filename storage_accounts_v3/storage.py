@@ -11,10 +11,16 @@ log = Log('storage.log').open()
 
 class Storage:
 
-	''' 
-		fetch data of account or summary list of account in storage folder
 
 	'''
+        :Description: fetch account or account list data from a file in the storage folder
+
+        :Parameter:
+					:id: string - :default: ''
+					:list: boolean - :default: false
+        :Return: Dictionary
+	''' 
+
 	def fetch(self,id:str='',list=False) -> dict:
 		try:
 			#fetch account information
@@ -31,37 +37,67 @@ class Storage:
 		except Exception as e:
 				log.exception(f'File Error: File Doesn\'t exist')
        
-	''' 
-		store information to the storage folder
 	'''
+        :Description: store account or account list data in a file in storage folder
+
+        :Parameter:
+					:id: string - :default: ''
+					:data: dictionary - :default: {}
+					:list: boolean - :default: false
+        :Return: Boolean
+	''' 
 	def store(self,id:str='',data:dict={},list=False) -> bool:
 		try:
 			#store account information
 			if(id != ''and not list):
 				log.info(f'store information @ account:{id}')
-				json.dump(data,open(f'storage_accounts_v3/account-{id}.json','w'),indent=4)
+
+				try: 
+					with open(f'storage_accounts_v3/account-{id}.json','w') as file:
+						json.dump(data,file,indent=4)
+				except IOError:
+					log.exception(f'File Error: could\'t write the json file of the account-{id}')
+				except Exception as e:
+					log.exception(f'Failed Error: {e}')
 				return True
 
 			#store summary list of account
 			if(id == '' and list):
 				log.info(f'store information @ account-list')
-				json.dump(data,open(f'storage_accounts_v3/account-list.json','w'),indent=4)
+
+				try:
+					with open(f'storage_accounts_v3/account-list.json','w') as file:
+						json.dump(data,file,indent=4)
+				except IOError:
+					log.exception('File Error: could\'t write the json file of the account list')
+				except Exception as e:
+					log.exception(f'Failed Error: {e}')
 				return True
+
 		except Exception as e:
 			log.exception(f'File Error: Unable to Write File')
 
+	'''
+        :Description: delete a account from account list data and file in storage folder
+
+        :Parameter:
+					:id: string - :default: ''
+        :Return: Boolean
+	''' 
 	def delete(self,id:str) -> bool:
 		
 		if self.validate_id(id):
 
 			try:
 				os.remove(f'storage_accounts_v3/account-{id}.json')
+				log.info('Remove the file in the storage folder')
 			except Exception as e:
 				log.exception(f'File Error: Account-{id} could\'nt find in the account list ->{e}')
 			
 			try:
 				with open(f'storage_accounts_v3/account-list.json','r') as file: 
 					acc_list:dict = json.load(file)
+				log.info(f'Opening Account list to remove the record of the account-{id}')
 			except IOError:
 				log.exception('File Error: could\'t read the json file of the account list')
 			except Exception as e:
@@ -73,6 +109,7 @@ class Storage:
 			for acc_id in acc_list['Account-List']:
 				if acc_id['Account-ID'] == id:
 					acc_list['Account-List'].remove(acc_id)
+					log.info(f'Successfully removing the record of the account-{id} in the account list')
 
 			json.dump(acc_list,open(f'storage_accounts_v3/account-list.json','w'),indent=4)	
 			
@@ -86,7 +123,13 @@ class Storage:
 		return False
 		
 
-	# check and validate id in the list
+	'''
+        :Description: verify the account in account list data
+
+        :Parameter:
+					:id: string - :default: ''
+        :Return: Boolean
+	''' 
 	def validate_id(self,id:str) -> bool:
 		acc_list:dict = {}
 		try:

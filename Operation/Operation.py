@@ -139,13 +139,12 @@ class Operation:
 
         transaction_log.info(f'account:{self.__account.Account_ID} => [Withdraw]: Ended')
         self.__transaction.Clear()
-        pass
+
     
     def Balance(self) -> None:
         _print.header('Current Balance')
         _print.data(header='',data_header='Balance',data=f'{self.__account.Balance}')
         transaction_log.info(f'account:{self.__account.Account_ID} => [Balance]: Show')
-        pass
     
     def Transaction_History(self) -> None:
         _print.header('Transaction History')
@@ -165,7 +164,6 @@ class Operation:
                              transaction['Balance']
                          ])
             __index = __index + 1
-        pass
 
 #-------------------[ Bank Menu Command ]----------------------------------- 
 

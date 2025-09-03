@@ -1,6 +1,16 @@
 
 ''' 
-        adminitration process for the internal force
+    :Description: Administration account that usual manage account 
+
+    :Functionality:
+                    1. login to administrator account
+                    2. view account list
+                    3. view administrator account edit history
+                    4. view account transaction history
+                    5. change account pin
+                    6. delete account
+                    7. change administrator account password
+                    8. view account information 
         
 '''
 
@@ -10,7 +20,7 @@ from time import gmtime, strftime
 
 from Account.Account import Account
 from Terminal.print import Print
-from Terminal.bank_form import validate_password,compare_password,encrypt_password,validate_userid,validate_pin,encrypt_pin
+from Terminal.bank_form import *
 from storage_accounts_v3.storage import Storage
 from Log.log import Log
 
@@ -23,11 +33,17 @@ class Admin:
     
     def __init__(self) -> None:
         self.__account_list:dict = _storage.fetch(list=True)
-        self.__account:Account
+        self.__account:Account = Account()
         self.__date:str = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()) 
             
 #-------------------[ instruction command ]-----------------------------------    
 
+    '''
+        :Description: show the option on the user then capture and send the option
+
+        :Parameter: None
+        :Return: Integer
+    '''
     def get_instruction(self) -> int:
         return int(_print.menu(
                             header='New Transaction',
@@ -37,13 +53,20 @@ class Admin:
                                 'View Account Information',
                                 'View Account History',
                                 'View Edited Account History',
-                                'Change Account Password',
+                                'Change Account Pin',
                                 'Change Password',
+                                'Delete Account',
                                 'Exist'  
                             ],prompt='Enter')) 
 
 #-------------------[ print account information ]-----------------------------------   
-    
+
+    '''
+        :Description: show the information of the admin
+
+        :Parameter: None
+        :Return: None
+    '''
     def print_account_info(self) -> None:
         _print.data(
                         header='Administration',
@@ -52,15 +75,20 @@ class Admin:
                     )   
   
 #-------------------[ Manage Account ]----------------------------------- 
-    
-    # change this from edit account to edit account pin
+
+    '''
+        :Description: change the account pin number 
+
+        :Parameter: None
+        :Return: None
+    '''   
     def Change_Account_Pin(self) -> None:
         
-        userid:str = _print.input('Enter Account-ID')
+        account_id:str = _print.input('Enter Account-ID')
         
-        if validate_userid(userid):
-            self.__account.Setup(userid)
-            form_log.info(f'admin:edit account pin => account - {userid}')
+        if validate_userid(account_id):
+            self.__account.Setup(account_id)
+            form_log.info(f'admin:edit account pin => account - {account_id}')
 
             new_pin:str = ''
             index:int = 0
@@ -68,29 +96,98 @@ class Admin:
             while True:
                 
                 new_pin = _print.password('Enter Password')
-                form_log.info(f'admin:account - {userid} => enter new pin [{new_pin}]')
+                form_log.info(f'admin:account - {account_id} => enter new pin [{new_pin}]')
 
                 if validate_pin(new_pin):
                     if _print.pin('Re-Enter Pin') == new_pin:
                         self.__account.Pin = bytes(encrypt_pin(new_pin)).decode()
                         self.__account.Save()
-                        form_log.info(f'admin:account - {userid} => save new pin [{new_pin}]')
+                        form_log.info(f'admin:account - {account_id} => save new pin [{new_pin}]')
                         break
 
                 _print.status(state='Warning',message='Wrong Format of Pin - Pls Try Again')
 
                 if index > 3:
-                    form_log.info(f'admin:account - {userid} => Failed to enter new pin [{new_pin}]')
+                    form_log.info(f'admin:account - {account_id} => Failed to enter new pin [{new_pin}]')
                     break
 
                 index += 1
-    
-    def View_Account_Information(self) -> None:
-        pass
 
-    def delete_account(self) -> None:
-        pass
-    
+    '''
+        :Description: view accounts detail information
+
+        :Parameter: None
+        :Return: None
+    ''' 
+    #unit testing
+    def View_Account_Information(self) -> None:
+        _print.header('View Account Information')
+
+        account_id:str = ""
+        answer:str = ""
+
+        while True:
+
+            account_id = _print.input("Enter Account-ID")
+
+            if validate_userid(account_id) and _storage.validate_id(account_id):
+                self.__account.Setup(account_id)
+                _print.datas(
+                    header = f'Account Information',
+                    data_header= [
+                        'Account ID',
+                        'Name',
+                        'Balance'
+                    ],
+                    datas = [
+                        self.__account.Account_ID,
+                        self.__account.Name,
+                        self.__account.Balance
+                    ]
+
+                )
+            
+            answer = _print.input("View Other Account? [Y/N]")
+
+            if answer.lower() == 'n':
+                break
+
+
+    '''
+        :Description: delete a account from account list and folder
+
+        :Parameter: None
+        :Return: None
+    ''' 
+    # unit testing this
+    def Delete_Account(self) -> None:
+        _print.header('Delete Account')
+
+        account_id:str = ""
+        answer:str = ""
+
+        while True:
+            
+            account_id = _print.input("Enter Account-ID")
+        
+            if  _storage.validate_id(account_id):
+            #if validate_userid(account_id) and _storage.validate_id(account_id):
+                if _storage.delete(account_id):
+                    _print.status('Successfully Deleting The Account')
+                else:
+                    _print.status('Unsuccessfull Deleting The Account')
+
+            answer = _print.input('Delete Other Account? [Y/N]')
+
+            if answer.lower() == 'n':
+                break            
+
+    '''
+        :Description: show list of a accounts
+
+        :Parameter: None
+        :Return: None
+    ''' 
     def View_List(self) -> None:
         
         _print.header('Account List')
@@ -109,7 +206,13 @@ class Admin:
                         ])
             _print.border()
         pass
-    
+
+    '''
+        :Description: view the transaction history of a account
+
+        :Parameter: None
+        :Return: None
+    ''' 
     def View_Account_History(self) -> None:
         
         __account_id:str = _print.input('Enter Account-ID')
@@ -161,7 +264,13 @@ class Admin:
                                 ])
                     _print.border()
         del __temp
-    
+
+    '''
+        :Description: show the edit history of administrator account
+
+        :Parameter: None
+        :Return: None
+    ''' 
     def View_Edited_Account_History(self) -> None:
 
         admin_log.info(f'admin => view edited accounts history')
@@ -185,7 +294,12 @@ class Admin:
     
 #-------------------[ Other Function ]----------------------------------- 
     
-    # Todo: under construction
+    '''
+        :Description: change the password of administrator account
+
+        :Parameter: None
+        :Return: None
+    ''' 
     def Change_Password(self) -> None:
         
         _print.header('Admin Change Password')
@@ -215,15 +329,18 @@ class Admin:
             index += 1
 
 
-    
+    '''
+        :Description: login administrator account
+
+        :Parameter: None
+        :Return: Boolean
+    ''' 
     def Login(self) -> bool:
 
         _print.header('Admin Login')
         form_log.info(f'admin => [Login]: starting')
         __password:str = _print.password('Enter Password') 
 
-        # update this code
-        #retry until the login is success
         index:int = 1
 
         while True:
