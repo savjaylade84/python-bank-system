@@ -170,8 +170,7 @@ class Admin:
             
             account_id = _print.input("Enter Account-ID")
         
-            if  _storage.validate_id(account_id):
-            #if validate_userid(account_id) and _storage.validate_id(account_id):
+            if validate_userid(account_id) and _storage.validate_id(account_id):
                 if _storage.delete(account_id):
                     _print.status('Successfully Deleting The Account')
                 else:
