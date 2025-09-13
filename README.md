@@ -7,7 +7,7 @@ Github: [savjaylade84](github.com/savjaylade84) <br>
 Email: savjaylade84@gmail.com<br>
 Portfolio: [Jisun](https://savjaylade84.github.io/Jisun.github.io/)<br>
 First Version: 1.30v<br>
-Current Version: 3.50v => 3.51 <br><br>
+Current Version: 3.50v => 3.70 <br><br>
 ### Project Progress <br>
 <hr><br>
 
