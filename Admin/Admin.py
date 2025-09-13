@@ -82,7 +82,7 @@ class Admin:
 #-------------------[ Manage Account ]----------------------------------- 
 
     '''
-        :Description: change the account pin number 
+        :Description: analysis the financial history of the specific account
 
         :Parameter: None
         :Return: None
