@@ -18,6 +18,13 @@ class Account:
         self.__transaction_history:list[Transaction] = []
         self.__json = {}
 
+    '''
+        :Description: show list of a accounts
+
+        :Parameter:
+                    :id: string - :default: ''
+        :Return: None
+    ''' 
     def Setup(self,id:str) -> None:
         self.__json = _storage.fetch(id)
         try:
@@ -30,11 +37,24 @@ class Account:
             raise e('Json Error: Data or File Does Not Exist')
         
 #-------------------[ Name ]-----------------------------------    
-        
+
+    '''
+        :Description: get account name
+
+        :Parameter: None
+        :Return: String
+    ''' 
     @property
     def Name(self) -> str:
         return self.__name
-        
+
+    '''
+        :Description: set account name
+
+        :Parameter:
+                    :name: string - :default: ''
+        :Return: None
+    '''  
     @Name.setter    
     def Name(self,name:str) -> None:
         if(name != ""):
@@ -42,11 +62,24 @@ class Account:
         pass    
 
 #-------------------[ Account ID ]-----------------------------------         
-    
+
+    '''
+        :Description: get account identification number
+
+        :Parameter: None
+        :Return: String
+    '''
     @property
     def Account_ID(self) -> str:
         return self.__account_id
  
+    '''
+        :Description: set account identification number
+
+        :Parameter:
+                    :acc_id: string - :default: ''
+        :Return: None
+    '''
     @Account_ID.setter
     def Account_ID(self,acc_id:str) -> None:
         if(acc_id != ""):
@@ -54,11 +87,24 @@ class Account:
         pass
 
 #-------------------[ Pin ]----------------------------------- 
-    
+
+    '''
+        :Description: get the account pin number
+
+        :Parameter: None
+        :Return: String
+    '''
     @property
     def Pin(self) -> str:
         return self.__pin
     
+    '''
+        :Description: set the account pin number
+
+        :Parameter:
+                    :pin: string - :default: ''
+        :Return: None
+    '''
     @Pin.setter
     def Pin(self,pin:str) -> None:
         if(pin != ""):
@@ -66,11 +112,24 @@ class Account:
         pass
 
 #-------------------[ Balance ]-----------------------------------     
-    
+
+    '''
+        :Description: get the account balance 
+
+        :Parameter: None
+        :Return: Float
+    '''
     @property
     def Balance(self) -> float:
         return self.__balance
-    
+
+    '''
+        :Description: set the account balance
+
+        :Parameter:
+                    :balance: Float - :default: 0.0f
+        :Return: None
+    '''
     @Balance.setter
     def Balance(self,balance:float) -> None:
         if(balance > 0):
@@ -78,11 +137,24 @@ class Account:
         pass
 
 #-------------------[ Transaction ]-----------------------------------     
-    
+
+    '''
+        :Description: set the account transaction list
+
+        :Parameter: None
+        :Return: List
+    '''
     @property
     def Transaction_History(self) -> list:
         return self.__transaction_history
-    
+
+    '''
+        :Description: set the account transaction list
+
+        :Parameter:
+                    :transaction_history: List - :default: []
+        :Return: None
+    '''
     @Transaction_History.setter
     def Transaction_History(self,transaction_history:list) -> None:
         if(transaction_history != []):
@@ -91,6 +163,13 @@ class Account:
     
 #-------------------[ Other ]----------------------------------- 
 
+    '''
+        :Description: call the storage function to store the account information
+                      in the database folder
+
+        :Parameter: None
+        :Return: None
+    '''
     def Save(self) -> None:
         _storage.store(id=self.__account_id,data={
             'Name':self.Name,
@@ -101,6 +180,12 @@ class Account:
         })
         pass
 
+    '''
+        :Description: set the given information into the account information
+
+        :Parameter: None
+        :Return: None
+    '''
     def get_copy(self) ->dict:
         return  {
             'Name':self.__name,

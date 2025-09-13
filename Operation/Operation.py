@@ -31,6 +31,12 @@ class Operation:
 
 #-------------------[ instruction command ]-----------------------------------    
 
+    '''
+        :Description: get user response from the menu or choices
+
+        :Parameter: None
+        :Return: Integer
+    ''' 
     def get_instruction(self) -> int:
         return int(_print.menu(
                             header='New Transaction',
@@ -46,7 +52,13 @@ class Operation:
         
     
 #-------------------[ print account information ]-----------------------------------   
-    
+
+    '''
+        :Description: print the short information on specific account
+
+        :Parameter: None
+        :Return: None
+    '''  
     def print_account_info(self) -> None:
         _print.datas(
                     header='Account Information',
@@ -65,6 +77,12 @@ class Operation:
 
 #-------------------[ Transaction Command ]----------------------------------- 
 
+    '''
+        :Description: deposite amount of (x) on specific account
+
+        :Parameter: None
+        :Return: None
+    '''
     def Deposite(self) -> None:
         _print.header('Deposite Process')
         transaction_log.info(f'account:{self.__account.Account_ID} => [Deposite]: Starting')
@@ -102,7 +120,13 @@ class Operation:
         transaction_log.info(f'account:{self.__account.Account_ID} => [Deposite]: Ended')
         self.__transaction.Clear()
         pass
-    
+
+    '''
+        :Description: withraw amount of (x) in specific account
+
+        :Parameter: None
+        :Return: None
+    '''
     def Withdraw(self) -> None:
         _print.header('Withdraw Process')
         transaction_log.info(f'account:{self.__account.Account_ID} => [Withdraw]: Starting')
@@ -140,12 +164,23 @@ class Operation:
         transaction_log.info(f'account:{self.__account.Account_ID} => [Withdraw]: Ended')
         self.__transaction.Clear()
 
-    
+    '''
+        :Description: show the amount of (x) in specific account
+
+        :Parameter: None
+        :Return: None
+    '''    
     def Balance(self) -> None:
         _print.header('Current Balance')
         _print.data(header='',data_header='Balance',data=f'{self.__account.Balance}')
         transaction_log.info(f'account:{self.__account.Account_ID} => [Balance]: Show')
-    
+
+    '''
+        :Description: show transaction history of specific account
+
+        :Parameter: None
+        :Return: None
+    ''' 
     def Transaction_History(self) -> None:
         _print.header('Transaction History')
         transaction_log.info(f'account:{self.__account.Account_ID} => [Transaction History]: Show')
@@ -167,12 +202,24 @@ class Operation:
 
 #-------------------[ Bank Menu Command ]----------------------------------- 
 
+    '''
+        :Description: update the information of specific account in
+                      the database folder and clear all memories
 
+        :Parameter: None
+        :Return: None
+    '''
     def Save(self) -> None:
         transaction_log.info(f'account:{self.__account.Account_ID} => [Account]: Save Information')
         self.__account.Save()
         self.__transaction.Clear()
 
+    '''
+        :Description: login user in their specific account 
+
+        :Parameter: None
+        :Return: Boolean
+    '''
     def Login(self) -> bool:
 
         _print.header('Account Login')
@@ -239,6 +286,12 @@ class Operation:
         form_log.info(f'user:anonymous => [Login]: Ended')
         return True
 
+    '''
+        :Description: register user to get new account
+
+        :Parameter: None
+        :Return: None
+    '''
     def Signup(self) -> None:
         _print.header("Registration")
         form_log.info('user:anonymous => [Signup]: Starting')
@@ -290,7 +343,7 @@ class Operation:
         
         if __confirm == 'Y':
               
-            #create account file 
+            #create account file in the database folder
             __account = Account()
             __account.Name = __name
             __account.Account_ID = __account_id
@@ -301,7 +354,7 @@ class Operation:
             _storage.store(id=__account_id,data=__account.get_copy())
             form_log.info(f'user:anonymous => [Signup]: Created Account => account({__account.get_copy()})')
             
-            #update list
+            #update list in the account list
             self.__account_list['Account-List'].append({
                 'Name': __name,
                 'Account-ID':__account_id,
@@ -314,16 +367,19 @@ class Operation:
             form_log.info(f'user:anonymous => [Signup]: Successful Signup')
             form_log.info(f'user:anonymous => [Signup]: Ended')
             _print.header("Successfully Register!")
-            pass
         
         if __confirm == 'N':
             form_log.info(f'user:anonymous => [Signup]: Failed Signup')
             form_log.info(f'user:anonymous => [Signup]: Ended')
             _print.header("Failed Registration!")
-            pass
-        
-        pass
-    
+
+
+    '''
+        :Description: change the specific account's pin number
+
+        :Parameter: None
+        :Return: None
+    '''
     def Change_Pin(self) -> None:
         _print.header("Change Pin")
         form_log.info(f'user:anonymous => [Change Pin]: Started')

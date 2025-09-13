@@ -10,7 +10,13 @@ from Operation.Operation import Operation
 from Admin.Admin import Admin
 from Terminal.print import Print
 
-    
+'''
+    :Description: the main function that cohesive the other functionlity
+                  and the flow of the system
+
+    :Parameter: None
+    :Return: None
+'''   
 def main() -> None:
     _bank_system = Operation()
     _admin = Admin()
