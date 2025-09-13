@@ -94,7 +94,7 @@ class Admin:
         account_id:str = _print.input('Enter Account-ID')
         if validate_userid(account_id):
             self.__account.Setup(account_id)
-            form_log.info(f'admin:edit account pin => account - {account_id}')
+            form_log.info(f'admin:setup account => account - {account_id}')
 
             client = OpenAI(
                     base_url="https://openrouter.ai/api/v1",
