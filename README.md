@@ -36,6 +36,7 @@ Functionality For Admin (Under-Developement)<br>
 - [x] admin delete account
 - [x] admin change password
 - [x] admin view account
+- [x] Artificial Intelligence Analysis
 - [x] exit a system
 
 <br>

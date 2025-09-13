@@ -97,6 +97,8 @@ def main() -> None:
                         case 7:
                             _admin.Delete_Account()
                         case 8:
+                            _admin.AI_Analysis()
+                        case 9:
                             _print.header('Exit Successful!')
                             #_bank_system.Save()
                             _exit_answer = True

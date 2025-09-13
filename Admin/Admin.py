@@ -15,8 +15,10 @@
 '''
 
 import json
+import os
 from time import gmtime, strftime
-
+from dotenv import load_dotenv
+from openai import OpenAI
 
 from Account.Account import Account
 from Terminal.print import Print
@@ -28,6 +30,8 @@ _print = Print()
 _storage = Storage()
 admin_log = Log('admin.log').open()
 form_log = Log('form.log').open()
+
+load_dotenv()
 
 class Admin:
     
@@ -56,6 +60,7 @@ class Admin:
                                 'Change Account Pin',
                                 'Change Password',
                                 'Delete Account',
+                                'AI Analysis',
                                 'Exist'  
                             ],prompt='Enter')) 
 
@@ -82,8 +87,51 @@ class Admin:
         :Parameter: None
         :Return: None
     '''   
+    def AI_Analysis(self) -> None:
+
+        _print.header('AI Analysis')
+
+        account_id:str = _print.input('Enter Account-ID')
+        if validate_userid(account_id):
+            self.__account.Setup(account_id)
+            form_log.info(f'admin:edit account pin => account - {account_id}')
+
+            client = OpenAI(
+                    base_url="https://openrouter.ai/api/v1",
+                    api_key= ''.join(os.getenv('TOKEN'))
+            )
+            completion = client.chat.completions.create(
+                    extra_headers={
+                    "HTTP-Referer": "", # Optional. Site URL for ran
+                    "X-Title": "", # Optional. Site title for rankin
+                },
+                extra_body={},
+                model="deepseek/deepseek-chat-v3.1:free",
+                messages=[
+                        {
+                            "role": "user",
+                            "content": f'''
+                                            generate detail financial analysis and advise(without graph only context) on the following list of data below.
+
+                                            Datas: {self.__account.Transaction_History}
+                                        '''
+                        }
+                    ]
+            )
+            _print.status("Output")
+
+            solution:str = completion.choices[0].message.content
+            print(solution, end="\n")
+
+    '''
+        :Description: change the account pin number 
+
+        :Parameter: None
+        :Return: None
+    '''   
     def Change_Account_Pin(self) -> None:
         
+        _print.header('Change Account Pin')
         account_id:str = _print.input('Enter Account-ID')
         
         if validate_userid(account_id):
@@ -121,6 +169,7 @@ class Admin:
     ''' 
     #unit testing
     def View_Account_Information(self) -> None:
+
         _print.header('View Account Information')
 
         account_id:str = ""
@@ -161,6 +210,7 @@ class Admin:
     ''' 
     # unit testing this
     def Delete_Account(self) -> None:
+
         _print.header('Delete Account')
 
         account_id:str = ""
@@ -190,8 +240,8 @@ class Admin:
     def View_List(self) -> None:
         
         _print.header('Account List')
-
         admin_log.info(f'admin => view account list')
+
         for info in self.__account_list['Account-List']:
             _print.datas(
                         header='',
@@ -214,6 +264,7 @@ class Admin:
     ''' 
     def View_Account_History(self) -> None:
         
+        _print.header('View Account History')
         __account_id:str = _print.input('Enter Account-ID')
         __temp:dict = {}
         
@@ -271,7 +322,8 @@ class Admin:
         :Return: None
     ''' 
     def View_Edited_Account_History(self) -> None:
-
+        
+        _print.header('View Edited Account History')
         admin_log.info(f'admin => view edited accounts history')
 
         for edit in self.__account_list['Edited-Account-History']:
