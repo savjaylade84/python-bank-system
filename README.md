@@ -46,7 +46,7 @@ For Developer Only(Me)<br>
 
 - [x] logging
 - [x] testing - using unittest package
-- [ ] Document
+- [x] Document
 
 <br><br>
 Note
