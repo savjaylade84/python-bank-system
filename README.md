@@ -26,7 +26,7 @@ Functionality For User<br>
 <br>
 <hr><br>
 
-Functionality For Admin (Under-Developement)<br>
+Functionality For Admin<br>
 
 - [x] login admin user
 - [x] admin view account list
@@ -53,3 +53,4 @@ Note
 <hr>
 
 > all the accounts in the accounts folder are now in json and pin/password are in encrypted(hash and salt)
+
