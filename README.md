@@ -13,40 +13,46 @@ Current Version: 3.51v => 3.70 <br><br>
 
 Functionality For User<br>
 
-- [x] login account
-- [x] change pin
-- [x] signup account
-- [x] deposite a money
-- [x] withdraw a money
-- [x] check a balance
-- [x] transaction history
-- [x] exit a transaction
-- [x] exit a system
+| Function            | Description                                                        | Status           |
+|---------------------|--------------------------------------------------------------------|------------------|
+| login account       | consumer can login to their respective account                     | &#x2713; (Done)  |
+| change pin          | consumer can change their respective account pin number            | &#x2713; (Done)  |
+| signup account      | new consumer can create new account                                | &#x2713; (Done)  |
+| deposite a money    | consumer can deposite their money in their respective account      | &#x2713; (Done)  |
+| withdraw a money    | consumer can withdraw their money in their respective account      | &#x2713; (Done)  |
+| check a balance     | consumer can check their balance in their respective account       | &#x2713; (Done)  |
+| transaction history | consumer can check the history of their transactions              | &#x2713; (Done)  |
+| exit a transaction  | consumer can exit the current transaction/session                 | &#x2713; (Done)  |
+| exit a system       | consumer can exit the banking system                              | &#x2713; (Done)  |
 
 <br>
 <hr><br>
 
 Functionality For Admin<br>
 
-- [x] login admin user
-- [x] admin view account list
-- [x] admin view the admin edit history
-- [x] admin view account history
-- [x] admin change account pin
-- [x] admin delete account
-- [x] admin change password
-- [x] admin view account
-- [x] Artificial Intelligence Analysis
-- [x] exit a system
+| Function                       | Description                                 | Status      |
+|--------------------------------|---------------------------------------------|-------------|
+| login admin user               | Admin can log in                            | &#x2713; (Done) |
+| admin view account list        | View list of all accounts                   | &#x2713; (Done) |
+| admin view the admin edit history | View admin edit history                  | &#x2713; (Done) |
+| admin view account history     | View transaction history of accounts        | &#x2713; (Done) |
+| admin change account pin       | Change PIN for any account                  | &#x2713; (Done) |
+| admin delete account           | Delete any account                          | &#x2713; (Done) |
+| admin change password          | Change admin password                       | &#x2713; (Done) |
+| admin view account             | View details of any account                 | &#x2713; (Done) |
+| Artificial Intelligence Analysis | AI-based analysis of accounts             | &#x2713; (Done) |
+| exit a system                  | Exit the admin system                       | &#x2713; (Done) |
 
 <br>
 <hr><br>
 
-For Developer Only(Me)<br>
+For Developer Only (Me)<br>
 
-- [x] logging
-- [x] testing - using unittest package
-- [x] Document
+| Function   | Description                  | Status      |
+|------------|------------------------------|-------------|
+| logging    | Logging system events        | &#x2713; (Done) |
+| testing    | Unit testing with unittest   | &#x2713; (Done) |
+| Document   | Documentation               | &#x2713; (Done) |
 
 <br><br>
 Note
