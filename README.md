@@ -1,17 +1,21 @@
 # Terminal Bank System
 
-### using a json file for accounts and transaction using python 3<br>
+## using a json file for accounts and transaction using python 3
 
-Author: John Jayson B. De Leon<br>
-Github: [savjaylade84](github.com/savjaylade84) <br>
-Email: savjaylade84@gmail.com<br>
-Portfolio: [Jisun](https://savjaylade84.github.io/Jisun.github.io/)<br>
-First Version: 1.30v<br>
-Current Version: 3.51v => 3.70 <br><br>
-### Project Progress <br>
-<hr><br>
+</br>
 
-Functionality For User<br>
+Author: John Jayson B. De Leon</br>
+Github: [savjaylade84](github.com/savjaylade84) </br>
+Email: <savjaylade84@gmail.com> </br>
+Portfolio: [Jisun](https://savjalade84.pythonanywhere.com/)</br>
+First Version: 1.30v</br>
+Current Version: 3.51v => 3.70 </br></br>
+
+## Project Progress </br>
+
+</hr></br>
+
+Functionality For User</br>
 
 | Function            | Description                                                        | Status           |
 |---------------------|--------------------------------------------------------------------|------------------|
@@ -25,10 +29,10 @@ Functionality For User<br>
 | exit a transaction  | consumer can exit the current transaction/session                 | &#x2713; (Done)  |
 | exit a system       | consumer can exit the banking system                              | &#x2713; (Done)  |
 
-<br>
-<hr><br>
+</br>
+</hr></br>
 
-Functionality For Admin<br>
+Functionality For Admin</br>
 
 | Function                       | Description                                 | Status      |
 |--------------------------------|---------------------------------------------|-------------|
@@ -43,10 +47,10 @@ Functionality For Admin<br>
 | Artificial Intelligence Analysis | AI-based analysis of accounts             | &#x2713; (Done) |
 | exit a system                  | Exit the admin system                       | &#x2713; (Done) |
 
-<br>
-<hr><br>
+</br>
+</hr></br>
 
-For Developer Only (Me)<br>
+For Developer Only (Me)</br>
 
 | Function   | Description                  | Status      |
 |------------|------------------------------|-------------|
@@ -54,9 +58,8 @@ For Developer Only (Me)<br>
 | testing    | Unit testing with unittest   | &#x2713; (Done) |
 | Document   | Documentation               | &#x2713; (Done) |
 
-<br><br>
+</br></br>
 Note
-<hr>
+</hr>
 
 > all the accounts in the accounts folder are now in json and pin/password are in encrypted(hash and salt)
-
