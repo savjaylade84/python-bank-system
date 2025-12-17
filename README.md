@@ -63,3 +63,8 @@ Note
 </hr>
 
 > all the accounts in the accounts folder are now in json and pin/password are in encrypted(hash and salt)
+
+## Contact Information
+
+**Email:** [deleonjohnjayson@proton.me](mailto:deleonjohnjayson@proton.me) | [deleonjohnjayson@gmail.com](mailto:deleonjohnjayson@gmail.com) | [savjaylade84@gmail.com](mailto:savjaylade84@gmail.com)</br>
+**Contact No.:** [+63 995-718-9101](tel:+639957189101) </br>
