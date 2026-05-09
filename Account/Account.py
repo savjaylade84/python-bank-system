@@ -2,13 +2,13 @@
         hold the data for the account
 
 '''
-
+from Account.IAccount import IAccount
 from Account.Transaction import Transaction
 from storage_accounts_v3.storage import Storage
 
 _storage = Storage()
 
-class Account:
+class Account(IAccount):
 
     def __init__(self):
         self.__name:str = ''

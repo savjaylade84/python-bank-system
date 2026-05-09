@@ -2,7 +2,9 @@
         hold the data for the transaction history data
         
 '''
-class Transaction:
+
+from Account.ITransaction import ITransaction
+class Transaction(ITransaction):
     
     def __init__(self):
         self.__date_time:str = ""

@@ -2,7 +2,69 @@
     custom terminal print and output for the system
 '''
 
+import sys
 from getpass import getpass
+from enum import Enum
+from dataclasses import dataclass
+
+class Transaction_Status(Enum):
+    Info = 0
+    Success = 1
+    Failed = 2
+    Pending = 3
+    Warning = 4
+    
+@dataclass
+class Border_Formatter:
+    count: int = 17
+    style: str = "="
+    
+
+# this is underconstruction
+
+def pstatus(status:Transaction_Status,message:str,end="\n") -> None:
+    sys.stdout.write(f"[ {status.name} ] : {message}{end}")
+    
+def pborder(formatter:Border_Formatter,end="\n") -> None:
+    sys.stdout.write(f"{formatter.count * formatter.style}{end}")
+    
+def pheader(formatter:Border_Formatter,title:str,end="\n") -> None:
+    border:str = (formatter.count - 2) * formatter.style
+    border_side:str = (formatter.count * 2 + len(title) - 2) * formatter.style
+    sys.stdout.write(f"{border_side}\n{border}[{title}]{border}\n{border_side}{end}")
+
+def ptitle(formatter:Border_Formatter,title:str,end="\n") -> None:
+    border:str = formatter.count * formatter.style
+    sys.stdout.write(f"{border}[ {title} ]{border}{end}")
+
+def pinfo(header:str,info:str,end="\n") -> None:
+    sys.stdout.write(f"[ {header} ] : {info}{end}")
+    
+def pinfos(headers:list[str],infos:list,end="\n") -> None:
+    for header,info in zip(headers,infos):
+        pinfo(header,info)
+        
+def plist(infos:list) -> None:
+    for index, info in enumerate(infos):
+        pinfo(index + 1,info)
+        
+def getinfo(prompt:str):
+    sys.stdout.write(f"[ {prompt} ] :")
+    sys.stdout.flush()
+    data = sys.stdin.readline().strip() 
+    return data 
+
+def pmenu(header:str,instruction:str,menu:list,prompt:str):
+    
+    if(header):
+        pheader(Border_Formatter(),header)
+    
+    if(instruction):
+        pheader(Border_Formatter,instruction)
+        plist(menu)
+        return getinfo(prompt)
+
+    raise IOError    
 
 class string_formatter:
 

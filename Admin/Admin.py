@@ -21,7 +21,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 from Account.Account import Account
-from Terminal.print import Print
+from Terminal.print import *
 from Terminal.bank_form import *
 from storage_accounts_v3.storage import Storage
 from Log.log import Log
@@ -49,9 +49,9 @@ class Admin:
         :Return: Integer
     '''
     def get_instruction(self) -> int:
-        return int(_print.menu(
+        return int(pmenu(
                             header='New Transaction',
-                            menu_header='Enter A Instruction',
+                            instruction='Enter A Instruction',
                             menu=[
                                 'View Account List',
                                 'View Account Information',
@@ -89,7 +89,7 @@ class Admin:
     '''   
     def AI_Analysis(self) -> None:
 
-        _print.header('AI Analysis')
+        pheader(Border_Formatter(17,"="),'AI Analysis')
 
         account_id:str = _print.input('Enter Account-ID')
         if validate_userid(account_id):
@@ -118,7 +118,7 @@ class Admin:
                         }
                     ]
             )
-            _print.status("Output")
+            pstatus(Transaction_Status.Info,"Output")
 
             solution:str = completion.choices[0].message.content
             print(solution, end="\n")
@@ -131,7 +131,7 @@ class Admin:
     '''   
     def Change_Account_Pin(self) -> None:
         
-        _print.header('Change Account Pin')
+        pheader(Border_Formatter(17,"="),'Change Account Pin')
         account_id:str = _print.input('Enter Account-ID')
         
         if validate_userid(account_id):
@@ -153,7 +153,7 @@ class Admin:
                         form_log.info(f'admin:account - {account_id} => save new pin [{new_pin}]')
                         break
 
-                _print.status(state='Warning',message='Wrong Format of Pin - Pls Try Again')
+                pstatus(Transaction_Status.Warning,'Wrong Format of Pin - Pls Try Again')
 
                 if index > 3:
                     form_log.info(f'admin:account - {account_id} => Failed to enter new pin [{new_pin}]')
@@ -170,7 +170,7 @@ class Admin:
     #unit testing
     def View_Account_Information(self) -> None:
 
-        _print.header('View Account Information')
+        pheader(Border_Formatter(17,"="),'View Account Information')
 
         account_id:str = ""
         answer:str = ""
@@ -211,7 +211,7 @@ class Admin:
     # unit testing this
     def Delete_Account(self) -> None:
 
-        _print.header('Delete Account')
+        pheader(Border_Formatter(17,"="),'Delete Account')
 
         account_id:str = ""
         answer:str = ""
@@ -222,9 +222,9 @@ class Admin:
         
             if validate_userid(account_id) and _storage.validate_id(account_id):
                 if _storage.delete(account_id):
-                    _print.status('Successfully Deleting The Account')
+                    pstatus(Transaction_Status.Success,'Successfully Deleting The Account')
                 else:
-                    _print.status('Unsuccessfull Deleting The Account')
+                    pstatus(Transaction_Status.Failed,'Unsuccessfull Deleting The Account')
 
             answer = _print.input('Delete Other Account? [Y/N]')
 
@@ -239,7 +239,7 @@ class Admin:
     ''' 
     def View_List(self) -> None:
         
-        _print.header('Account List')
+        pheader(Border_Formatter(17,"="),'Account List')
         admin_log.info(f'admin => view account list')
 
         for info in self.__account_list['Account-List']:
@@ -253,7 +253,7 @@ class Admin:
                             info['Name'],
                             info['Account-ID']
                         ])
-            _print.border()
+            pborder(Border_Formatter(17,"#"))
         pass
 
     '''
@@ -264,7 +264,7 @@ class Admin:
     ''' 
     def View_Account_History(self) -> None:
         
-        _print.header('View Account History')
+        pheader(Border_Formatter(17,"="),'View Account History')
         __account_id:str = _print.input('Enter Account-ID')
         __temp:dict = {}
         
@@ -275,7 +275,7 @@ class Admin:
             
             #check for empty result first
             if id == '' or id == None:
-                _print.header("Account Not Found!")
+                pheader(Border_Formatter(17,"="),"Account Not Found!")
                 break
             
             if(__account_id == id['Account-ID']) and id != '':
@@ -312,7 +312,7 @@ class Admin:
                                     transaction['Amount'],
                                     transaction['Balance']
                                 ])
-                    _print.border()
+                    pborder(Border_Formatter(17,"#"))
         del __temp
 
     '''
@@ -323,7 +323,7 @@ class Admin:
     ''' 
     def View_Edited_Account_History(self) -> None:
         
-        _print.header('View Edited Account History')
+        pheader(Border_Formatter(17,"="),'View Edited Account History')
         admin_log.info(f'admin => view edited accounts history')
 
         for edit in self.__account_list['Edited-Account-History']:
@@ -341,7 +341,7 @@ class Admin:
                             edit['Edited']['Value']
                             
                         ])
-            _print.border()
+            pborder(Border_Formatter(17,"#"))
     
 #-------------------[ Other Function ]----------------------------------- 
     
@@ -353,7 +353,7 @@ class Admin:
     ''' 
     def Change_Password(self) -> None:
         
-        _print.header('Admin Change Password')
+        pheader(Border_Formatter(17,"="),'Admin Change Password')
         form_log.info(f'admin: change password')
 
         new_password:str = ""
@@ -371,7 +371,7 @@ class Admin:
                     form_log.info(f'admin: save new password [{new_password}]')
                     break
 
-            _print.status(state='Warning', message='Wrong Format of Password - Pls! Try Again')
+            pstatus(Transaction_Status.Warning,'Wrong Format of Password - Pls! Try Again')
 
             if index > 3:
                 form_log.info(f'admin: failed to change password [{new_password}]')
@@ -388,7 +388,7 @@ class Admin:
     ''' 
     def Login(self) -> bool:
 
-        _print.header('Admin Login')
+        pheader(Border_Formatter(17,"="),'Admin Login')
         form_log.info(f'admin => [Login]: starting')
         __password:str = _print.password('Enter Password') 
 
@@ -405,7 +405,7 @@ class Admin:
                 
             if index > 3:
                 form_log.info(f'admin: => [Login]: Failed')
-                _print.header('Login Attempt Failed!')
+                pheader(Border_Formatter(17,"="),'Login Attempt Failed!')
                 exit(1)
 
             __password = _print.password('Re-Enter Password')
