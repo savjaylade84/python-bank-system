@@ -17,6 +17,19 @@ Current Version: 3.51v => 3.70 </br></br>
 
 </hr></br>
 
+Refactor Progress
+
+| Folder |Details | Status |
+|--------|--------|--------|
+| Account | Improving the Structure of classes </br> and adding more data structure | 🟢 (In Progress) |
+| Admin | Refactoring code | 🟢 (In Progress) |
+| Log | | 🔴 (In Pending) |
+| Operation | | 🔴 (In Pending) |
+| Storage | | 🔴 (In Pending) |
+| Terminal | converting code to functions </br> and removing classes |🟢 (In Progress) |
+
+</br>
+
 Functionality For User</br>
 
 | Function            | Description                                                        | Status           |
