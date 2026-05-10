@@ -17,8 +17,6 @@ def admin_login():
     
     # initialise the log,temp account holder, and date
     __form_log = Log('form.log').open()
-    __temp_acct:Account = Account()
-    __date:str = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
     
     # check if successfully retrieve admin config
     try:
