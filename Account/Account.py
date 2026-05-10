@@ -8,6 +8,8 @@ from storage_accounts_v3.storage import Storage
 
 _storage = Storage()
 
+
+
 class Account(IAccount):
 
     def __init__(self):

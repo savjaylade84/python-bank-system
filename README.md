@@ -19,14 +19,14 @@ Current Version: 3.51v => 3.70 </br></br>
 
 Refactor Progress
 
-| Folder |Details | Status |
-|--------|--------|--------|
+| Folder | Details | Status |
+| -------- | -------- | -------- |
 | Account | Improving the Structure of classes </br> and adding more data structure | 🟢 (In Progress) |
 | Admin | Refactoring code | 🟢 (In Progress) |
 | Log | | 🔴 (In Pending) |
 | Operation | | 🔴 (In Pending) |
 | Storage | | 🔴 (In Pending) |
-| Terminal | converting code to functions </br> and removing classes |🟢 (In Progress) |
+| Terminal | converting code to functions </br> and removing classes | 🟢 (In Progress) |
 
 </br>
 
@@ -40,26 +40,26 @@ Functionality For User</br>
 | deposite a money    | consumer can deposite their money in their respective account      | &#x2713; (Done)  |
 | withdraw a money    | consumer can withdraw their money in their respective account      | &#x2713; (Done)  |
 | check a balance     | consumer can check their balance in their respective account       | &#x2713; (Done)  |
-| transaction history | consumer can check the history of their transactions              | &#x2713; (Done)  |
-| exit a transaction  | consumer can exit the current transaction/session                 | &#x2713; (Done)  |
-| exit a system       | consumer can exit the banking system                              | &#x2713; (Done)  |
+| transaction history | consumer can check the history of their transactions               | &#x2713; (Done)  |
+| exit a transaction  | consumer can exit the current transaction/session                  | &#x2713; (Done)  |
+| exit a system       | consumer can exit the banking system                               | &#x2713; (Done)  |
 
 </br>
 </hr></br>
 
 Functionality For Admin</br>
 
-| Function                       | Description                                 | Status      |
-|--------------------------------|---------------------------------------------|-------------|
+| Function                       | Description                                 | Status          |
+|--------------------------------|---------------------------------------------|-----------------|
 | login admin user               | Admin can log in                            | &#x2713; (Done) |
-| admin view account list        | View list of all accounts                   | &#x2713; (Done) |
-| admin view the admin edit history | View admin edit history                  | &#x2713; (Done) |
-| admin view account history     | View transaction history of accounts        | &#x2713; (Done) |
-| admin change account pin       | Change PIN for any account                  | &#x2713; (Done) |
-| admin delete account           | Delete any account                          | &#x2713; (Done) |
-| admin change password          | Change admin password                       | &#x2713; (Done) |
-| admin view account             | View details of any account                 | &#x2713; (Done) |
-| Artificial Intelligence Analysis | AI-based analysis of accounts             | &#x2713; (Done) |
+| view account list              | View list of all accounts                   | &#x2713; (Done) |
+| view the admin edit history    | View admin edit history                     | &#x2713; (Done) |
+| view account history           | View transaction history of accounts        | &#x2713; (Done) |
+| change account pin             | Change PIN for any account                  | &#x2713; (Done) |
+| delete account                 | Delete any account                          | &#x2713; (Done) |
+| change password                | Change admin password                       | &#x2713; (Done) |
+| view account                   | View details of any account                 | &#x2713; (Done) |
+| AI Analysis                    | AI-based analysis of accounts               | &#x2713; (Done) |
 | exit a system                  | Exit the admin system                       | &#x2713; (Done) |
 
 </br>
@@ -67,11 +67,11 @@ Functionality For Admin</br>
 
 For Developer Only (Me)</br>
 
-| Function   | Description                  | Status      |
-|------------|------------------------------|-------------|
+| Function   | Description                  | Status          |
+|------------|------------------------------|-----------------|
 | logging    | Logging system events        | &#x2713; (Done) |
 | testing    | Unit testing with unittest   | &#x2713; (Done) |
-| Document   | Documentation               | &#x2713; (Done) |
+| Document   | Documentation                | &#x2713; (Done) |
 
 </br></br>
 Note
@@ -82,4 +82,4 @@ Note
 ## Contact Information
 
 **Email:** [deleonjohnjayson@proton.me](mailto:deleonjohnjayson@proton.me) | [deleonjohnjayson@gmail.com](mailto:deleonjohnjayson@gmail.com) | [savjaylade84@gmail.com](mailto:savjaylade84@gmail.com)</br>
-**Contact No.:** [+63 995-718-9101](tel:+639957189101) </br>
+**Contact No.:** [+63 995-718-9101](tel:+639957189101)

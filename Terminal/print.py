@@ -4,73 +4,126 @@
 
 import sys
 from getpass import getpass
-from enum import Enum
+from enum import StrEnum
 from dataclasses import dataclass
+from typing import NamedTuple
 
-class Transaction_Status(Enum):
-    Info = 0
-    Success = 1
-    Failed = 2
-    Pending = 3
-    Warning = 4
+# status of the trasaction
+class TransactionStatus(StrEnum):
+    Info = "information"
+    Success = "success"
+    Failed = "failed"
+    Pending = "pending"
+    Warning = "warning"
+    Cancelled = "cancelled"
     
+# divider configuration
 @dataclass
-class Border_Formatter:
+class DivConfig:
     count: int = 17
     style: str = "="
     
+class LabelEntry(NamedTuple):
+    title:str = "No Title"
+    desc:str = "No Info"
 
 # this is underconstruction
 
-def pstatus(status:Transaction_Status,message:str,end="\n") -> None:
-    sys.stdout.write(f"[ {status.name} ] : {message}{end}")
-    
-def pborder(formatter:Border_Formatter,end="\n") -> None:
-    sys.stdout.write(f"{formatter.count * formatter.style}{end}")
-    
-def pheader(formatter:Border_Formatter,title:str,end="\n") -> None:
-    border:str = (formatter.count - 2) * formatter.style
-    border_side:str = (formatter.count * 2 + len(title) - 2) * formatter.style
-    sys.stdout.write(f"{border_side}\n{border}[{title}]{border}\n{border_side}{end}")
+# print ""
+def pprint(message:str,start="",end="") -> None:
+    sys.stdout.write(f"{start}{message}{end}")
 
-def ptitle(formatter:Border_Formatter,title:str,end="\n") -> None:
-    border:str = formatter.count * formatter.style
-    sys.stdout.write(f"{border}[ {title} ]{border}{end}")
+# print [title] : desc
+def pstatus(status:TransactionStatus,message:str,start="",end="") -> None:
+    pprint(f"[ {status.name} ] : {message}",start,end)
 
-def pinfo(header:str,info:str,end="\n") -> None:
-    sys.stdout.write(f"[ {header} ] : {info}{end}")
+# print ########
+def pdivider(config:DivConfig,start="",end="") -> None:
+    pprint(f"{config.count * config.style}",start,end)
+
+# print ###########
+#       ##[title]##
+#       ###########
+def pbanner(config:DivConfig,title:str,start="",end="") -> None:
+    border:str = (config.count - 2) * config.style
+    border_side:str = (config.count * 2 + len(title) - 2) * config.style
+    pprint(f"{border_side}\n{border}[{title}]{border}\n{border_side}",start,end)
+
+# print ##[title]##
+def plabel(config:DivConfig,title:str,start="",end="") -> None:
+    border:str = config.count * config.style
+    pprint(f"{border}[{title}]{border}",start,end)
+
+# print ###########
+#       ##[title]##
+#       ###########
+#       [title] : desc
+def pentry(entry:LabelEntry | tuple,title="",start="",end="") -> None:
     
-def pinfos(headers:list[str],infos:list,end="\n") -> None:
-    for header,info in zip(headers,infos):
-        pinfo(header,info)
+    # convert regular tuple into section_header tuple
+    if not isinstance(entry,LabelEntry):
+        entry = LabelEntry._make(entry)
+    
+    if title:
+        pbanner(DivConfig(),title,start,end)
+        pprint(f"[ {entry.title} ] : {entry.desc}",start)
+
+# print ###########
+#       ##[title]##
+#       ###########
+#       [title] : desc
+#       [title] : desc
+#       [title] : desc
+def pentries(labels:list[str],entries:list,title="",start="",end="") -> None:
+    
+    if title:
+        pbanner(DivConfig(),title)
         
-def plist(infos:list) -> None:
-    for index, info in enumerate(infos):
-        pinfo(index + 1,info)
-        
-def getinfo(prompt:str):
-    sys.stdout.write(f"[ {prompt} ] :")
+    for entry,info in zip(labels,entries):
+        pentry(entry,info,start,end)
+
+# print [1] : desc
+#       [2] : desc
+#       [3] : desc      
+def plist(items:list,start="",end="") -> None:
+    for index, item in enumerate(items):
+        pentry((index + 1,item),start,end)
+
+#       [title] : input    
+def prompt(label:str,start="",end=""):
+    pprint(f"{start}[ {label} ] : {end}")
     sys.stdout.flush()
-    data = sys.stdin.readline().strip() 
+    data = sys.stdin.readline()
     return data 
 
-def pmenu(header:str,instruction:str,menu:list,prompt:str):
+#       [title] : input with no visual input
+def prompt_pwd(label:str) -> None:
+    return getpass(f"[ {label} ] : ")
+
+# print ###########
+#       ##[title]##
+#       ###########
+#       [title] : desc
+#       [title] : desc
+#       [title] : desc
+#       [title] : input 
+def pmenu(instruction:str,items:list,label:str,header:str="",start="") -> None:
     
     if(header):
-        pheader(Border_Formatter(),header)
+        pbanner(DivConfig(),header,start=start)
     
     if(instruction):
-        pheader(Border_Formatter,instruction)
-        plist(menu)
-        return getinfo(prompt)
+        pbanner(DivConfig,instruction,start=start)
+        plist(items,end="\n")
+        return prompt(label,start)
 
     raise IOError    
 
-class string_formatter:
+class string_config:
 
     def __init__(self) -> None:
 
-        self.header_formatter:str = ''
+        self.header_config:str = ''
         self.__title:str = ''
         self.__length:int = 0
  
@@ -112,7 +165,7 @@ class string_formatter:
         pass
 
     '''
-        :Description: get the header formatter that use for proper style 
+        :Description: get the header config that use for proper style 
                       of the header that will be printed
 
         :Parameter: None
@@ -120,10 +173,10 @@ class string_formatter:
     '''
     @header.getter
     def header(self) -> str:
-        return self.header_formatter
+        return self.header_config
 
     '''
-        :Description: get the header formatter that use for proper style 
+        :Description: get the header config that use for proper style 
                       of the header that will be printed
 
         :Parameter:
@@ -133,7 +186,7 @@ class string_formatter:
     @header.setter
     def header(self,string:str) -> None:
         self.title = string
-        self.header_formatter = f''' 
+        self.header_config = f''' 
 {"="*17}{"=" * len(string)}{"="*17}
 {"="*15}[ {self.title.upper()} ]{"="*15}
 {"="*17}{"=" * len(string)}{"="*17}
@@ -141,7 +194,7 @@ class string_formatter:
 class Print:
    
     def __init__(self):
-       self.__formatter = string_formatter()
+       self.__config = string_config()
 
     '''
         :Description: print costum style header in the terminal
@@ -151,8 +204,8 @@ class Print:
         :Return: None
     ''' 
     def header(self,string:str='') -> None:
-        self.__formatter.header = string
-        print(self.__formatter.header,end='')
+        self.__config.header = string
+        print(self.__config.header,end='')
         
     '''
         :Description: print multiple data in user information style in terminal
@@ -165,8 +218,8 @@ class Print:
     ''' 
     def datas(self,header:str,data_header:list[str],datas:list) -> None:
         if header != '':
-            self.__formatter.header = header
-            print(self.__formatter.header,end='')
+            self.__config.header = header
+            print(self.__config.header,end='')
         
         for header,data in zip(data_header,datas):
             print(f'( {header} ): {data}')
@@ -182,8 +235,8 @@ class Print:
     '''       
     def data(self,header:str,data_header:str,data:str) -> None:
         if header != '':
-            self.__formatter.header = header
-            print(self.__formatter.header,end='')
+            self.__config.header = header
+            print(self.__config.header,end='')
         print(f'( {data_header} ): {data}')
     
     '''
@@ -220,8 +273,8 @@ class Print:
     ''' 
     def menu(self,header:str,menu_header:str,menu:list,prompt:str = '') -> str:
         if header != '':
-            self.__formatter.header = header
-            print(self.__formatter.header,end='')
+            self.__config.header = header
+            print(self.__config.header,end='')
             
         print(f'[ {menu_header} ]')
         index = 1
@@ -255,5 +308,5 @@ class Print:
         :Return: None
     '''     
     def border(self,extend_border:int = 30) -> None:
-        print(f'{"=" * (extend_border + self.__formatter.title_length + 4)}'.strip())
+        print(f'{"=" * (extend_border + self.__config.title_length + 4)}'.strip())
         

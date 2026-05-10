@@ -40,29 +40,6 @@ class Admin:
         self.__account:Account = Account()
         self.__date:str = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()) 
             
-#-------------------[ instruction command ]-----------------------------------    
-
-    '''
-        :Description: show the option on the user then capture and send the option
-
-        :Parameter: None
-        :Return: Integer
-    '''
-    def get_instruction(self) -> int:
-        return int(pmenu(
-                            header='New Transaction',
-                            instruction='Enter A Instruction',
-                            menu=[
-                                'View Account List',
-                                'View Account Information',
-                                'View Account History',
-                                'View Edited Account History',
-                                'Change Account Pin',
-                                'Change Password',
-                                'Delete Account',
-                                'AI Analysis',
-                                'Exist'  
-                            ],prompt='Enter')) 
 
 #-------------------[ print account information ]-----------------------------------   
 
@@ -73,11 +50,11 @@ class Admin:
         :Return: None
     '''
     def print_account_info(self) -> None:
-        _print.data(
-                        header='Administration',
-                        data_header='Date',
-                        data=f'{self.__date}'
-                    )   
+        header = LabelEntry(
+                                title="Date",
+                                desc=f'{self.__date}'
+                               )
+        pentry(header,title='Administration',start="\n",end="\n")   
   
 #-------------------[ Manage Account ]----------------------------------- 
 
@@ -89,7 +66,7 @@ class Admin:
     '''   
     def AI_Analysis(self) -> None:
 
-        pheader(Border_Formatter(17,"="),'AI Analysis')
+        pbanner(DivConfig(17,"="),'AI Analysis')
 
         account_id:str = _print.input('Enter Account-ID')
         if validate_userid(account_id):
@@ -118,7 +95,7 @@ class Admin:
                         }
                     ]
             )
-            pstatus(Transaction_Status.Info,"Output")
+            pstatus(TransactionStatus.Info,"Output")
 
             solution:str = completion.choices[0].message.content
             print(solution, end="\n")
@@ -131,7 +108,7 @@ class Admin:
     '''   
     def Change_Account_Pin(self) -> None:
         
-        pheader(Border_Formatter(17,"="),'Change Account Pin')
+        pbanner(DivConfig(17,"="),'Change Account Pin')
         account_id:str = _print.input('Enter Account-ID')
         
         if validate_userid(account_id):
@@ -153,7 +130,7 @@ class Admin:
                         form_log.info(f'admin:account - {account_id} => save new pin [{new_pin}]')
                         break
 
-                pstatus(Transaction_Status.Warning,'Wrong Format of Pin - Pls Try Again')
+                pstatus(TransactionStatus.Warning,'Wrong Format of Pin - Pls Try Again')
 
                 if index > 3:
                     form_log.info(f'admin:account - {account_id} => Failed to enter new pin [{new_pin}]')
@@ -170,7 +147,7 @@ class Admin:
     #unit testing
     def View_Account_Information(self) -> None:
 
-        pheader(Border_Formatter(17,"="),'View Account Information')
+        pbanner(DivConfig(17,"="),'View Account Information')
 
         account_id:str = ""
         answer:str = ""
@@ -211,7 +188,7 @@ class Admin:
     # unit testing this
     def Delete_Account(self) -> None:
 
-        pheader(Border_Formatter(17,"="),'Delete Account')
+        pbanner(DivConfig(17,"="),'Delete Account')
 
         account_id:str = ""
         answer:str = ""
@@ -222,9 +199,9 @@ class Admin:
         
             if validate_userid(account_id) and _storage.validate_id(account_id):
                 if _storage.delete(account_id):
-                    pstatus(Transaction_Status.Success,'Successfully Deleting The Account')
+                    pstatus(TransactionStatus.Success,'Successfully Deleting The Account')
                 else:
-                    pstatus(Transaction_Status.Failed,'Unsuccessfull Deleting The Account')
+                    pstatus(TransactionStatus.Failed,'Unsuccessfull Deleting The Account')
 
             answer = _print.input('Delete Other Account? [Y/N]')
 
@@ -239,7 +216,7 @@ class Admin:
     ''' 
     def View_List(self) -> None:
         
-        pheader(Border_Formatter(17,"="),'Account List')
+        pbanner(DivConfig(17,"="),'Account List')
         admin_log.info(f'admin => view account list')
 
         for info in self.__account_list['Account-List']:
@@ -253,7 +230,7 @@ class Admin:
                             info['Name'],
                             info['Account-ID']
                         ])
-            pborder(Border_Formatter(17,"#"))
+            pdivider(DivConfig(17,"#"))
         pass
 
     '''
@@ -264,7 +241,7 @@ class Admin:
     ''' 
     def View_Account_History(self) -> None:
         
-        pheader(Border_Formatter(17,"="),'View Account History')
+        pbanner(DivConfig(17,"="),'View Account History')
         __account_id:str = _print.input('Enter Account-ID')
         __temp:dict = {}
         
@@ -275,7 +252,7 @@ class Admin:
             
             #check for empty result first
             if id == '' or id == None:
-                pheader(Border_Formatter(17,"="),"Account Not Found!")
+                pbanner(DivConfig(17,"="),"Account Not Found!")
                 break
             
             if(__account_id == id['Account-ID']) and id != '':
@@ -312,7 +289,7 @@ class Admin:
                                     transaction['Amount'],
                                     transaction['Balance']
                                 ])
-                    pborder(Border_Formatter(17,"#"))
+                    pdivider(DivConfig(17,"#"))
         del __temp
 
     '''
@@ -323,7 +300,7 @@ class Admin:
     ''' 
     def View_Edited_Account_History(self) -> None:
         
-        pheader(Border_Formatter(17,"="),'View Edited Account History')
+        pbanner(DivConfig(17,"="),'View Edited Account History')
         admin_log.info(f'admin => view edited accounts history')
 
         for edit in self.__account_list['Edited-Account-History']:
@@ -341,7 +318,7 @@ class Admin:
                             edit['Edited']['Value']
                             
                         ])
-            pborder(Border_Formatter(17,"#"))
+            pdivider(DivConfig(17,"#"))
     
 #-------------------[ Other Function ]----------------------------------- 
     
@@ -353,7 +330,7 @@ class Admin:
     ''' 
     def Change_Password(self) -> None:
         
-        pheader(Border_Formatter(17,"="),'Admin Change Password')
+        pbanner(DivConfig(17,"="),'Admin Change Password')
         form_log.info(f'admin: change password')
 
         new_password:str = ""
@@ -371,7 +348,7 @@ class Admin:
                     form_log.info(f'admin: save new password [{new_password}]')
                     break
 
-            pstatus(Transaction_Status.Warning,'Wrong Format of Password - Pls! Try Again')
+            pstatus(TransactionStatus.Warning,'Wrong Format of Password - Pls! Try Again')
 
             if index > 3:
                 form_log.info(f'admin: failed to change password [{new_password}]')
@@ -379,37 +356,3 @@ class Admin:
 
             index += 1
 
-
-    '''
-        :Description: login administrator account
-
-        :Parameter: None
-        :Return: Boolean
-    ''' 
-    def Login(self) -> bool:
-
-        pheader(Border_Formatter(17,"="),'Admin Login')
-        form_log.info(f'admin => [Login]: starting')
-        __password:str = _print.password('Enter Password') 
-
-        index:int = 1
-
-        while True:
-
-            form_log.info(f'admin => [Login]: Retry({index})')
-
-            admin_log.info(f'{compare_password(__password,self.__account_list['Admin-Password'])}')
-            if compare_password(__password,self.__account_list['Admin-Password']):
-                form_log.info(f'admin => [Login]: Success at Retry({index})')
-                return True
-                
-            if index > 3:
-                form_log.info(f'admin: => [Login]: Failed')
-                pheader(Border_Formatter(17,"="),'Login Attempt Failed!')
-                exit(1)
-
-            __password = _print.password('Re-Enter Password')
-
-            index = index + 1
-                
-        return False

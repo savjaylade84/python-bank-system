@@ -8,6 +8,8 @@
 
 from Operation.Operation import Operation
 from Admin.Admin import Admin
+from Admin.admin_menu import get_instruction
+from Admin.admin_auth import admin_login
 from Terminal.print import Print
 
 '''
@@ -74,12 +76,12 @@ def main() -> None:
             _bank_system.Signup()
         elif _answer == 3:
             #get account info
-            if _admin.Login():
+            if admin_login():
                 _admin.print_account_info()
                 while not _exit_answer:
 
                     #get user instruction
-                    _answer = _admin.get_instruction()
+                    _answer = get_instruction()
 
                     match _answer:
                         case 1:
@@ -104,7 +106,7 @@ def main() -> None:
                             _exit_answer = True
                         case _:
                             _print.status("Warning","Invalid Input!")
-
+            # add something if login failed to enter three times
         elif _answer == 4:
             _print.header('Exit Successful')
             exit(0)
