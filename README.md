@@ -21,8 +21,8 @@ Refactor Progress
 
 | Folder | Details | Status |
 | -------- | -------- | -------- |
-| Account | Improving the Structure of classes </br> and adding more data structure | 🟢 (In Progress) |
-| Admin | Refactoring code | 🟢 (In Progress) |
+| Account | Refactoring code and restructuring files | 🟢 (In Progress) |
+| Admin | Refactoring code and restructuring files | 🟢 (In Progress) |
 | Log | | 🔴 (In Pending) |
 | Operation | | 🔴 (In Pending) |
 | Storage | | 🔴 (In Pending) |
