@@ -23,10 +23,10 @@ Refactor Progress
 | -------- | -------- | -------- |
 | Account | Refactoring code and restructuring files | 🟢 (In Progress) |
 | Admin | Refactoring code and restructuring files | 🟢 (In Progress) |
-| Log | | 🔴 (In Pending) |
+| LogService | Refactoring code and restructuring files | 🟢 (In Progress) |
 | Operation | | 🔴 (In Pending) |
 | Storage | | 🔴 (In Pending) |
-| Terminal | converting code to functions </br> and removing classes | 🟢 (In Progress) |
+| Utils | Refactoring Code and restructuring files | 🟢 (In Progress) |
 
 </br>
 
