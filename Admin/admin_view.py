@@ -1,5 +1,0 @@
-#View_List()
-#View_Account_Information()
-#View_Account_History()
-#View_Edited_Account_History()
-#print_account_info()

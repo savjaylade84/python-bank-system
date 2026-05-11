@@ -21,15 +21,16 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 from Account.Account import Account
-from Terminal.print import *
-from Terminal.bank_form import *
+from Utils import print
+from Utils import models
+from Utils.crypto_io import *
 from storage_accounts_v3.storage import Storage
-from Log.log import Log
+from LogService.src import logger
 
-_print = Print()
+_print = print.Print()
 _storage = Storage()
-admin_log = Log('admin.log').open()
-form_log = Log('form.log').open()
+admin_log = logger.Log.initLogging(log_file='admin.log')
+form_log = logger.Log.initLogging(log_file='form.log')
 
 load_dotenv()
 
@@ -50,11 +51,11 @@ class Admin:
         :Return: None
     '''
     def print_account_info(self) -> None:
-        header = LabelEntry(
+        header = models.LabelEntry(
                                 title="Date",
                                 desc=f'{self.__date}'
                                )
-        pentry(header,title='Administration',start="\n",end="\n")   
+        print.entry(header,title='Administration',start="\n",end="\n")   
   
 #-------------------[ Manage Account ]----------------------------------- 
 
@@ -66,7 +67,7 @@ class Admin:
     '''   
     def AI_Analysis(self) -> None:
 
-        pbanner(DivConfig(17,"="),'AI Analysis')
+        print.banner(models.DivConfig(17,"="),'AI Analysis')
 
         account_id:str = _print.input('Enter Account-ID')
         if validate_userid(account_id):
@@ -95,7 +96,7 @@ class Admin:
                         }
                     ]
             )
-            pstatus(TransactionStatus.Info,"Output")
+            print.status(models.TransactionStatus.Info,"Output")
 
             solution:str = completion.choices[0].message.content
             print(solution, end="\n")
@@ -108,7 +109,7 @@ class Admin:
     '''   
     def Change_Account_Pin(self) -> None:
         
-        pbanner(DivConfig(17,"="),'Change Account Pin')
+        print.banner(models.DivConfig(17,"="),'Change Account Pin')
         account_id:str = _print.input('Enter Account-ID')
         
         if validate_userid(account_id):
@@ -130,7 +131,7 @@ class Admin:
                         form_log.info(f'admin:account - {account_id} => save new pin [{new_pin}]')
                         break
 
-                pstatus(TransactionStatus.Warning,'Wrong Format of Pin - Pls Try Again')
+                print.status(models.TransactionStatus.Warning,'Wrong Format of Pin - Pls Try Again')
 
                 if index > 3:
                     form_log.info(f'admin:account - {account_id} => Failed to enter new pin [{new_pin}]')
@@ -147,7 +148,7 @@ class Admin:
     #unit testing
     def View_Account_Information(self) -> None:
 
-        pbanner(DivConfig(17,"="),'View Account Information')
+        print.banner(models.DivConfig(17,"="),'View Account Information')
 
         account_id:str = ""
         answer:str = ""
@@ -188,7 +189,7 @@ class Admin:
     # unit testing this
     def Delete_Account(self) -> None:
 
-        pbanner(DivConfig(17,"="),'Delete Account')
+        print.banner(models.DivConfig(17,"="),'Delete Account')
 
         account_id:str = ""
         answer:str = ""
@@ -199,9 +200,9 @@ class Admin:
         
             if validate_userid(account_id) and _storage.validate_id(account_id):
                 if _storage.delete(account_id):
-                    pstatus(TransactionStatus.Success,'Successfully Deleting The Account')
+                    print.status(models.TransactionStatus.Success,'Successfully Deleting The Account')
                 else:
-                    pstatus(TransactionStatus.Failed,'Unsuccessfull Deleting The Account')
+                    print.status(models.TransactionStatus.Failed,'Unsuccessfull Deleting The Account')
 
             answer = _print.input('Delete Other Account? [Y/N]')
 
@@ -216,7 +217,7 @@ class Admin:
     ''' 
     def View_List(self) -> None:
         
-        pbanner(DivConfig(17,"="),'Account List')
+        print.banner(models.DivConfig(17,"="),'Account List')
         admin_log.info(f'admin => view account list')
 
         for info in self.__account_list['Account-List']:
@@ -230,7 +231,7 @@ class Admin:
                             info['Name'],
                             info['Account-ID']
                         ])
-            pdivider(DivConfig(17,"#"))
+            print.divider(models.DivConfig(17,"#"))
         pass
 
     '''
@@ -241,7 +242,7 @@ class Admin:
     ''' 
     def View_Account_History(self) -> None:
         
-        pbanner(DivConfig(17,"="),'View Account History')
+        print.banner(models.DivConfig(17,"="),'View Account History')
         __account_id:str = _print.input('Enter Account-ID')
         __temp:dict = {}
         
@@ -252,7 +253,7 @@ class Admin:
             
             #check for empty result first
             if id == '' or id == None:
-                pbanner(DivConfig(17,"="),"Account Not Found!")
+                print.banner(models.DivConfig(17,"="),"Account Not Found!")
                 break
             
             if(__account_id == id['Account-ID']) and id != '':
@@ -289,7 +290,7 @@ class Admin:
                                     transaction['Amount'],
                                     transaction['Balance']
                                 ])
-                    pdivider(DivConfig(17,"#"))
+                    print.divider(models.DivConfig(17,"#"))
         del __temp
 
     '''
@@ -300,7 +301,7 @@ class Admin:
     ''' 
     def View_Edited_Account_History(self) -> None:
         
-        pbanner(DivConfig(17,"="),'View Edited Account History')
+        print.banner(models.DivConfig(17,"="),'View Edited Account History')
         admin_log.info(f'admin => view edited accounts history')
 
         for edit in self.__account_list['Edited-Account-History']:
@@ -318,7 +319,7 @@ class Admin:
                             edit['Edited']['Value']
                             
                         ])
-            pdivider(DivConfig(17,"#"))
+            print.divider(models.DivConfig(17,"#"))
     
 #-------------------[ Other Function ]----------------------------------- 
     
@@ -330,7 +331,7 @@ class Admin:
     ''' 
     def Change_Password(self) -> None:
         
-        pbanner(DivConfig(17,"="),'Admin Change Password')
+        print.banner(models.DivConfig(17,"="),'Admin Change Password')
         form_log.info(f'admin: change password')
 
         new_password:str = ""
@@ -348,7 +349,7 @@ class Admin:
                     form_log.info(f'admin: save new password [{new_password}]')
                     break
 
-            pstatus(TransactionStatus.Warning,'Wrong Format of Password - Pls! Try Again')
+            print.status(models.TransactionStatus.Warning,'Wrong Format of Password - Pls! Try Again')
 
             if index > 3:
                 form_log.info(f'admin: failed to change password [{new_password}]')

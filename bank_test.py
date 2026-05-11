@@ -3,7 +3,7 @@ import unittest as unit
 
 
 from Account.Account import Account
-from Terminal.bank_form import compare_pin,encrypt_pin,validate_pin
+from Utils.crypto_io import compare_pin,encrypt_pin,validate_pin
 from storage_accounts_v3 import storage
 
 class test_account(unit.TestCase):

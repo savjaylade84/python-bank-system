@@ -4,69 +4,48 @@
 
 import sys
 from getpass import getpass
-from enum import StrEnum
-from dataclasses import dataclass
-from typing import NamedTuple
-
-# status of the trasaction
-class TransactionStatus(StrEnum):
-    Info = "information"
-    Success = "success"
-    Failed = "failed"
-    Pending = "pending"
-    Warning = "warning"
-    Cancelled = "cancelled"
-    
-# divider configuration
-@dataclass
-class DivConfig:
-    count: int = 17
-    style: str = "="
-    
-class LabelEntry(NamedTuple):
-    title:str = "No Title"
-    desc:str = "No Info"
+from Utils import models
 
 # this is underconstruction
 
 # print ""
-def pprint(message:str,start="",end="") -> None:
+def print(message:str,start="",end="") -> None:
     sys.stdout.write(f"{start}{message}{end}")
 
 # print [title] : desc
-def pstatus(status:TransactionStatus,message:str,start="",end="") -> None:
-    pprint(f"[ {status.name} ] : {message}",start,end)
+def status(status:models.TransactionStatus,message:str,start="",end="") -> None:
+    print(f"[ {status.name} ] : {message}",start,end)
 
 # print ########
-def pdivider(config:DivConfig,start="",end="") -> None:
-    pprint(f"{config.count * config.style}",start,end)
+def divider(config:models.DivConfig,start="",end="") -> None:
+    print(f"{config.count * config.style}",start,end)
 
 # print ###########
 #       ##[title]##
 #       ###########
-def pbanner(config:DivConfig,title:str,start="",end="") -> None:
+def banner(config:models.DivConfig,title:str,start="",end="") -> None:
     border:str = (config.count - 2) * config.style
     border_side:str = (config.count * 2 + len(title) - 2) * config.style
-    pprint(f"{border_side}\n{border}[{title}]{border}\n{border_side}",start,end)
+    print(f"{border_side}\n{border}[{title}]{border}\n{border_side}",start,end)
 
 # print ##[title]##
-def plabel(config:DivConfig,title:str,start="",end="") -> None:
+def label(config:models.DivConfig,title:str,start="",end="") -> None:
     border:str = config.count * config.style
-    pprint(f"{border}[{title}]{border}",start,end)
+    print(f"{border}[{title}]{border}",start,end)
 
 # print ###########
 #       ##[title]##
 #       ###########
 #       [title] : desc
-def pentry(entry:LabelEntry | tuple,title="",start="",end="") -> None:
+def entry(entry:models.LabelEntry | tuple,title="",start="",end="") -> None:
     
     # convert regular tuple into section_header tuple
-    if not isinstance(entry,LabelEntry):
-        entry = LabelEntry._make(entry)
+    if not isinstance(entry,models.LabelEntry):
+        entry = models.LabelEntry._make(entry)
     
     if title:
-        pbanner(DivConfig(),title,start,end)
-        pprint(f"[ {entry.title} ] : {entry.desc}",start)
+        banner(models.DivConfig(),title,start,end)
+        print(f"[ {entry.title} ] : {entry.desc}",start)
 
 # print ###########
 #       ##[title]##
@@ -74,24 +53,24 @@ def pentry(entry:LabelEntry | tuple,title="",start="",end="") -> None:
 #       [title] : desc
 #       [title] : desc
 #       [title] : desc
-def pentries(labels:list[str],entries:list,title="",start="",end="") -> None:
+def entries(labels:list[str],entries:list,title="",start="",end="") -> None:
     
     if title:
-        pbanner(DivConfig(),title)
+        banner(models.DivConfig(),title)
         
     for entry,info in zip(labels,entries):
-        pentry(entry,info,start,end)
+        entry(entry,info,start,end)
 
 # print [1] : desc
 #       [2] : desc
 #       [3] : desc      
-def plist(items:list,start="",end="") -> None:
+def list(items:list,start="",end="") -> None:
     for index, item in enumerate(items):
-        pentry((index + 1,item),start,end)
+        entry((index + 1,item),start,end)
 
 #       [title] : input    
 def prompt(label:str,start="",end=""):
-    pprint(f"{start}[ {label} ] : {end}")
+    print(f"{start}[ {label} ] : {end}")
     sys.stdout.flush()
     data = sys.stdin.readline()
     return data 
@@ -107,14 +86,14 @@ def prompt_pwd(label:str) -> None:
 #       [title] : desc
 #       [title] : desc
 #       [title] : input 
-def pmenu(instruction:str,items:list,label:str,header:str="",start="") -> None:
+def menu(instruction:str,items:list,label:str,header:str="",start="") -> None:
     
     if(header):
-        pbanner(DivConfig(),header,start=start)
+        banner(models.DivConfig(),header,start=start)
     
     if(instruction):
-        pbanner(DivConfig,instruction,start=start)
-        plist(items,end="\n")
+        banner(models.DivConfig,instruction,start=start)
+        list(items,end="\n")
         return prompt(label,start)
 
     raise IOError    

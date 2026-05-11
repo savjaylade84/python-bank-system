@@ -1,7 +1,7 @@
-from Log.log import Log
+from LogService.src import logger
 from storage_accounts_v3.storage import Storage
-from Terminal.print import pbanner,DivConfig,prompt_pwd
-from Terminal.bank_form import compare_password
+from Utils import print, models
+from Utils.crypto_io import compare_password
 
 
 '''
@@ -10,10 +10,10 @@ from Terminal.bank_form import compare_password
         :Parameter: None
         :Return: Boolean
 ''' 
-def admin_login():
+def login():
     
     # initialise the log,temp account holder, and date
-    __form_log = Log('form.log').open()
+    __form_log = logger.Log.initLogging(log_file='form.log')
     
     # check if successfully retrieve admin config
     try:
@@ -21,9 +21,9 @@ def admin_login():
     except FileNotFoundError as e:
         __form_log.error(f"{e.args}")
         
-    pbanner(DivConfig(17,"="),'Admin Login',end="\n")
+    print.banner(models.DivConfig(17,"="),'Admin Login',end="\n")
     
-    __password:str = prompt_pwd("Enter Password")
+    __password:str = print.prompt_pwd("Enter Password")
     
     __index: int = 1
     
@@ -39,10 +39,10 @@ def admin_login():
         # break the loop if the input exceed 3 re-entry
         if __index > 3:
             __form_log.info(f'admin => [Login]: Failed({__index})')
-            pbanner(DivConfig(17,"="),'Login Attempt Failed!')
+            print.banner(models.DivConfig(17,"="),'Login Attempt Failed!')
             break
             
-        __password = prompt_pwd('Re-Enter Password')
+        __password = print.prompt_pwd('Re-Enter Password')
         
         index = index + 1
         

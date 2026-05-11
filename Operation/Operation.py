@@ -9,14 +9,14 @@ from time import gmtime, strftime
 
 from Account.Account import Account
 from Account.Transaction import Transaction
-from Terminal.print import Print
-from Terminal.bank_form import encrypt_pin, validate_pin,validate_userid,compare_pin,generate_id
+from Utils.print import Print
+from Utils.crypto_io import encrypt_pin, validate_pin,validate_userid,compare_pin,generate_id
 from storage_accounts_v3.storage import Storage
-from Log.log import Log
+from LogService.src import logger
 
 
-transaction_log = Log('transaction.log').open()
-form_log = Log('form.log').open()
+transaction_log = logger.Log.initLogging('transaction.log')
+form_log = logger.Log.initLogging('form.log')
 _print = Print()
 _storage = Storage()
 

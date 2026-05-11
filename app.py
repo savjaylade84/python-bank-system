@@ -5,12 +5,8 @@
      Email: savjaylade84@gmail.com
 '''
 
-
 from Operation.Operation import Operation
-from Admin.Admin import Admin
-from Admin.admin_menu import get_instruction
-from Admin.admin_auth import admin_login
-from Terminal.print import Print
+from Utils.print import Print
 
 '''
     :Description: the main function that cohesive the other functionlity
@@ -21,7 +17,6 @@ from Terminal.print import Print
 '''   
 def main() -> None:
     _bank_system = Operation()
-    _admin = Admin()
     _print = Print()
 
     print("<<<<<<<<<<( Welcome to Mock Bank System! )>>>>>>>>>>>")
@@ -75,37 +70,43 @@ def main() -> None:
         elif _answer == 2:
             _bank_system.Signup()
         elif _answer == 3:
+            
+            from Admin import services
+            from Admin import auth
+            from Admin import view
+            from Admin import menu
+            
             #get account info
-            if admin_login():
-                _admin.print_account_info()
+            if auth.login():
+                view.account_infos()
                 while not _exit_answer:
 
                     #get user instruction
-                    _answer = get_instruction()
+                    _answer = menu.get_instruction()
 
                     match _answer:
                         case 1:
-                            _admin.View_List()
+                            view.account_list()
                         case 2:
-                            _admin.View_Account_Information()
+                            view.account_info()
                         case 3:
-                            _admin.View_Account_History()
+                            view.account_history()
                         case 4:
-                            _admin.View_Edited_Account_History()
+                            view.edited_account_history()
                         case 5:
-                            _admin.Change_Account_Pin()
+                            services.change_account_pin()
                         case 6:
-                            _admin.Change_Password()
+                            services.change_password()
                         case 7:
-                            _admin.Delete_Account()
+                            services.delete_account()
                         case 8:
-                            _admin.AI_Analysis()
+                            services.ai_analysis()
                         case 9:
                             _print.header('Exit Successful!')
                             #_bank_system.Save()
                             _exit_answer = True
                         case _:
-                            _print.status("Warning","Invalid Input!")
+                            print.status("Warning","Invalid Input!")
             # add something if login failed to enter three times
         elif _answer == 4:
             _print.header('Exit Successful')

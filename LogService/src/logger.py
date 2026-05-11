@@ -1,5 +1,6 @@
 import logging
 import logging.config
+from pathlib import Path
 import yaml
 
 
@@ -19,15 +20,31 @@ import yaml
 
 '''
 
+CONFIG_PATH = Path(__file__).parent.parent / "config" / "config.yaml"
+
+
+def load_config(path: Path = CONFIG_PATH) -> dict:
+    
+    if not path.exists():
+        raise FileNotFoundError(f"Config file not found: {path}")
+    
+    with open(path,'r') as file:
+        return yaml.load(file,Loader=yaml.FullLoader)
 
 class Log:
-    
-    def __init__(self,log_file:str=''):
+
         
-        with open('Log/.config/config.yaml','r') as file:
-            __yaml = yaml.load(file,Loader=yaml.FullLoader)
+    def initLogging(self, log_file:str):
+        
+        if not str:
+            raise ValueError("Empty log file name")
+        
+        __yaml = load_config()
+        
+        if not __yaml:
+            raise ValueError("fetch empty or failed to fetch config")
+        
         logging.config.dictConfig(__yaml)
         self.__logger = logging.getLogger(log_file)
-        
-    def open(self):
         return self.__logger
+    

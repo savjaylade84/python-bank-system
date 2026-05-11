@@ -4,10 +4,10 @@
 '''
 import json
 import os 
-from Log.log import Log
+from LogService.src import logger
 
 
-log = Log('storage.log').open()
+log = logger.Log.initLogging('storage.log').open()
 
 class Storage:
 

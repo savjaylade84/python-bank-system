@@ -1,4 +1,4 @@
-from Terminal.print import pmenu
+from Utils import print
 
 '''
     :Description: show the option on the user then capture and send the option
@@ -22,7 +22,7 @@ def get_instruction(self) -> int:
                         'Exist'  
                     ]
         
-    return int(pmenu(
+    return int(print.menu(
                         instruction='Enter A Instruction',
                         menu =__menu,
                         prompt='Enter',
