@@ -6,7 +6,7 @@
 '''
 
 from Operation.Operation import Operation
-from Utils.print import Print
+from Utils.console import Print
 
 '''
     :Description: the main function that cohesive the other functionlity
@@ -82,7 +82,7 @@ def main() -> None:
                 while not _exit_answer:
 
                     #get user instruction
-                    _answer = menu.get_instruction()
+                    _answer = menu.get_menu_selection()
 
                     match _answer:
                         case 1:

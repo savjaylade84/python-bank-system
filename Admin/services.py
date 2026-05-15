@@ -1,56 +1,56 @@
-from Utils import print,models
-from Utils import crypto_io
+from Utils import console,models
+from Utils import credential
 from LogService.src import logger
-from storage_accounts_v3.storage import Storage
+from AccountVault.storage import Storage
 
-def fetch_admin_data() -> None:
+def fetch_admin_data() -> dict | None :
     
     # initialise the log,temp account holder, and date
-    __form_log = logger.Log.initLogging(log_file='form.log')
+    form_log = logger.Log.initLogging(log_file='form.log')
     
     # check if successfully retrieve admin config
     try:
-        __admin_config:dict = Storage().fetch(list=True)
-        return __admin_config
+        admin_config:dict = Storage().fetch(as_list=True)
+        return admin_config
     except FileNotFoundError as e:
-        __form_log.error(f"{e.args}")
+        form_log.error(f"{e.args}")
     
     return {}
 
 def change_password() -> None:
     
     # initialise the log,temp account holder, and date
-    __form_log = logger.Log.initLogging(log_file='form.log')
+    form_log = logger.Log.initLogging(log_file='form.log')
     
-    __temp_config: dict = fetch_admin_data()
+    temp_config: dict = fetch_admin_data()
     
-    print.pbanner(models.DivConfig(17,"="),'Admin Change Password')
+    console.pbanner(models.DivConfig(17,"="),'Admin Change Password')
     
-    if not __temp_config:
+    if not temp_config:
         raise ValueError("Empty admin config")
     
-    print.banner(models.DivConfig(17,"="),'Admin Login',end="\n")
+    console.banner(models.DivConfig(17,"="),'Admin Login',end="\n")
     
-    __password:str = "" 
+    password:str = "" 
     
-    __index: int = 1
+    index: int = 1
     
     while True:
         
-        __new_password = print.prompt_pwd("Enter New Password")
-        __form_log.info(f'admin: change password [{__new_password}]')
+        new_password = console.prompt_pwd("Enter New Password")
+        form_log.info(f'admin: change password [{new_password}]')
         
-        if crypto_io.validate_password(__new_password):
-           if print.prompt_pwd('Re-Enter New Password') == __new_password:
-                __temp_config['Admin-Password'] = bytes(crypto_io.encrypt_password(__new_password)).decode()
-                Storage.store(data=__temp_config,list=True)
-                __form_log.info(f'admin: save new password [{__new_password}]')    
+        if credential.validate_password(new_password):
+           if console.prompt_pwd('Re-Enter New Password') == new_password:
+                temp_config['Admin-Password'] = bytes(credential.encrypt_password(new_password)).decode()
+                Storage.store(data=temp_config,list=True)
+                form_log.info(f'admin: save new password [{new_password}]')    
                 break
         
-        print.status(models.TransactionStatus.Warning,'Wrong Format of Password - Pls! Try Again')
+        console.status(models.TransactionStatus.Warning,'Wrong Format of Password - Pls! Try Again')
         
-        if __index > 3:
-                __form_log.info(f'admin: failed to change password [{__new_password}]')
+        if index > 3:
+                form_log.info(f'admin: failed to change password [{new_password}]')
                 break    
                     
         index = index + 1        

@@ -1,1 +1,1 @@
-#get_instruction()
+#get_menu_selection()

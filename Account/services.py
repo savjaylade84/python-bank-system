@@ -1,4 +1,4 @@
-#Deposite()
-#Withdraw()
-#Change_Pin()
-#Save()
+#deposite()
+#withdraw()
+#change_pin()
+#save()

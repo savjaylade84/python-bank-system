@@ -5,10 +5,14 @@
 import json
 import os 
 from LogService.src import logger
-
+from typing import Final
 
 log = logger.Log.initLogging('storage.log').open()
 
+VAULT_PATH:Final[str] = "AccountVault"
+VAULT_LIST:Final[str] = "account-list.json"
+ACCOUNT_LIST_FILE:str = f"{VAULT_PATH}/{VAULT_LIST}"
+  
 class Storage:
 
 
@@ -21,16 +25,16 @@ class Storage:
         :Return: Dictionary
 	''' 
 
-	def fetch(self,id:str='',list=False) -> dict:
+	def fetch(self,id:str='',as_list=False) -> dict:
 		try:
 			#fetch account information
-			if(id != '' and list == False):
+			if(id != '' and as_list == False):
 				log.info(f'fetch information @ account:{id}')
 				return json.load(open(f'storage_accounts_v3/account-{id}.json','r'))
 			#fetch summary list of account
-			elif(id == '' and list == True):
+			elif(id == '' and as_list == True):
 				log.info(f'fetch information @ account-list')
-				return json.load(open(f'storage_accounts_v3/account-list.json','r'))
+				return json.load(open(ACCOUNT_LIST_FILE,'r'))
 			else:
 				log.info(f'empty search parameter')
 				return {'Message':'Empty Search'}
@@ -46,10 +50,10 @@ class Storage:
 					:list: boolean - :default: false
         :Return: Boolean
 	''' 
-	def store(self,id:str='',data:dict={},list=False) -> bool:
+	def store(self,id:str='',data:dict={},as_list=False) -> bool:
 		try:
 			#store account information
-			if(id != ''and not list):
+			if(id != ''and not as_list):
 				log.info(f'store information @ account:{id}')
 
 				try: 
@@ -62,11 +66,11 @@ class Storage:
 				return True
 
 			#store summary list of account
-			if(id == '' and list):
+			if(id == '' and as_list):
 				log.info(f'store information @ account-list')
 
 				try:
-					with open(f'storage_accounts_v3/account-list.json','w') as file:
+					with open(ACCOUNT_LIST_FILE,'w') as file:
 						json.dump(data,file,indent=4)
 				except IOError:
 					log.exception('File Error: could\'t write the json file of the account list')
@@ -95,7 +99,7 @@ class Storage:
 				log.exception(f'File Error: Account-{id} could\'nt find in the account list ->{e}')
 			
 			try:
-				with open(f'storage_accounts_v3/account-list.json','r') as file: 
+				with open(ACCOUNT_LIST_FILE,'r') as file: 
 					acc_list:dict = json.load(file)
 				log.info(f'Opening Account list to remove the record of the account-{id}')
 			except IOError:
@@ -111,7 +115,7 @@ class Storage:
 					acc_list['Account-List'].remove(acc_id)
 					log.info(f'Successfully removing the record of the account-{id} in the account list')
 
-			json.dump(acc_list,open(f'storage_accounts_v3/account-list.json','w'),indent=4)	
+			json.dump(acc_list,open(ACCOUNT_LIST_FILE,'w'),indent=4)	
 			
 			# free memory from the storage
 			del acc_list
@@ -138,7 +142,7 @@ class Storage:
 				log.info(f'fetch information @ account:{id}')
 
 				try:
-					with open(f'storage_accounts_v3/account-list.json','r') as file:
+					with open(ACCOUNT_LIST_FILE,'r') as file:
 						acc_list = json.load(file)
 				except IOError:
 					log.exception('File Error: could\'t read the json file of the account list')

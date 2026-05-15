@@ -9,9 +9,9 @@ from time import gmtime, strftime
 
 from Account.Account import Account
 from Account.Transaction import Transaction
-from Utils.print import Print
-from Utils.crypto_io import encrypt_pin, validate_pin,validate_userid,compare_pin,generate_id
-from storage_accounts_v3.storage import Storage
+from Utils.console import Print
+from Utils.credential import encrypt_pin, validate_pin,validate_userid,compare_pin,generate_id
+from AccountVault.storage import Storage
 from LogService.src import logger
 
 
@@ -26,7 +26,7 @@ class Operation:
         self.__account:Account = Account()
         self.__transaction:Transaction = Transaction()
         self.__date:str = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-        self.__account_list:dict = _storage.fetch(list=True)
+        self.__account_list:dict = _storage.fetch(as_list=True)
         
 
 #-------------------[ instruction command ]-----------------------------------    
@@ -295,7 +295,7 @@ class Operation:
     def Signup(self) -> None:
         _print.header("Registration")
         form_log.info('user:anonymous => [Signup]: Starting')
-        self.__account_list:dict = _storage.fetch(list=True)
+        self.__account_list:dict = _storage.fetch(as_list=True)
 
         #Generate user id
         __account_id:str = f"{generate_id(len(self.__account_list['Account-List']) + 1)}"
@@ -360,7 +360,7 @@ class Operation:
                 'Account-ID':__account_id,
                 'Path':f'storage_accounts_v3/account-{__account_id}.json'
                 })
-            _storage.store(id='',data=self.__account_list,list=True)
+            _storage.store(id='',data=self.__account_list,as_list=True)
             form_log.info(f'user:anonymous => [Signup]: Update the Account List')
             
             self.__account_list = {}

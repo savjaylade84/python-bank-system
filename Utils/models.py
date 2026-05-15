@@ -2,6 +2,11 @@ from enum import StrEnum
 from typing import NamedTuple
 from dataclasses import dataclass
 
+
+class AccountType(StrEnum):
+    Admin = "Administrator"
+    Regular = "Regular"
+
 # status of the trasaction
 class TransactionStatus(StrEnum):
     Info = "information"

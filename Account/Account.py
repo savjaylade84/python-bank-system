@@ -4,7 +4,7 @@
 '''
 from Account.IAccount import IAccount
 from Account.Transaction import Transaction
-from storage_accounts_v3.storage import Storage
+from AccountVault.storage import Storage
 
 _storage = Storage()
 

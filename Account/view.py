@@ -1,3 +1,3 @@
-#Balance()
-#Transaction_History()
+#balance()
+#transaction_history()
 #print_account_info()
