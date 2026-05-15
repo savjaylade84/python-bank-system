@@ -1,28 +1,17 @@
 from Utils import console,models
 from Utils import credential
 from LogService.src import logger
-from AccountVault.storage import Storage
+from AccountVault.AccountRepository import _get_account_list,_update_account_list,AccountRepository
 
-def fetch_admin_data() -> dict | None :
-    
-    # initialise the log,temp account holder, and date
-    form_log = logger.Log.initLogging(log_file='form.log')
-    
-    # check if successfully retrieve admin config
-    try:
-        admin_config:dict = Storage().fetch(as_list=True)
-        return admin_config
-    except FileNotFoundError as e:
-        form_log.error(f"{e.args}")
-    
-    return {}
+
+REPOSITORY: AccountRepository = AccountRepository()
 
 def change_password() -> None:
     
     # initialise the log,temp account holder, and date
     form_log = logger.Log.initLogging(log_file='form.log')
     
-    temp_config: dict = fetch_admin_data()
+    temp_config: dict = _get_account_list()
     
     console.pbanner(models.DivConfig(17,"="),'Admin Change Password')
     
@@ -43,9 +32,9 @@ def change_password() -> None:
         if credential.validate_password(new_password):
            if console.prompt_pwd('Re-Enter New Password') == new_password:
                 temp_config['Admin-Password'] = bytes(credential.encrypt_password(new_password)).decode()
-                Storage.store(data=temp_config,list=True)
-                form_log.info(f'admin: save new password [{new_password}]')    
-                break
+                if _update_account_list(temp_config):
+                    form_log.info(f'admin: save new password [{new_password}]')    
+                    break
         
         console.status(models.TransactionStatus.Warning,'Wrong Format of Password - Pls! Try Again')
         

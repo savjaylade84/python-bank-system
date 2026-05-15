@@ -18,31 +18,31 @@ handlers:
     transaction.file:
       class: logging.FileHandler
       level: DEBUG
-      filename: Log/logs/transaction.log
+      filename: LogService/logs/transaction.log
       formatter: transac
       mode: a
     form.file:
       class: logging.FileHandler
       level: DEBUG
-      filename: Log/logs/form.log
+      filename: LogService/logs/form.log
       formatter: data
       mode: a
     storage.file:
       class: logging.FileHandler
       level: DEBUG
-      filename: Log/logs/storage.log
+      filename: LogService/logs/storage.log
       formatter: data
       mode: a
     account.file:
       class: logging.FileHandler
       level: DEBUG
-      filename: Log/logs/account.log
+      filename: LogService/logs/account.log
       formatter: detail
       mode: a
     admin.file:
       class: logging.FileHandler
       level: DEBUG
-      filename: Log/logs/admin.log
+      filename: LogService/logs/admin.log
       formatter: detail
       mode: a
 loggers:

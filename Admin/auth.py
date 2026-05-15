@@ -1,5 +1,5 @@
 from LogService.src import logger
-from AccountVault.storage import Storage
+from AccountVault.AccountRepository import _get_account_list
 from Utils import console, models
 from Utils.credential import compare_password
 
@@ -16,12 +16,9 @@ def login():
     # initialise the log,temp account holder, and date
     form_log = logger.Log.initLogging(log_file='form.log')
     
-    # check if successfully retrieve admin config
-    try:
-        admin_config:dict = Storage().fetch(as_list=True)
-    except FileNotFoundError as e:
-        form_log.error(f"{e.args}")
-        
+    # get the master list of the account
+    admin_config:dict = _get_account_list()
+
     console.banner(models.DivConfig(17,"="),'Admin Login',end="\n")
     
     password:str = console.prompt_pwd("Enter Password")

@@ -7,7 +7,7 @@ import os
 from LogService.src import logger
 from typing import Final
 
-log = logger.Log.initLogging('storage.log').open()
+log = logger.Log.initLogging(log_file='storage.log')
 
 VAULT_PATH:Final[str] = "AccountVault"
 VAULT_LIST:Final[str] = "account-list.json"

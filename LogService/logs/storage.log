@@ -638,3 +638,4 @@ FileNotFoundError: [Errno 2] No such file or directory: 'storage_accounts_v3/acc
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2026-05-10 16:57:24 ] : module [ storage - fetch - 32 ] : message [ fetch information @ account-list ]
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2026-05-10 16:58:53 ] : module [ storage - fetch - 32 ] : message [ fetch information @ account-list ]
 [ INFO ] >>>  log-name [ storage.log ] : date [ 2026-05-10 16:58:53 ] : module [ storage - fetch - 32 ] : message [ fetch information @ account-list ]
+[ INFO ] >>>  log-name [ storage.log ] : date [ 2026-05-16 00:53:34 ] : module [ AccountRepository - _read_json - 20 ] : message [ read a json ]

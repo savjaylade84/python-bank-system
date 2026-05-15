@@ -20,7 +20,7 @@ import yaml
 
 '''
 
-CONFIG_PATH = Path(__file__).parent.parent / "config" / "config.yaml"
+CONFIG_PATH = Path(__file__).parent.parent / ".config" / "config.yaml"
 
 
 def load_config(path: Path = CONFIG_PATH) -> dict:
@@ -33,18 +33,17 @@ def load_config(path: Path = CONFIG_PATH) -> dict:
 
 class Log:
 
+    @staticmethod
+    def initLogging(log_file:str):
         
-    def initLogging(self, log_file:str):
-        
-        if not str:
+        if not log_file:
             raise ValueError("Empty log file name")
         
-        __yaml = load_config()
+        __yaml = load_config(CONFIG_PATH)
         
         if not __yaml:
             raise ValueError("fetch empty or failed to fetch config")
         
         logging.config.dictConfig(__yaml)
-        self.__logger = logging.getLogger(log_file)
-        return self.__logger
+        return logging.getLogger(log_file)
     
