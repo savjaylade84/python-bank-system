@@ -1,6 +1,10 @@
 # TODO
 
+---
+
 ## [  ] Unfinish - [x] Finish
+
+---
 
 ### Admin Folder
 
@@ -19,6 +23,8 @@
   - [ ]  account_history()
   - [ ]  edited_account_history()
   - [ ]  account_infors()
+
+---
 
 ### Account Folder
 
@@ -39,6 +45,8 @@
   - [ ] balance()
   - [ ] transaction_history()
   - [ ] print_account_info()
+
+---
 
 ### AccountVault Folder
 
@@ -61,7 +69,9 @@
     - [x] remove()
     - [x] exists()
 - [x] config.py
-  
+
+---
+
 ### Utils Folder
 
 - [ ] console.py
@@ -84,6 +94,8 @@
   - TransactionStatus - (StrEnum)
   - DivConfig - (dataclass)
   - LabelEntry - (NamedTuple)
+
+---
 
 ### Other
 
