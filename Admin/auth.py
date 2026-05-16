@@ -1,5 +1,5 @@
 from LogService.src import logger
-from AccountVault.AccountRepository import _get_account_list
+from AccountVault.AccountManager import AdminManager
 from Utils import console, models
 from Utils.credential import compare_password
 
@@ -9,15 +9,15 @@ from Utils.credential import compare_password
 
         :Parameter: None
         :Return: Boolean
-''' 
+'''
+
+# initialise the log,temp account holder, and date
+form_log = logger.Log.initLogging(log_file='form.log') 
+
+# get the master list of the account
+admin_repo:dict = AdminManager.load_list()
 
 def login():
-    
-    # initialise the log,temp account holder, and date
-    form_log = logger.Log.initLogging(log_file='form.log')
-    
-    # get the master list of the account
-    admin_config:dict = _get_account_list()
 
     console.banner(models.DivConfig(17,"="),'Admin Login',end="\n")
     
@@ -28,7 +28,7 @@ def login():
     while True:
         
         # compare the password here before do something if it failed
-        if compare_password(password,admin_config['Admin-Password']):
+        if compare_password(password,admin_repo['Admin-Password']):
             form_log.info(f'admin => [Login]: Success({index})')
             return True
             

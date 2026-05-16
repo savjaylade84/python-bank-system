@@ -101,43 +101,6 @@ class Admin:
             solution:str = completion.choices[0].message.content
             console(solution, end="\n")
 
-    '''
-        :Description: change the account pin number 
-
-        :Parameter: None
-        :Return: None
-    '''   
-    def Change_Account_Pin(self) -> None:
-        
-        console.banner(models.DivConfig(17,"="),'Change Account Pin')
-        account_id:str = _print.input('Enter Account-ID')
-        
-        if validate_userid(account_id):
-            self.__account.Setup(account_id)
-            form_log.info(f'admin:edit account pin => account - {account_id}')
-
-            new_pin:str = ''
-            index:int = 0
-            
-            while True:
-                
-                new_pin = _print.password('Enter Password')
-                form_log.info(f'admin:account - {account_id} => enter new pin [{new_pin}]')
-
-                if validate_pin(new_pin):
-                    if _print.pin('Re-Enter Pin') == new_pin:
-                        self.__account.Pin = bytes(encrypt_pin(new_pin)).decode()
-                        self.__account.Save()
-                        form_log.info(f'admin:account - {account_id} => save new pin [{new_pin}]')
-                        break
-
-                console.status(models.TransactionStatus.Warning,'Wrong Format of Pin - Pls Try Again')
-
-                if index > 3:
-                    form_log.info(f'admin:account - {account_id} => Failed to enter new pin [{new_pin}]')
-                    break
-
-                index += 1
 
     '''
         :Description: view accounts detail information
@@ -321,39 +284,4 @@ class Admin:
                         ])
             console.divider(models.DivConfig(17,"#"))
     
-#-------------------[ Other Function ]----------------------------------- 
-    
-    '''
-        :Description: change the password of administrator account
-
-        :Parameter: None
-        :Return: None
-    ''' 
-    def Change_Password(self) -> None:
-        
-        console.banner(models.DivConfig(17,"="),'Admin Change Password')
-        form_log.info(f'admin: change password')
-
-        new_password:str = ""
-        index:int = 0
-
-        while True:
-
-            new_password = _print.password('Enter New Password')
-            form_log.info(f'admin: change password [{new_password}]')
-
-            if validate_password(new_password):
-                if _print.password('Re-Enter New Password') == new_password:
-                    self.__account_list['Admin-Password'] = bytes(encrypt_password(new_password)).decode()
-                    _storage.store(data=self.__account_list,list=True)
-                    form_log.info(f'admin: save new password [{new_password}]')
-                    break
-
-            console.status(models.TransactionStatus.Warning,'Wrong Format of Password - Pls! Try Again')
-
-            if index > 3:
-                form_log.info(f'admin: failed to change password [{new_password}]')
-                break
-
-            index += 1
 

@@ -5,7 +5,7 @@ import unittest as unit
 from Account.Account import Account
 from Utils.credential import compare_pin,encrypt_pin,validate_pin
 from AccountVault import storage
-from AccountVault.AccountRepository import _get_account_list
+from AccountVault.AccountManager import _get_account_list
 
 class test_account(unit.TestCase):
 

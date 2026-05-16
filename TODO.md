@@ -6,11 +6,11 @@
 
 - [ ]  auth.py
   - [ ]  login()
-- [ ]  menu.py
+- [x]  menu.py
   - [x] get_menu_selection()
 - [ ]  services.py
-  - [ ] change_password()
-  - [ ] change_account_pin()
+  - [x] change_password()
+  - [x] change_account_pin()
   - [ ] delete_account()
   - [ ] ai_analysis()  
 - [ ]  view.py
@@ -42,20 +42,25 @@
 
 ### AccountVault Folder
 
-- [ ] AccountRepository.py
+- [x] FileManager.py
   - [x] _read_json()
   - [x] _write_json()
-  - [x] _get_account_list()
-  - [x] _get_account_path()
-  - [x] _remove_account_in_list()
-  - [x] _remove_account()
-  - [x] _account_exist()
-  - [ ] AccountRepository
-    - [ ] find_by_id()
-    - [ ] find_all()
-    - [ ] save()
-    - [ ] remove()
-    - [ ] exists()
+- [x] AdminManager.py
+  - [x] AdminManager
+    - [x] load_list()
+    - [x] update_list()
+    - [x] load_account_path()
+    - [x] _remove_in_list()
+- [x] AccountManager.py
+  - [x] AccountManager
+    - [x] load_account()
+    - [x] find_by_id()
+    - [x] find_all()
+    - [x] load_path
+    - [x] save()
+    - [x] remove()
+    - [x] exists()
+- [x] config.py
   
 ### Utils Folder
 
