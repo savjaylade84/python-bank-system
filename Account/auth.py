@@ -57,7 +57,7 @@ def login()-> bool:
         
         attempt = attempt + 1
 
-    form_log.info(f'user:anonymous => [Login]: Success Login => account-id({self.__account.Account_ID})')
+    form_log.info(f'user:anonymous => [Login]: Success Login => account-id({account['Account-ID']})')
     form_log.info(f'user:anonymous => [Login]: Ended')
     return True   
             
