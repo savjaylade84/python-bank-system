@@ -3,11 +3,11 @@ from Utils import console, models,credential
 from AccountVault.AccountManager import AccountManager
 from AccountVault.AdminManager import AdminManager
 from LogService.src import logger
+from time import gmtime,strftime
 
 # initialise the log,temp account holder, and date
 form_log = logger.Log.initLogging(log_file='form.log')
 
-#View_List()
 def account_list() -> None:
     
     console.banner(models.DivConfig(17,"="),'Account List')
@@ -30,7 +30,6 @@ def account_list() -> None:
         
     console.divider(models.DivConfig(17,"#"))
 
-#View_Account_Information()
 def account_info() -> None:
     console.banner(models.DivConfig(17,"="),'View Account Information')
     
@@ -56,14 +55,81 @@ def account_info() -> None:
         if answer.lower() == 'n':
             break
 
-#View_Account_History()
 def account_history() -> None:
-    pass
-
-#View_Edited_Account_History()
+    
+    console.banner(models.DivConfig(17,"="),'View Account History')
+    
+    account_id:str = console.prompt('Enter Account-ID')
+    
+    form_log.info(f'admin => view account:{account_id} history')
+    
+    if not AccountManager.exists(account_id):
+        console.banner(models.DivConfig(17,"="),"Account Not Found")
+        
+    account:dict = AccountManager.load_account()
+    
+    if not account:    
+        console.banner(models.DivConfig(17,"="),"Loaded Empty Account File")
+        
+    console.entries(title="Account Information",
+                    labels=[
+                        'Account Name',
+                        'Account-ID'
+                    ],
+                    entries=[
+                        account['Name'],
+                        account['Account-ID']
+                    ])
+    
+    if account['Transaction-History']:
+        for transaction in account['Transaction-History']:
+            
+            if transaction:
+                console.entries(title="Account History",
+                                labels=[
+                                    'Date',
+                                    'Type',
+                                    'Amount',
+                                    'Balance'
+                                ],
+                                entries=[
+                                    transaction['Date-Time'],
+                                    transaction['Type'],
+                                    transaction['Amount'],
+                                    transaction['Balance']
+                                ])
+                
+    console.divider(models.DivConfig(17,"#"))            
+                
 def edited_account_history() -> None:
-    pass
-
-#print_account_info()
+    
+    console.banner(models.DivConfig(17,"="),'View Edited Account History')
+    form_log.info(f'admin => view edited accounts history')
+    
+    acc_list:dict = AdminManager.load_list()
+    
+    for edit in acc_list['Edited-Account-History']:
+        console.entries(title="Edit History",
+                        labels=[
+                            'Date-Time',
+                            'Account-ID',
+                            'Edit',
+                            'Value'
+                        ],
+                        entries=[
+                            edit['Date-Time'],
+                            edit['Account-ID'],
+                            edit['Edited']['Edit'],
+                            edit['Edited']['Value']
+                        ])
+    console.divider(models.DivConfig(17,"#"))
+    
 def account_infos() -> None:
-    pass
+    date:str = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()) 
+    console.entry(entry=models.LabelEntry(
+                                        title="Date",
+                                        desc=f'{date}'
+                                    ),
+                                    title='Administration',
+                                    start='\n',
+                                    end='\n')

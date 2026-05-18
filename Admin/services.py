@@ -104,12 +104,28 @@ def ai_analysis() -> None:
         
     load_dotenv()
     import os    
-        
+    
     client = OpenAI(
         
         base_url="https://openrouter.ai/api/v1",
         api_key=''.join(os.getenv('OPENROUTER_TOKEN'))
     )
+    
+    command:str = f'''
+                        Job: Generate Short Version Financial Advice And Analysis
+                        Rule:
+                            1. follow the rule strictly and no mistake
+                            2. Graphical Image is no allowed
+                            3. text-based table is allowed
+                            4. text-based illustration is allowed
+                            5. advice must be short and direct to the point
+                            6. alternative option is allowed
+                            7. never show the full version of sensitive 
+                            8. sensitive information must be in data-masking
+                            
+                        Data: 
+                        {acct['Edited-Account-History']}
+                  '''
     
     completion = client.chat.completions.create(
         
@@ -122,13 +138,11 @@ def ai_analysis() -> None:
             messages=[
                 {
                     "role":"user",
-                    "content":f'''
-                                generate detail financial analysis and advise(without graph only context) on the following list of data below. 
-                                Data: {acct['Edited-Account-History']}
-                            '''
+                    "content": command
                 }
             ]
     )
+    
     console.status(models.TransactionStatus.Info,"Output")
     
     solution:str = completion.choices[0].message.content
