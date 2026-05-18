@@ -3,6 +3,8 @@ from Utils import credential
 from LogService.src import logger
 from AccountVault.AdminManager import AdminManager
 from AccountVault.AccountManager import AccountManager
+from dotenv import load_dotenv
+from openai import OpenAI
 
 # initialise the log,temp account holder, and date
 form_log = logger.Log.initLogging(log_file='form.log')
@@ -74,7 +76,61 @@ def change_account_pin() -> bool:
             
 
 def delete_account() -> None:
-    pass
+    
+    console.banner(models.DivConfig(17,"="),'Delete Account')
+    
+    while True:
+        
+        account_id = console.prompt('Enter Account-ID')
+        
+        if credential.validate_userid(account_id) and AccountManager.exists(account_id):
+            if AccountManager.remove(account_id):
+                console.status(models.TransactionStatus.Success,'Successfully Deleting The Account')
+        else:
+            console.status(models.TransactionStatus.Failed,'Unsuccessfull Deleting The Account')
+
+        answer = console.prompt('Delete Other Account? [Y/N]')
+        
+        if answer.lower() == 'n':
+            break
 
 def ai_analysis() -> None:
-    pass
+    console.banner(models.DivConfig(17,"="),'AI Analysis')
+    
+    account_id:str = console.prompt('Enter Account-ID')
+    if credential.validate_userid(account_id):
+        acct:dict = AccountManager.load_account(account_id)
+        form_log.info(f'admin:setup account => account - {account_id}')
+        
+    load_dotenv()
+    import os    
+        
+    client = OpenAI(
+        
+        base_url="https://openrouter.ai/api/v1",
+        api_key=''.join(os.getenv('OPENROUTER_TOKEN'))
+    )
+    
+    completion = client.chat.completions.create(
+        
+            extra_headers={
+                "HTTP-Referer":"",
+                "X-Title":"",
+            },
+            extra_body={},
+            model="deepseek/deepseek-chat-v3.1:free",
+            messages=[
+                {
+                    "role":"user",
+                    "content":f'''
+                                generate detail financial analysis and advise(without graph only context) on the following list of data below. 
+                                Data: {acct['Edited-Account-History']}
+                            '''
+                }
+            ]
+    )
+    console.status(models.TransactionStatus.Info,"Output")
+    
+    solution:str = completion.choices[0].message.content
+    console.print(solution,end='\n')
+        

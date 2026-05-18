@@ -3,14 +3,6 @@ from AccountVault.AccountManager import AdminManager
 from Utils import console, models
 from Utils.credential import compare_password
 
-
-'''
-        :Description: login administrator account
-
-        :Parameter: None
-        :Return: Boolean
-'''
-
 # initialise the log,temp account holder, and date
 form_log = logger.Log.initLogging(log_file='form.log') 
 

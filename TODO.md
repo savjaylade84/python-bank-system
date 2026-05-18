@@ -8,18 +8,18 @@
 
 ### Admin Folder
 
-- [ ]  auth.py
-  - [ ]  login()
+- [x]  auth.py
+  - [x]  login()
 - [x]  menu.py
   - [x] get_menu_selection()
-- [ ]  services.py
+- [x]  services.py
   - [x] change_password()
   - [x] change_account_pin()
-  - [ ] delete_account()
-  - [ ] ai_analysis()  
+  - [x] delete_account()
+  - [x] ai_analysis()  
 - [ ]  view.py
-  - [ ]  account_list()
-  - [ ]  account_info()
+  - [x]  account_list()
+  - [x]  account_info()
   - [ ]  account_history()
   - [ ]  edited_account_history()
   - [ ]  account_infors()
@@ -88,8 +88,8 @@
   - [x] menu()
   - [ ] remove Print class
   - [ ] remove string_config class
-- [ ] credentials.py
-- [ ] models.py
+- [x] credentials.py
+- [x] models.py
   - AccountType - (StrEnum)
   - TransactionStatus - (StrEnum)
   - DivConfig - (dataclass)
@@ -106,3 +106,4 @@
 - [ ] restructure the folder, file, and code
 - [ ] update the code of app.py
 - [ ] update the code of bank_test.py
+- [ ] update the tests list
