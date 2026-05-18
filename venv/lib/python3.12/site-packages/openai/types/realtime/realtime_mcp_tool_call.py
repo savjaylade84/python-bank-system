@@ -18,6 +18,8 @@ Error: TypeAlias = Annotated[
 
 
 class RealtimeMcpToolCall(BaseModel):
+    """A Realtime item representing an invocation of a tool on an MCP server."""
+
     id: str
     """The unique ID of the tool call."""
 
@@ -30,8 +32,8 @@ class RealtimeMcpToolCall(BaseModel):
     server_label: str
     """The label of the MCP server running the tool."""
 
-    type: Literal["mcp_tool_call"]
-    """The type of the item. Always `mcp_tool_call`."""
+    type: Literal["mcp_call"]
+    """The type of the item. Always `mcp_call`."""
 
     approval_request_id: Optional[str] = None
     """The ID of an associated approval request, if any."""
