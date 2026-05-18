@@ -24,8 +24,8 @@ Refactor Progress
 | Account | Refactoring code and restructuring files | 🟢 (In Progress) |
 | Admin | Refactoring code and restructuring files | 🟢 (In Progress) |
 | LogService | Refactoring code and restructuring files | 🟢 (In Progress) |
-| Operation | | 🔴 (In Pending) |
-| Storage | | 🔴 (In Pending) |
+| Operation | Refactoring code and restructuring files | 🟢 (In Progress) |
+| Storage | Refactoring Code and restructuring files | 🟢 (In Progress) |
 | Utils | Refactoring Code and restructuring files | 🟢 (In Progress) |
 
 </br>
