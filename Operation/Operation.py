@@ -28,28 +28,6 @@ class Operation:
         self.__date:str = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
         self.__account_list:dict = _storage.fetch(as_list=True)
         
-
-#-------------------[ instruction command ]-----------------------------------    
-
-    '''
-        :Description: get user response from the menu or choices
-
-        :Parameter: None
-        :Return: Integer
-    ''' 
-    def get_instruction(self) -> int:
-        return int(_print.menu(
-                            header='New Transaction',
-                            menu_header='Enter A Instruction',
-                            menu=[
-                                'Deposite',
-                                'Withdraw',
-                                'Balance',
-                                'Transaction History',
-                                'Change Pin',
-                                'Exist'   
-                            ],prompt='Enter'))
-        
     
 #-------------------[ print account information ]-----------------------------------   
 
@@ -213,79 +191,6 @@ class Operation:
         transaction_log.info(f'account:{self.__account.Account_ID} => [Account]: Save Information')
         self.__account.Save()
         self.__transaction.Clear()
-
-    '''
-        :Description: login user in their specific account 
-
-        :Parameter: None
-        :Return: Boolean
-    '''
-    def Login(self) -> bool:
-
-        _print.header('Account Login')
-        form_log.info(f'user:anonymous => [Login]: Starting')
-        __user_id:str = _print.input('Enter Account-ID')
-        '''
-            validate user id format input
-            and checking for existing account id
-            and files in the storage folder
-        '''
-
-        index:int = 1
-        while True:
-            if validate_userid(__user_id) and _storage.validate_id(__user_id):
-                form_log.info(f'user:anonymous => [Login]: Success Input => user-id({__user_id})')
-                break
-            if not _storage.validate_id(__user_id):
-                _print.status(state='Warning',message='Wrong format of user id  - Pls! Try again')
-            if not validate_userid(__user_id):
-                _print.status(state='Warning',message='Wrong format of user id  - Pls! Try again')
-            if index > 3:
-                form_log.info(f'user:anonymous => [Login]: Failed User-ID input')
-                _print.header('Login Attempt Failed!')
-                exit(1)
-            __user_id:str = _print.input('Enter Account-ID Again')  
-            index = index + 1
-        
-        '''
-            setup the account information
-            before proceeding pin validation and comparing
-            because this part needed to compare of account pin
-            and user pin input
-        '''
-        self.__account.Setup(__user_id)
-        
-        __pin:str = _print.password('Enter Pin')
-        '''
-            validate user id format input and 
-            comparing account pin and user pin 
-            input
-        '''
-        index = 1
-        
-        while True:
-            if validate_pin(__pin) and compare_pin(__pin,self.__account.Pin):
-                form_log.info(f'user:anonymous => [Login]: Success Input => pin({__pin})')
-                break
-            if not compare_pin(__pin,self.__account.Pin):
-                _print.status(state='Warning',message='Wrong pin number - Pls! Try again')
-            if not validate_pin(__pin):
-                _print.status(state='Warning',message='Only 6 digit pin number only - Pls! Try again')
-            if index > 3:
-                form_log.info(f'user:anonymous => [Login]: Failed Pin input')
-                _print.header('Login Attempt Failed!')
-                exit(1)
-            __pin:str = _print.password('Enter Pin Again')
-
-            index = index + 1
-             
-        '''
-            only prompt for finally success login process
-        '''
-        form_log.info(f'user:anonymous => [Login]: Success Login => account-id({self.__account.Account_ID})')
-        form_log.info(f'user:anonymous => [Login]: Ended')
-        return True
-
 
     '''
         :Description: change the specific account's pin number

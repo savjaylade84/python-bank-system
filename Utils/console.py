@@ -86,7 +86,7 @@ def prompt_pwd(label:str) -> None:
 #       [title] : desc
 #       [title] : desc
 #       [title] : input 
-def menu(instruction:str,items:list,label:str,header:str="",start="") -> None:
+def menu(instruction:str,items:list,prompt_label:str,header:str="",start="") -> str:
     
     if(header):
         banner(models.DivConfig(),header,start=start)
@@ -94,7 +94,7 @@ def menu(instruction:str,items:list,label:str,header:str="",start="") -> None:
     if(instruction):
         banner(models.DivConfig,instruction,start=start)
         list(items,end="\n")
-        return prompt(label,start)
+        return prompt(prompt_label,start)
 
     raise IOError    
 

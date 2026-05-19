@@ -16,7 +16,7 @@ MENU:Final[list[str]] = [
 
 MENU_PROMPT: Final[str] = 'Enter An Instruction'
 
-def get_menu_selection(self) -> int:
+def get_menu_selection() -> int:
 
     """
     Display the admin menu options and capture the user's selection.
@@ -27,7 +27,7 @@ def get_menu_selection(self) -> int:
 
     return int(console.menu(
                         instruction= MENU_PROMPT,
-                        menu = MENU,
-                        prompt='Enter',
+                        items = MENU,
+                        prompt_label='Enter',
                         start="\n"
                     )) 
