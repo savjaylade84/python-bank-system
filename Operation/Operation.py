@@ -28,30 +28,6 @@ class Operation:
         self.__date:str = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
         self.__account_list:dict = _storage.fetch(as_list=True)
         
-    
-#-------------------[ print account information ]-----------------------------------   
-
-    '''
-        :Description: print the short information on specific account
-
-        :Parameter: None
-        :Return: None
-    '''  
-    def print_account_info(self) -> None:
-        _print.datas(
-                    header='Account Information',
-                    data_header=[
-                        'Date',
-                        'Account Name',
-                            'Account ID',
-                            'Account Balance'
-                    ],
-                    datas=[
-                        self.__date,
-                        self.__account.Name,
-                        self.__account.Account_ID,
-                        self.__account.Balance
-                    ])  
 
 #-------------------[ Transaction Command ]----------------------------------- 
 
@@ -141,17 +117,6 @@ class Operation:
 
         transaction_log.info(f'account:{self.__account.Account_ID} => [Withdraw]: Ended')
         self.__transaction.Clear()
-
-    '''
-        :Description: show the amount of (x) in specific account
-
-        :Parameter: None
-        :Return: None
-    '''    
-    def Balance(self) -> None:
-        _print.header('Current Balance')
-        _print.data(header='',data_header='Balance',data=f'{self.__account.Balance}')
-        transaction_log.info(f'account:{self.__account.Account_ID} => [Balance]: Show')
 
     '''
         :Description: show transaction history of specific account
