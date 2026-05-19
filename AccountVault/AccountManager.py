@@ -1,8 +1,11 @@
 import os 
+from Utils import credential
 from LogService.src import logger
+from random import Random
 from AccountVault.AdminManager import AdminManager
 from AccountVault.FileManager import FileManager
 from AccountVault.config import VAULT_PATH
+from dataclasses import asdict
 av_log = logger.Log.initLogging(log_file='storage.log')
 
 class AccountManager:
@@ -61,3 +64,11 @@ class AccountManager:
             return False
             
         return any(account['Account-ID'] == id for account in acc_list['Account-List'])
+    
+    @staticmethod
+    def generate_id() -> str:
+        return f'{Random().randint(0,999):03}-{Random().randint(0,999):03}-{Random().randint(0,9999):04}'
+    
+    @staticmethod
+    def convert_dict(data:any) -> dict:
+        return asdict(data)

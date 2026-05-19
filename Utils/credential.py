@@ -2,10 +2,8 @@
     tools that help login and signup ease of 
     validating the right format  
 '''
-from datetime import time
 import re
 import bcrypt
-from random import Random
 
 # regex search strings compile in the regex object
 password_regex = re.compile('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
@@ -114,16 +112,3 @@ def encrypt_password(password:str) -> str:
         raise Exception('Input Error: Wrong Password Format')
     
     return bcrypt.hashpw(password.encode('utf-8'),bcrypt.gensalt())
-
-'''
-    :Description: generate random account number for new account
-
-    :Parameter:
-                :num_account: string - :default: ''
-    :Return: String
-''' 
-def generate_id(num_account:str) -> str:
-    
-    rand = Random()
-    
-    return f'{rand.randint(0,999):03}-{rand.randint(0,999):03}-{rand.randint(0,9999):04}'
