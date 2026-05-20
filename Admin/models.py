@@ -1,5 +1,5 @@
 from dataclasses import dataclass,field
-  
+
 @dataclass
 class Account_List:
     name:str = field(default=str)
