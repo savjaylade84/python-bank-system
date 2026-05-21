@@ -8,7 +8,7 @@ s_log = logger.Log.initLogging('account.log')
 t_log = logger.Log.initLogging('transaction.log')
 
 #deposite() // not finish and polish yet
-def deposite(id:str) -> None:
+def deposit(id:str) -> None:
     console.banner(models.DivConfig(),'Deposite Process')
     
     account:dict = AccountManager.load_account(id)
@@ -17,7 +17,7 @@ def deposite(id:str) -> None:
     
     transaction.Date_Time = ""
     transaction.Balance = account['Balance']
-    transaction.Type = acc_models.TransactionType.Balance
+    transaction.Type = acc_models.TransactionType.Deposit
     
     amount: float = 0.0
     
@@ -30,10 +30,39 @@ def deposite(id:str) -> None:
     
     transaction.Amount = amount
     
+    # do deposite here
+    
     account['Transaction-History'].append(asdict(transaction))
     AccountManager.save(id, account)
     
 
 #withdraw()
+def withdraw(id:str) -> None:
+    console.banner(models.DivConfig(),'Deposite Process')
+    
+    account:dict = AccountManager.load_account(id)
+    
+    transaction:acc_models.Transaction = acc_models.Transaction()
+    
+    transaction.Date_Time = ""
+    transaction.Balance = account['Balance']
+    transaction.Type = acc_models.TransactionType.Withdraw
+    
+    amount:float = 0.0
+    
+    while True:
+        
+        amount = float(console.prompt('Enter Amount (Min: 500)'))
+        
+        if amount > 500:
+            break
+    
+    transaction.Amount = amount
+    
+    # do withdraw here
+    
+    account['Transaction-History'].append(asdict(transaction))
+    AccountManager.save(id,account)
+    
 #change_pin()
 #save()
