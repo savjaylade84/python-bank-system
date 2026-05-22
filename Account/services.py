@@ -65,7 +65,7 @@ def withdraw(id:str) -> None:
     AccountManager.save(id,account)
     
 #change_pin()
-def change_pin(id:self) -> None:
+def change_pin(id:str) -> None:
     ...
 #save()
 def save() -> None:
