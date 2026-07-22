@@ -1,5 +1,5 @@
 '''
-validator.py
+credential.py
 ============
 provides a collection of validation, comparison, and encryption
 functions to assist login and signup operations in the bank system

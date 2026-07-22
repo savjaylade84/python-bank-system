@@ -85,6 +85,7 @@ def change_pin(id:str) -> None:
             if credential.validate_pin(pin) and len(pin) is 6:
                 confirm:str = console.prompt('Conform New Pin [Y] yes | [N] no').lower()
                 
+                # save only after positive confirmation
                 if confirm == 'y':
                     account['Pin'] = bytes(credential.encrypt_pin(pin)).decode()
                     AccountManager.save(id,account)
@@ -96,6 +97,6 @@ def change_pin(id:str) -> None:
                 break
             
             index = index + 1
-#save()
-def save() -> None:
-    ...
+            
+# remove the save() here because the AccountVault.AccountManager has save function
+# to not repeat the function i remove the save()

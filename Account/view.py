@@ -13,6 +13,7 @@ def balance(id:str) -> None:
     t_log.info(f'account:{account['Account-ID']} => [Balance]: Show')
     
 #transaction_history()
+
 #print_account_info()
 def account_infos(id:str) -> None:
     console.banner(models.DivConfig(),'View Account Information')

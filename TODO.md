@@ -17,34 +17,34 @@
   - [x] change_account_pin()
   - [x] delete_account()
   - [x] ai_analysis()  
-- [ ]  view.py
+- [x]  view.py
   - [x]  account_list()
   - [x]  account_info()
-  - [ ]  account_history()
-  - [ ]  edited_account_history()
-  - [ ]  account_infors()
+  - [x]  account_history()
+  - [x]  edited_account_history()
+  - [x]  account_infos()
 
 ---
 
 ### Account Folder
 
-- [ ] auth.py
-  - [ ] login()
-  - [ ] signup()
+- [x] auth.py
+  - [x] login()
+  - [x] signup()
 - [ ] IAccount.py
 - [ ] ITransaction.py
-- [ ] menu.py
-  - [ ] get_menu_selection()
-- [ ] services.py
-  - [ ] deposite()
-  - [ ] withdraw()
-  - [ ] change_pin
-  - [ ] save()
+- [x] menu.py
+  - [x] get_menu_selection()
+- [x] services.py
+  - [x] deposite()
+  - [x] withdraw()
+  - [x] change_pin
+  - [x] save() - remove
 - [ ] Transaction.py
 - [ ] view.py
-  - [ ] balance()
+  - [x] balance()
   - [ ] transaction_history()
-  - [ ] print_account_info()
+  - [x] print_account_info()
 
 ---
 
@@ -86,7 +86,7 @@
   - [x] prompt()
   - [x] prompt_pwd()
   - [x] menu()
-  - [ ] remove Print class
+  - [x] remove Print class
   - [ ] remove string_config class
 - [x] credentials.py
 - [x] models.py
