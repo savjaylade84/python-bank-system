@@ -5,9 +5,6 @@
      Email: savjaylade84@gmail.com
 '''
 
-from Operation.Operation import Operation
-from Utils.console import Print
-
 '''
     :Description: the main function that cohesive the other functionlity
                   and the flow of the system
@@ -16,8 +13,8 @@ from Utils.console import Print
     :Return: None
 '''   
 def main() -> None:
-    _bank_system = Operation()
-    _print = Print()
+    
+    from Utils.console import console
 
     print("<<<<<<<<<<( Welcome to Mock Bank System! )>>>>>>>>>>>")
     print(f"\n[ Creator ]: John Jayson B. De Leon\n"+
@@ -29,8 +26,8 @@ def main() -> None:
 
         _exit_answer = False
         _answer = ''
-        _print.header("Main Menu")
-        _answer:int = int(_print.menu(
+        console.header("Main Menu")
+        _answer:int = int(console.menu(
                                 header='New Transaction',
                                 menu_header='Enter A Instruction',
                                 menu=[
@@ -40,79 +37,85 @@ def main() -> None:
                                     'Quit / Exit'
                                 ],prompt='Enter')) 
 
+        import Account.menu
+        import Account.services
+        import Account.models
+        import Account.view
+        import Account.auth
+
         if _answer == 1:
             #get account info
-            if _bank_system.Login():
-                _bank_system.print_account_info()
+            if Account.auth.login():
+                Account.view.print_account_info()
                 while not _exit_answer:
 
                     #get user instruction
-                    _answer = _bank_system.get_instruction()  
+                    _answer = Account.menu.get_menu_selection()  
 
                     match _answer:
                         case 1:
-                            _bank_system.Deposite()
+                            Account.services.deposit()
                         case 2:
-                            _bank_system.Withdraw()
+                            Account.services.withdraw()
                         case 3: 
-                            _bank_system.Balance()
+                            Account.view.balance()
                         case 4:
-                            _bank_system.Transaction_History()
+                            Account.view.transaction_history()
                         case 5:
-                            _bank_system.Change_Pin()
+                            Account.services.change_pin()
                         case 6:
-                            _print.header('Exit Successful')
+                            console.header('Exit Successful')
                             _exit_answer = True
                         case _:
-                            _print.status("Warning","Invalid Input!")
+                            console.status("Warning","Invalid Input!")
 
 
         elif _answer == 2:
-            _bank_system.Signup()
+            Account.auth.signup()
         elif _answer == 3:
             
-            from Admin import services
-            from Admin import auth
-            from Admin import view
-            from Admin import menu
-            
+            import Admin.auth
+            import Admin.menu
+            import Admin.services
+            import Admin.view
+                        
             #get account info
-            if auth.login():
-                view.account_infos()
+            if Admin.auth.login():
+                Admin.view.account_infos()
                 while not _exit_answer:
 
                     #get user instruction
-                    _answer = menu.get_menu_selection()
+                    _answer = Admin.menu.get_menu_selection()
 
                     match _answer:
                         case 1:
-                            view.account_list()
+                            Admin.view.account_list()
                         case 2:
-                            view.account_info()
+                            Admin.view.account_info()
                         case 3:
-                            view.account_history()
+                            Admin.view.account_history()
                         case 4:
-                            view.edited_account_history()
+                            Admin.view.edited_account_history()
                         case 5:
-                            services.change_account_pin()
+                            Admin.services.change_account_pin()
                         case 6:
-                            services.change_password()
+                            Admin.services.change_password()
                         case 7:
-                            services.delete_account()
+                            Admin.services.delete_account()
                         case 8:
-                            services.ai_analysis()
+                            Admin.services.ai_analysis()
                         case 9:
-                            _print.header('Exit Successful!')
+                            console.header('Exit Successful!')
                             #_bank_system.Save()
                             _exit_answer = True
                         case _:
                             print.status("Warning","Invalid Input!")
             # add something if login failed to enter three times
         elif _answer == 4:
-            _print.header('Exit Successful')
+            console.header('Exit Successful')
             exit(0)
         else:
-            _print.status("Warning","Invalid Input!")
+            console.status("Warning","Invalid Input!")
 
     # free memory from object
     del _bank_system

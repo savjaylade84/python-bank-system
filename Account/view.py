@@ -12,7 +12,8 @@ def balance(id:str) -> None:
     console.entry(models.LabelEntry('Balance',account['Balance']),title='Current Balance')
     t_log.info(f'account:{account['Account-ID']} => [Balance]: Show')
     
-#transaction_history()
+def transaction_history() -> None:
+    ...
 
 #print_account_info()
 def account_infos(id:str) -> None:
