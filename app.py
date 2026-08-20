@@ -14,7 +14,8 @@
 '''   
 def main() -> None:
     
-    from Utils.console import console
+    from Utils import console,models
+    from typing import Final
 
     print("<<<<<<<<<<( Welcome to Mock Bank System! )>>>>>>>>>>>")
     print(f"\n[ Creator ]: John Jayson B. De Leon\n"+
@@ -26,16 +27,20 @@ def main() -> None:
 
         _exit_answer = False
         _answer = ''
-        console.header("Main Menu")
-        _answer:int = int(console.menu(
-                                header='New Transaction',
-                                menu_header='Enter A Instruction',
-                                menu=[
+        console.banner(models.DivConfig(17,"="),"Main Menu",end="\n")
+        MENU:Final[list[str]] = [
                                     'Login',
                                     'Signup',
                                     'Admin',
-                                    'Quit / Exit'
-                                ],prompt='Enter')) 
+                                    'Quit/Exit'
+                                ]
+        _answer:int = int(console.menu(
+                                        instruction='Enter A Instruction',
+                                        items=MENU,
+                                        prompt_label='Enter',
+                                        header='New Transaction',
+                                        start="\n"
+                                    )) 
 
         import Account.menu
         import Account.services

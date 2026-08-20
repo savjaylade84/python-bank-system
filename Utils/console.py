@@ -225,7 +225,9 @@ def entry(entry:models.LabelEntry | tuple,title="",start="",end="") -> None:
     
     if title:
         banner(models.DivConfig(),title,start,end)
-        print(f"[ {entry.title} ] : {entry.desc}",start)
+    
+    print(f"[ {entry.title} ] : {entry.desc}",start)
+        
 
 def entries(labels:list[str],entries:list,title="",start="",end="") -> None:
     '''
@@ -366,7 +368,7 @@ def prompt_pwd(label:str) -> None:
     '''
     return getpass(f"[ {label} ] : ")
 
-def menu(instruction:str,items:list,prompt_label:str,header:str="",start="") -> str:
+def menu(instruction:str,items:list,prompt_label:str,header:str="",start="",end="") -> str:
     '''
         print a complete menu interface composed of a banner header,
         instruction label, numbered list of items, and an input prompt
@@ -420,10 +422,10 @@ def menu(instruction:str,items:list,prompt_label:str,header:str="",start="") -> 
                 [ Enter Choice ] : 
     '''
     if(header):
-        banner(models.DivConfig(),header,start=start)
+        banner(models.DivConfig(),header,start=start,end=end)
     
     if(instruction):
-        banner(models.DivConfig,instruction,start=start)
+        banner(models.DivConfig,instruction,start=start,end=end)
         list(items,end="\n")
         return prompt(prompt_label,start)
 

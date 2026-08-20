@@ -13,7 +13,7 @@ admin_repo: dict = AdminManager.load_list()
 
 def change_password() -> bool:
     
-    console.pbanner(models.DivConfig(17,"="),'Admin Change Password')
+    console.banner(models.DivConfig(17,"="),'Admin Change Password')
     
     if not admin_repo:
         return False
