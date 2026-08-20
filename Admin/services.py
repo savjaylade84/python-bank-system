@@ -102,7 +102,7 @@ def ai_analysis() -> None:
         acct:dict = AccountManager.load_account(account_id)
         form_log.info(f'admin:setup account => account - {account_id}')
         
-    load_dotenv()
+    load_dotenv()       # loading the api key in .env file
     import os    
     
     client = OpenAI(
@@ -115,13 +115,14 @@ def ai_analysis() -> None:
                         Job: Generate Short Version Financial Advice And Analysis
                         Rule:
                             1. follow the rule strictly and no mistake
-                            2. Graphical Image is no allowed
+                            2. Graphical Image is not allowed
                             3. text-based table is allowed
                             4. text-based illustration is allowed
                             5. advice must be short and direct to the point
                             6. alternative option is allowed
                             7. never show the full version of sensitive 
                             8. sensitive information must be in data-masking
+                            9. 40 words per line is allowed
                             
                         Data: 
                         {acct['Edited-Account-History']}
