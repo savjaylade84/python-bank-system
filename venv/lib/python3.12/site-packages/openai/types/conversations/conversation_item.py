@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# File generated from our OpenAPI spec by Castiron. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Union, Optional
 from typing_extensions import Literal, Annotated, TypeAlias
@@ -6,6 +6,8 @@ from typing_extensions import Literal, Annotated, TypeAlias
 from .message import Message
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
+from ..responses.tool import Tool
+from ..responses.mcp_tool_call_error import McpToolCallError
 from ..responses.response_reasoning_item import ResponseReasoningItem
 from ..responses.response_compaction_item import ResponseCompactionItem
 from ..responses.response_custom_tool_call import ResponseCustomToolCall
@@ -27,6 +29,9 @@ from ..responses.response_function_shell_tool_call_output import ResponseFunctio
 __all__ = [
     "ConversationItem",
     "ImageGenerationCall",
+    "AdditionalTools",
+    "Program",
+    "ProgramOutput",
     "LocalShellCall",
     "LocalShellCallAction",
     "LocalShellCallOutput",
@@ -52,6 +57,54 @@ class ImageGenerationCall(BaseModel):
 
     type: Literal["image_generation_call"]
     """The type of the image generation call. Always `image_generation_call`."""
+
+
+class AdditionalTools(BaseModel):
+    id: str
+    """The unique ID of the additional tools item."""
+
+    role: Literal["unknown", "user", "assistant", "system", "critic", "discriminator", "developer", "tool"]
+    """The role that provided the additional tools."""
+
+    tools: List[Tool]
+    """The additional tool definitions made available at this item."""
+
+    type: Literal["additional_tools"]
+    """The type of the item. Always `additional_tools`."""
+
+
+class Program(BaseModel):
+    id: str
+    """The unique ID of the program item."""
+
+    call_id: str
+    """The stable call ID of the program item."""
+
+    code: str
+    """The JavaScript source executed by programmatic tool calling."""
+
+    fingerprint: str
+    """Opaque program replay fingerprint that must be round-tripped."""
+
+    type: Literal["program"]
+    """The type of the item. Always `program`."""
+
+
+class ProgramOutput(BaseModel):
+    id: str
+    """The unique ID of the program output item."""
+
+    call_id: str
+    """The call ID of the program item."""
+
+    result: str
+    """The result produced by the program item."""
+
+    status: Literal["completed", "incomplete"]
+    """The terminal status of the program output item."""
+
+    type: Literal["program_output"]
+    """The type of the item. Always `program_output`."""
 
 
 class LocalShellCallAction(BaseModel):
@@ -209,7 +262,7 @@ class McpCall(BaseModel):
     corresponding tool call.
     """
 
-    error: Optional[str] = None
+    error: Optional[McpToolCallError] = None
     """The error from the tool call, if any."""
 
     output: Optional[str] = None
@@ -234,7 +287,10 @@ ConversationItem: TypeAlias = Annotated[
         ResponseComputerToolCallOutputItem,
         ResponseToolSearchCall,
         ResponseToolSearchOutputItem,
+        AdditionalTools,
         ResponseReasoningItem,
+        Program,
+        ProgramOutput,
         ResponseCompactionItem,
         ResponseCodeInterpreterToolCall,
         LocalShellCall,

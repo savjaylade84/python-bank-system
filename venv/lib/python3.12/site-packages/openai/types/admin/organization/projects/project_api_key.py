@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# File generated from our OpenAPI spec by Castiron. See CONTRIBUTING.md for details.
 
 from typing import Optional
 from typing_extensions import Literal
@@ -73,6 +73,9 @@ class ProjectAPIKey(BaseModel):
     """The object type, which is always `organization.project.api_key`"""
 
     owner: Owner
+
+    owner_project_access: Literal["active", "inactive"]
+    """Whether the API key's owner currently has effective access to the project."""
 
     redacted_value: str
     """The redacted value of the API key"""

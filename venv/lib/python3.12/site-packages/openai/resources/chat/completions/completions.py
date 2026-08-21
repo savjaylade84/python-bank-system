@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# File generated from our OpenAPI spec by Castiron. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ from typing import Dict, List, Type, Union, Iterable, Optional, cast
 from functools import partial
 from typing_extensions import Literal, overload
 
-import httpx
+import httpx2
 import pydantic
 
 from .... import _legacy_response
@@ -104,16 +104,18 @@ class Completions(SyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream_options: Optional[ChatCompletionStreamOptionsParam] | Omit = omit,
@@ -130,7 +132,7 @@ class Completions(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ParsedChatCompletion[ResponseFormatT]:
         """Wrapper over the `client.chat.completions.create()` method that provides richer integrations with Python specific types
         & returns a `ParsedChatCompletion` object, which is a subclass of the standard `ChatCompletion` class.
@@ -204,11 +206,13 @@ class Completions(SyncAPIResource):
                     "max_tokens": max_tokens,
                     "metadata": metadata,
                     "modalities": modalities,
+                    "moderation": moderation,
                     "n": n,
                     "parallel_tool_calls": parallel_tool_calls,
                     "prediction": prediction,
                     "presence_penalty": presence_penalty,
                     "prompt_cache_key": prompt_cache_key,
+                    "prompt_cache_options": prompt_cache_options,
                     "prompt_cache_retention": prompt_cache_retention,
                     "reasoning_effort": reasoning_effort,
                     "response_format": _type_to_response_format(response_format),
@@ -260,17 +264,19 @@ class Completions(SyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
         response_format: completion_create_params.ResponseFormat | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream: Optional[Literal[False]] | Omit = omit,
@@ -288,7 +294,7 @@ class Completions(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletion:
         """
         **Starting a new project?** We recommend trying
@@ -396,6 +402,8 @@ class Completions(SyncAPIResource):
 
               `["text", "audio"]`
 
+          moderation: Configuration for running moderation on the request input and generated output.
+
           n: How many chat completion choices to generate for each input message. Note that
               you will be charged based on the number of generated tokens across all of the
               choices. Keep `n` as `1` to minimize costs.
@@ -415,24 +423,40 @@ class Completions(SyncAPIResource):
               hit rates. Replaces the `user` field.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching).
 
-          prompt_cache_retention: The retention policy for the prompt cache. Set to `24h` to enable extended
+          prompt_cache_options: Options for prompt caching. Supported for `gpt-5.6` and later models. By
+              default, OpenAI automatically chooses one implicit cache breakpoint. You can add
+              explicit breakpoints to content blocks with `prompt_cache_breakpoint`. Each
+              request can write up to four breakpoints. For cache matching, OpenAI considers
+              up to the latest 80 breakpoints in the conversation, without a content-block
+              lookback limit. Set `mode` to `explicit` to disable the implicit breakpoint. The
+              `ttl` defaults to `30m`, which is currently the only supported value. See the
+              [prompt caching guide](https://platform.openai.com/docs/guides/prompt-caching)
+              for current details.
+
+          prompt_cache_retention: Deprecated. Use `prompt_cache_options.ttl` instead.
+
+              The retention policy for the prompt cache. Set to `24h` to enable extended
               prompt caching, which keeps cached prefixes active for longer, up to a maximum
               of 24 hours.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching#prompt-cache-retention).
+              This field expresses a maximum retention policy, while
+              `prompt_cache_options.ttl` expresses a minimum cache lifetime. The two fields
+              are independent and do not interact. For `gpt-5.5`, `gpt-5.5-pro`, and future
+              models, only `24h` is supported.
 
-          reasoning_effort: Constrains effort on reasoning for
-              [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently
-              supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`.
-              Reducing reasoning effort can result in faster responses and fewer tokens used
-              on reasoning in a response.
+              For older models that support both `in_memory` and `24h`, the default depends on
+              your organization's data retention policy:
 
-              - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported
-                reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool
-                calls are supported for all reasoning values in gpt-5.1.
-              - All models before `gpt-5.1` default to `medium` reasoning effort, and do not
-                support `none`.
-              - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
-              - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+              - Organizations without ZDR enabled default to `24h`.
+              - Organizations with ZDR enabled default to `in_memory` when
+                `prompt_cache_retention` is not specified.
+
+          reasoning_effort: Constrains effort on reasoning for reasoning models. Currently supported values
+              are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Reducing
+              reasoning effort can result in faster responses and fewer tokens used on
+              reasoning in a response. Not all reasoning models support every value. See the
+              [reasoning guide](https://platform.openai.com/docs/guides/reasoning) for
+              model-specific support.
 
           response_format: An object specifying the format that the model must output.
 
@@ -465,9 +489,13 @@ class Completions(SyncAPIResource):
                 will use 'default'.
               - If set to 'default', then the request will be processed with the standard
                 pricing and performance for the selected model.
-              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or
-                '[priority](https://openai.com/api-priority-processing/)', then the request
-                will be processed with the corresponding service tier.
+              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)',
+                then the request will be processed with the Flex Processing service tier.
+              - To opt-in to [Fast mode](/api/docs/guides/fast-mode) at the request level,
+                include the `service_tier=fast` or `service_tier=priority` parameter for
+                Responses or Chat Completions. The response will show `service_tier=priority`
+                regardless of if you specify `service_tier=fast` or `priority` in your
+                request.
               - When not set, the default behavior is 'auto'.
 
               When the `service_tier` parameter is set, the response body will include the
@@ -535,7 +563,8 @@ class Completions(SyncAPIResource):
 
           verbosity: Constrains the verbosity of the model's response. Lower values will result in
               more concise responses, while higher values will result in more verbose
-              responses. Currently supported values are `low`, `medium`, and `high`.
+              responses. Currently supported values are `low`, `medium`, and `high`. The
+              default is `medium`.
 
           web_search_options: This tool searches the web for relevant results to use in a response. Learn more
               about the
@@ -568,17 +597,19 @@ class Completions(SyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
         response_format: completion_create_params.ResponseFormat | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream_options: Optional[ChatCompletionStreamOptionsParam] | Omit = omit,
@@ -595,7 +626,7 @@ class Completions(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> Stream[ChatCompletionChunk]:
         """
         **Starting a new project?** We recommend trying
@@ -712,6 +743,8 @@ class Completions(SyncAPIResource):
 
               `["text", "audio"]`
 
+          moderation: Configuration for running moderation on the request input and generated output.
+
           n: How many chat completion choices to generate for each input message. Note that
               you will be charged based on the number of generated tokens across all of the
               choices. Keep `n` as `1` to minimize costs.
@@ -731,24 +764,40 @@ class Completions(SyncAPIResource):
               hit rates. Replaces the `user` field.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching).
 
-          prompt_cache_retention: The retention policy for the prompt cache. Set to `24h` to enable extended
+          prompt_cache_options: Options for prompt caching. Supported for `gpt-5.6` and later models. By
+              default, OpenAI automatically chooses one implicit cache breakpoint. You can add
+              explicit breakpoints to content blocks with `prompt_cache_breakpoint`. Each
+              request can write up to four breakpoints. For cache matching, OpenAI considers
+              up to the latest 80 breakpoints in the conversation, without a content-block
+              lookback limit. Set `mode` to `explicit` to disable the implicit breakpoint. The
+              `ttl` defaults to `30m`, which is currently the only supported value. See the
+              [prompt caching guide](https://platform.openai.com/docs/guides/prompt-caching)
+              for current details.
+
+          prompt_cache_retention: Deprecated. Use `prompt_cache_options.ttl` instead.
+
+              The retention policy for the prompt cache. Set to `24h` to enable extended
               prompt caching, which keeps cached prefixes active for longer, up to a maximum
               of 24 hours.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching#prompt-cache-retention).
+              This field expresses a maximum retention policy, while
+              `prompt_cache_options.ttl` expresses a minimum cache lifetime. The two fields
+              are independent and do not interact. For `gpt-5.5`, `gpt-5.5-pro`, and future
+              models, only `24h` is supported.
 
-          reasoning_effort: Constrains effort on reasoning for
-              [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently
-              supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`.
-              Reducing reasoning effort can result in faster responses and fewer tokens used
-              on reasoning in a response.
+              For older models that support both `in_memory` and `24h`, the default depends on
+              your organization's data retention policy:
 
-              - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported
-                reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool
-                calls are supported for all reasoning values in gpt-5.1.
-              - All models before `gpt-5.1` default to `medium` reasoning effort, and do not
-                support `none`.
-              - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
-              - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+              - Organizations without ZDR enabled default to `24h`.
+              - Organizations with ZDR enabled default to `in_memory` when
+                `prompt_cache_retention` is not specified.
+
+          reasoning_effort: Constrains effort on reasoning for reasoning models. Currently supported values
+              are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Reducing
+              reasoning effort can result in faster responses and fewer tokens used on
+              reasoning in a response. Not all reasoning models support every value. See the
+              [reasoning guide](https://platform.openai.com/docs/guides/reasoning) for
+              model-specific support.
 
           response_format: An object specifying the format that the model must output.
 
@@ -781,9 +830,13 @@ class Completions(SyncAPIResource):
                 will use 'default'.
               - If set to 'default', then the request will be processed with the standard
                 pricing and performance for the selected model.
-              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or
-                '[priority](https://openai.com/api-priority-processing/)', then the request
-                will be processed with the corresponding service tier.
+              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)',
+                then the request will be processed with the Flex Processing service tier.
+              - To opt-in to [Fast mode](/api/docs/guides/fast-mode) at the request level,
+                include the `service_tier=fast` or `service_tier=priority` parameter for
+                Responses or Chat Completions. The response will show `service_tier=priority`
+                regardless of if you specify `service_tier=fast` or `priority` in your
+                request.
               - When not set, the default behavior is 'auto'.
 
               When the `service_tier` parameter is set, the response body will include the
@@ -842,7 +895,8 @@ class Completions(SyncAPIResource):
 
           verbosity: Constrains the verbosity of the model's response. Lower values will result in
               more concise responses, while higher values will result in more verbose
-              responses. Currently supported values are `low`, `medium`, and `high`.
+              responses. Currently supported values are `low`, `medium`, and `high`. The
+              default is `medium`.
 
           web_search_options: This tool searches the web for relevant results to use in a response. Learn more
               about the
@@ -875,17 +929,19 @@ class Completions(SyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
         response_format: completion_create_params.ResponseFormat | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream_options: Optional[ChatCompletionStreamOptionsParam] | Omit = omit,
@@ -902,7 +958,7 @@ class Completions(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletion | Stream[ChatCompletionChunk]:
         """
         **Starting a new project?** We recommend trying
@@ -1019,6 +1075,8 @@ class Completions(SyncAPIResource):
 
               `["text", "audio"]`
 
+          moderation: Configuration for running moderation on the request input and generated output.
+
           n: How many chat completion choices to generate for each input message. Note that
               you will be charged based on the number of generated tokens across all of the
               choices. Keep `n` as `1` to minimize costs.
@@ -1038,24 +1096,40 @@ class Completions(SyncAPIResource):
               hit rates. Replaces the `user` field.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching).
 
-          prompt_cache_retention: The retention policy for the prompt cache. Set to `24h` to enable extended
+          prompt_cache_options: Options for prompt caching. Supported for `gpt-5.6` and later models. By
+              default, OpenAI automatically chooses one implicit cache breakpoint. You can add
+              explicit breakpoints to content blocks with `prompt_cache_breakpoint`. Each
+              request can write up to four breakpoints. For cache matching, OpenAI considers
+              up to the latest 80 breakpoints in the conversation, without a content-block
+              lookback limit. Set `mode` to `explicit` to disable the implicit breakpoint. The
+              `ttl` defaults to `30m`, which is currently the only supported value. See the
+              [prompt caching guide](https://platform.openai.com/docs/guides/prompt-caching)
+              for current details.
+
+          prompt_cache_retention: Deprecated. Use `prompt_cache_options.ttl` instead.
+
+              The retention policy for the prompt cache. Set to `24h` to enable extended
               prompt caching, which keeps cached prefixes active for longer, up to a maximum
               of 24 hours.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching#prompt-cache-retention).
+              This field expresses a maximum retention policy, while
+              `prompt_cache_options.ttl` expresses a minimum cache lifetime. The two fields
+              are independent and do not interact. For `gpt-5.5`, `gpt-5.5-pro`, and future
+              models, only `24h` is supported.
 
-          reasoning_effort: Constrains effort on reasoning for
-              [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently
-              supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`.
-              Reducing reasoning effort can result in faster responses and fewer tokens used
-              on reasoning in a response.
+              For older models that support both `in_memory` and `24h`, the default depends on
+              your organization's data retention policy:
 
-              - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported
-                reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool
-                calls are supported for all reasoning values in gpt-5.1.
-              - All models before `gpt-5.1` default to `medium` reasoning effort, and do not
-                support `none`.
-              - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
-              - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+              - Organizations without ZDR enabled default to `24h`.
+              - Organizations with ZDR enabled default to `in_memory` when
+                `prompt_cache_retention` is not specified.
+
+          reasoning_effort: Constrains effort on reasoning for reasoning models. Currently supported values
+              are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Reducing
+              reasoning effort can result in faster responses and fewer tokens used on
+              reasoning in a response. Not all reasoning models support every value. See the
+              [reasoning guide](https://platform.openai.com/docs/guides/reasoning) for
+              model-specific support.
 
           response_format: An object specifying the format that the model must output.
 
@@ -1088,9 +1162,13 @@ class Completions(SyncAPIResource):
                 will use 'default'.
               - If set to 'default', then the request will be processed with the standard
                 pricing and performance for the selected model.
-              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or
-                '[priority](https://openai.com/api-priority-processing/)', then the request
-                will be processed with the corresponding service tier.
+              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)',
+                then the request will be processed with the Flex Processing service tier.
+              - To opt-in to [Fast mode](/api/docs/guides/fast-mode) at the request level,
+                include the `service_tier=fast` or `service_tier=priority` parameter for
+                Responses or Chat Completions. The response will show `service_tier=priority`
+                regardless of if you specify `service_tier=fast` or `priority` in your
+                request.
               - When not set, the default behavior is 'auto'.
 
               When the `service_tier` parameter is set, the response body will include the
@@ -1149,7 +1227,8 @@ class Completions(SyncAPIResource):
 
           verbosity: Constrains the verbosity of the model's response. Lower values will result in
               more concise responses, while higher values will result in more verbose
-              responses. Currently supported values are `low`, `medium`, and `high`.
+              responses. Currently supported values are `low`, `medium`, and `high`. The
+              default is `medium`.
 
           web_search_options: This tool searches the web for relevant results to use in a response. Learn more
               about the
@@ -1181,17 +1260,19 @@ class Completions(SyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
         response_format: completion_create_params.ResponseFormat | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream: Optional[Literal[False]] | Literal[True] | Omit = omit,
@@ -1209,7 +1290,7 @@ class Completions(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletion | Stream[ChatCompletionChunk]:
         validate_response_format(response_format)
         return self._post(
@@ -1228,11 +1309,13 @@ class Completions(SyncAPIResource):
                     "max_tokens": max_tokens,
                     "metadata": metadata,
                     "modalities": modalities,
+                    "moderation": moderation,
                     "n": n,
                     "parallel_tool_calls": parallel_tool_calls,
                     "prediction": prediction,
                     "presence_penalty": presence_penalty,
                     "prompt_cache_key": prompt_cache_key,
+                    "prompt_cache_options": prompt_cache_options,
                     "prompt_cache_retention": prompt_cache_retention,
                     "reasoning_effort": reasoning_effort,
                     "response_format": response_format,
@@ -1277,7 +1360,7 @@ class Completions(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletion:
         """Get a stored chat completion.
 
@@ -1317,7 +1400,7 @@ class Completions(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletion:
         """Modify a stored chat completion.
 
@@ -1369,7 +1452,7 @@ class Completions(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> SyncCursorPage[ChatCompletion]:
         """List stored Chat Completions.
 
@@ -1431,7 +1514,7 @@ class Completions(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletionDeleted:
         """Delete a stored chat completion.
 
@@ -1477,16 +1560,18 @@ class Completions(SyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream_options: Optional[ChatCompletionStreamOptionsParam] | Omit = omit,
@@ -1503,7 +1588,7 @@ class Completions(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletionStreamManager[ResponseFormatT]:
         """Wrapper over the `client.chat.completions.create(stream=True)` method that provides a more granular event API
         and automatic accumulation of each delta.
@@ -1548,11 +1633,13 @@ class Completions(SyncAPIResource):
             max_tokens=max_tokens,
             metadata=metadata,
             modalities=modalities,
+            moderation=moderation,
             n=n,
             parallel_tool_calls=parallel_tool_calls,
             prediction=prediction,
             presence_penalty=presence_penalty,
             prompt_cache_key=prompt_cache_key,
+            prompt_cache_options=prompt_cache_options,
             prompt_cache_retention=prompt_cache_retention,
             reasoning_effort=reasoning_effort,
             safety_identifier=safety_identifier,
@@ -1628,16 +1715,18 @@ class AsyncCompletions(AsyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream_options: Optional[ChatCompletionStreamOptionsParam] | Omit = omit,
@@ -1654,7 +1743,7 @@ class AsyncCompletions(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ParsedChatCompletion[ResponseFormatT]:
         """Wrapper over the `client.chat.completions.create()` method that provides richer integrations with Python specific types
         & returns a `ParsedChatCompletion` object, which is a subclass of the standard `ChatCompletion` class.
@@ -1728,11 +1817,13 @@ class AsyncCompletions(AsyncAPIResource):
                     "max_tokens": max_tokens,
                     "metadata": metadata,
                     "modalities": modalities,
+                    "moderation": moderation,
                     "n": n,
                     "parallel_tool_calls": parallel_tool_calls,
                     "prediction": prediction,
                     "presence_penalty": presence_penalty,
                     "prompt_cache_key": prompt_cache_key,
+                    "prompt_cache_options": prompt_cache_options,
                     "prompt_cache_retention": prompt_cache_retention,
                     "reasoning_effort": reasoning_effort,
                     "response_format": _type_to_response_format(response_format),
@@ -1784,17 +1875,19 @@ class AsyncCompletions(AsyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
         response_format: completion_create_params.ResponseFormat | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream: Optional[Literal[False]] | Omit = omit,
@@ -1812,7 +1905,7 @@ class AsyncCompletions(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletion:
         """
         **Starting a new project?** We recommend trying
@@ -1920,6 +2013,8 @@ class AsyncCompletions(AsyncAPIResource):
 
               `["text", "audio"]`
 
+          moderation: Configuration for running moderation on the request input and generated output.
+
           n: How many chat completion choices to generate for each input message. Note that
               you will be charged based on the number of generated tokens across all of the
               choices. Keep `n` as `1` to minimize costs.
@@ -1939,24 +2034,40 @@ class AsyncCompletions(AsyncAPIResource):
               hit rates. Replaces the `user` field.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching).
 
-          prompt_cache_retention: The retention policy for the prompt cache. Set to `24h` to enable extended
+          prompt_cache_options: Options for prompt caching. Supported for `gpt-5.6` and later models. By
+              default, OpenAI automatically chooses one implicit cache breakpoint. You can add
+              explicit breakpoints to content blocks with `prompt_cache_breakpoint`. Each
+              request can write up to four breakpoints. For cache matching, OpenAI considers
+              up to the latest 80 breakpoints in the conversation, without a content-block
+              lookback limit. Set `mode` to `explicit` to disable the implicit breakpoint. The
+              `ttl` defaults to `30m`, which is currently the only supported value. See the
+              [prompt caching guide](https://platform.openai.com/docs/guides/prompt-caching)
+              for current details.
+
+          prompt_cache_retention: Deprecated. Use `prompt_cache_options.ttl` instead.
+
+              The retention policy for the prompt cache. Set to `24h` to enable extended
               prompt caching, which keeps cached prefixes active for longer, up to a maximum
               of 24 hours.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching#prompt-cache-retention).
+              This field expresses a maximum retention policy, while
+              `prompt_cache_options.ttl` expresses a minimum cache lifetime. The two fields
+              are independent and do not interact. For `gpt-5.5`, `gpt-5.5-pro`, and future
+              models, only `24h` is supported.
 
-          reasoning_effort: Constrains effort on reasoning for
-              [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently
-              supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`.
-              Reducing reasoning effort can result in faster responses and fewer tokens used
-              on reasoning in a response.
+              For older models that support both `in_memory` and `24h`, the default depends on
+              your organization's data retention policy:
 
-              - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported
-                reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool
-                calls are supported for all reasoning values in gpt-5.1.
-              - All models before `gpt-5.1` default to `medium` reasoning effort, and do not
-                support `none`.
-              - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
-              - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+              - Organizations without ZDR enabled default to `24h`.
+              - Organizations with ZDR enabled default to `in_memory` when
+                `prompt_cache_retention` is not specified.
+
+          reasoning_effort: Constrains effort on reasoning for reasoning models. Currently supported values
+              are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Reducing
+              reasoning effort can result in faster responses and fewer tokens used on
+              reasoning in a response. Not all reasoning models support every value. See the
+              [reasoning guide](https://platform.openai.com/docs/guides/reasoning) for
+              model-specific support.
 
           response_format: An object specifying the format that the model must output.
 
@@ -1989,9 +2100,13 @@ class AsyncCompletions(AsyncAPIResource):
                 will use 'default'.
               - If set to 'default', then the request will be processed with the standard
                 pricing and performance for the selected model.
-              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or
-                '[priority](https://openai.com/api-priority-processing/)', then the request
-                will be processed with the corresponding service tier.
+              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)',
+                then the request will be processed with the Flex Processing service tier.
+              - To opt-in to [Fast mode](/api/docs/guides/fast-mode) at the request level,
+                include the `service_tier=fast` or `service_tier=priority` parameter for
+                Responses or Chat Completions. The response will show `service_tier=priority`
+                regardless of if you specify `service_tier=fast` or `priority` in your
+                request.
               - When not set, the default behavior is 'auto'.
 
               When the `service_tier` parameter is set, the response body will include the
@@ -2059,7 +2174,8 @@ class AsyncCompletions(AsyncAPIResource):
 
           verbosity: Constrains the verbosity of the model's response. Lower values will result in
               more concise responses, while higher values will result in more verbose
-              responses. Currently supported values are `low`, `medium`, and `high`.
+              responses. Currently supported values are `low`, `medium`, and `high`. The
+              default is `medium`.
 
           web_search_options: This tool searches the web for relevant results to use in a response. Learn more
               about the
@@ -2092,17 +2208,19 @@ class AsyncCompletions(AsyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
         response_format: completion_create_params.ResponseFormat | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream_options: Optional[ChatCompletionStreamOptionsParam] | Omit = omit,
@@ -2119,7 +2237,7 @@ class AsyncCompletions(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> AsyncStream[ChatCompletionChunk]:
         """
         **Starting a new project?** We recommend trying
@@ -2236,6 +2354,8 @@ class AsyncCompletions(AsyncAPIResource):
 
               `["text", "audio"]`
 
+          moderation: Configuration for running moderation on the request input and generated output.
+
           n: How many chat completion choices to generate for each input message. Note that
               you will be charged based on the number of generated tokens across all of the
               choices. Keep `n` as `1` to minimize costs.
@@ -2255,24 +2375,40 @@ class AsyncCompletions(AsyncAPIResource):
               hit rates. Replaces the `user` field.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching).
 
-          prompt_cache_retention: The retention policy for the prompt cache. Set to `24h` to enable extended
+          prompt_cache_options: Options for prompt caching. Supported for `gpt-5.6` and later models. By
+              default, OpenAI automatically chooses one implicit cache breakpoint. You can add
+              explicit breakpoints to content blocks with `prompt_cache_breakpoint`. Each
+              request can write up to four breakpoints. For cache matching, OpenAI considers
+              up to the latest 80 breakpoints in the conversation, without a content-block
+              lookback limit. Set `mode` to `explicit` to disable the implicit breakpoint. The
+              `ttl` defaults to `30m`, which is currently the only supported value. See the
+              [prompt caching guide](https://platform.openai.com/docs/guides/prompt-caching)
+              for current details.
+
+          prompt_cache_retention: Deprecated. Use `prompt_cache_options.ttl` instead.
+
+              The retention policy for the prompt cache. Set to `24h` to enable extended
               prompt caching, which keeps cached prefixes active for longer, up to a maximum
               of 24 hours.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching#prompt-cache-retention).
+              This field expresses a maximum retention policy, while
+              `prompt_cache_options.ttl` expresses a minimum cache lifetime. The two fields
+              are independent and do not interact. For `gpt-5.5`, `gpt-5.5-pro`, and future
+              models, only `24h` is supported.
 
-          reasoning_effort: Constrains effort on reasoning for
-              [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently
-              supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`.
-              Reducing reasoning effort can result in faster responses and fewer tokens used
-              on reasoning in a response.
+              For older models that support both `in_memory` and `24h`, the default depends on
+              your organization's data retention policy:
 
-              - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported
-                reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool
-                calls are supported for all reasoning values in gpt-5.1.
-              - All models before `gpt-5.1` default to `medium` reasoning effort, and do not
-                support `none`.
-              - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
-              - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+              - Organizations without ZDR enabled default to `24h`.
+              - Organizations with ZDR enabled default to `in_memory` when
+                `prompt_cache_retention` is not specified.
+
+          reasoning_effort: Constrains effort on reasoning for reasoning models. Currently supported values
+              are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Reducing
+              reasoning effort can result in faster responses and fewer tokens used on
+              reasoning in a response. Not all reasoning models support every value. See the
+              [reasoning guide](https://platform.openai.com/docs/guides/reasoning) for
+              model-specific support.
 
           response_format: An object specifying the format that the model must output.
 
@@ -2305,9 +2441,13 @@ class AsyncCompletions(AsyncAPIResource):
                 will use 'default'.
               - If set to 'default', then the request will be processed with the standard
                 pricing and performance for the selected model.
-              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or
-                '[priority](https://openai.com/api-priority-processing/)', then the request
-                will be processed with the corresponding service tier.
+              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)',
+                then the request will be processed with the Flex Processing service tier.
+              - To opt-in to [Fast mode](/api/docs/guides/fast-mode) at the request level,
+                include the `service_tier=fast` or `service_tier=priority` parameter for
+                Responses or Chat Completions. The response will show `service_tier=priority`
+                regardless of if you specify `service_tier=fast` or `priority` in your
+                request.
               - When not set, the default behavior is 'auto'.
 
               When the `service_tier` parameter is set, the response body will include the
@@ -2366,7 +2506,8 @@ class AsyncCompletions(AsyncAPIResource):
 
           verbosity: Constrains the verbosity of the model's response. Lower values will result in
               more concise responses, while higher values will result in more verbose
-              responses. Currently supported values are `low`, `medium`, and `high`.
+              responses. Currently supported values are `low`, `medium`, and `high`. The
+              default is `medium`.
 
           web_search_options: This tool searches the web for relevant results to use in a response. Learn more
               about the
@@ -2399,17 +2540,19 @@ class AsyncCompletions(AsyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
         response_format: completion_create_params.ResponseFormat | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream_options: Optional[ChatCompletionStreamOptionsParam] | Omit = omit,
@@ -2426,7 +2569,7 @@ class AsyncCompletions(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletion | AsyncStream[ChatCompletionChunk]:
         """
         **Starting a new project?** We recommend trying
@@ -2543,6 +2686,8 @@ class AsyncCompletions(AsyncAPIResource):
 
               `["text", "audio"]`
 
+          moderation: Configuration for running moderation on the request input and generated output.
+
           n: How many chat completion choices to generate for each input message. Note that
               you will be charged based on the number of generated tokens across all of the
               choices. Keep `n` as `1` to minimize costs.
@@ -2562,24 +2707,40 @@ class AsyncCompletions(AsyncAPIResource):
               hit rates. Replaces the `user` field.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching).
 
-          prompt_cache_retention: The retention policy for the prompt cache. Set to `24h` to enable extended
+          prompt_cache_options: Options for prompt caching. Supported for `gpt-5.6` and later models. By
+              default, OpenAI automatically chooses one implicit cache breakpoint. You can add
+              explicit breakpoints to content blocks with `prompt_cache_breakpoint`. Each
+              request can write up to four breakpoints. For cache matching, OpenAI considers
+              up to the latest 80 breakpoints in the conversation, without a content-block
+              lookback limit. Set `mode` to `explicit` to disable the implicit breakpoint. The
+              `ttl` defaults to `30m`, which is currently the only supported value. See the
+              [prompt caching guide](https://platform.openai.com/docs/guides/prompt-caching)
+              for current details.
+
+          prompt_cache_retention: Deprecated. Use `prompt_cache_options.ttl` instead.
+
+              The retention policy for the prompt cache. Set to `24h` to enable extended
               prompt caching, which keeps cached prefixes active for longer, up to a maximum
               of 24 hours.
               [Learn more](https://platform.openai.com/docs/guides/prompt-caching#prompt-cache-retention).
+              This field expresses a maximum retention policy, while
+              `prompt_cache_options.ttl` expresses a minimum cache lifetime. The two fields
+              are independent and do not interact. For `gpt-5.5`, `gpt-5.5-pro`, and future
+              models, only `24h` is supported.
 
-          reasoning_effort: Constrains effort on reasoning for
-              [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently
-              supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`.
-              Reducing reasoning effort can result in faster responses and fewer tokens used
-              on reasoning in a response.
+              For older models that support both `in_memory` and `24h`, the default depends on
+              your organization's data retention policy:
 
-              - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported
-                reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool
-                calls are supported for all reasoning values in gpt-5.1.
-              - All models before `gpt-5.1` default to `medium` reasoning effort, and do not
-                support `none`.
-              - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
-              - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+              - Organizations without ZDR enabled default to `24h`.
+              - Organizations with ZDR enabled default to `in_memory` when
+                `prompt_cache_retention` is not specified.
+
+          reasoning_effort: Constrains effort on reasoning for reasoning models. Currently supported values
+              are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Reducing
+              reasoning effort can result in faster responses and fewer tokens used on
+              reasoning in a response. Not all reasoning models support every value. See the
+              [reasoning guide](https://platform.openai.com/docs/guides/reasoning) for
+              model-specific support.
 
           response_format: An object specifying the format that the model must output.
 
@@ -2612,9 +2773,13 @@ class AsyncCompletions(AsyncAPIResource):
                 will use 'default'.
               - If set to 'default', then the request will be processed with the standard
                 pricing and performance for the selected model.
-              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or
-                '[priority](https://openai.com/api-priority-processing/)', then the request
-                will be processed with the corresponding service tier.
+              - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)',
+                then the request will be processed with the Flex Processing service tier.
+              - To opt-in to [Fast mode](/api/docs/guides/fast-mode) at the request level,
+                include the `service_tier=fast` or `service_tier=priority` parameter for
+                Responses or Chat Completions. The response will show `service_tier=priority`
+                regardless of if you specify `service_tier=fast` or `priority` in your
+                request.
               - When not set, the default behavior is 'auto'.
 
               When the `service_tier` parameter is set, the response body will include the
@@ -2673,7 +2838,8 @@ class AsyncCompletions(AsyncAPIResource):
 
           verbosity: Constrains the verbosity of the model's response. Lower values will result in
               more concise responses, while higher values will result in more verbose
-              responses. Currently supported values are `low`, `medium`, and `high`.
+              responses. Currently supported values are `low`, `medium`, and `high`. The
+              default is `medium`.
 
           web_search_options: This tool searches the web for relevant results to use in a response. Learn more
               about the
@@ -2705,17 +2871,19 @@ class AsyncCompletions(AsyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
         response_format: completion_create_params.ResponseFormat | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream: Optional[Literal[False]] | Literal[True] | Omit = omit,
@@ -2733,7 +2901,7 @@ class AsyncCompletions(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletion | AsyncStream[ChatCompletionChunk]:
         validate_response_format(response_format)
         return await self._post(
@@ -2752,11 +2920,13 @@ class AsyncCompletions(AsyncAPIResource):
                     "max_tokens": max_tokens,
                     "metadata": metadata,
                     "modalities": modalities,
+                    "moderation": moderation,
                     "n": n,
                     "parallel_tool_calls": parallel_tool_calls,
                     "prediction": prediction,
                     "presence_penalty": presence_penalty,
                     "prompt_cache_key": prompt_cache_key,
+                    "prompt_cache_options": prompt_cache_options,
                     "prompt_cache_retention": prompt_cache_retention,
                     "reasoning_effort": reasoning_effort,
                     "response_format": response_format,
@@ -2801,7 +2971,7 @@ class AsyncCompletions(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletion:
         """Get a stored chat completion.
 
@@ -2841,7 +3011,7 @@ class AsyncCompletions(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletion:
         """Modify a stored chat completion.
 
@@ -2893,7 +3063,7 @@ class AsyncCompletions(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[ChatCompletion, AsyncCursorPage[ChatCompletion]]:
         """List stored Chat Completions.
 
@@ -2955,7 +3125,7 @@ class AsyncCompletions(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> ChatCompletionDeleted:
         """Delete a stored chat completion.
 
@@ -3001,16 +3171,18 @@ class AsyncCompletions(AsyncAPIResource):
         max_tokens: Optional[int] | Omit = omit,
         metadata: Optional[Metadata] | Omit = omit,
         modalities: Optional[List[Literal["text", "audio"]]] | Omit = omit,
+        moderation: Optional[completion_create_params.Moderation] | Omit = omit,
         n: Optional[int] | Omit = omit,
         parallel_tool_calls: bool | Omit = omit,
         prediction: Optional[ChatCompletionPredictionContentParam] | Omit = omit,
         presence_penalty: Optional[float] | Omit = omit,
-        prompt_cache_key: str | Omit = omit,
+        prompt_cache_key: Optional[str] | Omit = omit,
+        prompt_cache_options: completion_create_params.PromptCacheOptions | Omit = omit,
         prompt_cache_retention: Optional[Literal["in_memory", "24h"]] | Omit = omit,
         reasoning_effort: Optional[ReasoningEffort] | Omit = omit,
-        safety_identifier: str | Omit = omit,
+        safety_identifier: Optional[str] | Omit = omit,
         seed: Optional[int] | Omit = omit,
-        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority"]] | Omit = omit,
+        service_tier: Optional[Literal["auto", "default", "flex", "scale", "priority", "fast"]] | Omit = omit,
         stop: Union[Optional[str], SequenceNotStr[str], None] | Omit = omit,
         store: Optional[bool] | Omit = omit,
         stream_options: Optional[ChatCompletionStreamOptionsParam] | Omit = omit,
@@ -3027,7 +3199,7 @@ class AsyncCompletions(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> AsyncChatCompletionStreamManager[ResponseFormatT]:
         """Wrapper over the `client.chat.completions.create(stream=True)` method that provides a more granular event API
         and automatic accumulation of each delta.
@@ -3073,11 +3245,13 @@ class AsyncCompletions(AsyncAPIResource):
             max_tokens=max_tokens,
             metadata=metadata,
             modalities=modalities,
+            moderation=moderation,
             n=n,
             parallel_tool_calls=parallel_tool_calls,
             prediction=prediction,
             presence_penalty=presence_penalty,
             prompt_cache_key=prompt_cache_key,
+            prompt_cache_options=prompt_cache_options,
             prompt_cache_retention=prompt_cache_retention,
             reasoning_effort=reasoning_effort,
             safety_identifier=safety_identifier,

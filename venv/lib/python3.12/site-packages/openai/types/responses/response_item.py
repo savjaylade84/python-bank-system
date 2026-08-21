@@ -1,10 +1,12 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# File generated from our OpenAPI spec by Castiron. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Union, Optional
 from typing_extensions import Literal, Annotated, TypeAlias
 
+from .tool import Tool
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
+from .mcp_tool_call_error import McpToolCallError
 from .response_output_message import ResponseOutputMessage
 from .response_reasoning_item import ResponseReasoningItem
 from .response_compaction_item import ResponseCompactionItem
@@ -27,6 +29,9 @@ from .response_function_shell_tool_call_output import ResponseFunctionShellToolC
 
 __all__ = [
     "ResponseItem",
+    "AdditionalTools",
+    "Program",
+    "ProgramOutput",
     "ImageGenerationCall",
     "LocalShellCall",
     "LocalShellCallAction",
@@ -37,6 +42,54 @@ __all__ = [
     "McpApprovalResponse",
     "McpCall",
 ]
+
+
+class AdditionalTools(BaseModel):
+    id: str
+    """The unique ID of the additional tools item."""
+
+    role: Literal["unknown", "user", "assistant", "system", "critic", "discriminator", "developer", "tool"]
+    """The role that provided the additional tools."""
+
+    tools: List[Tool]
+    """The additional tool definitions made available at this item."""
+
+    type: Literal["additional_tools"]
+    """The type of the item. Always `additional_tools`."""
+
+
+class Program(BaseModel):
+    id: str
+    """The unique ID of the program item."""
+
+    call_id: str
+    """The stable call ID of the program item."""
+
+    code: str
+    """The JavaScript source executed by programmatic tool calling."""
+
+    fingerprint: str
+    """Opaque program replay fingerprint that must be round-tripped."""
+
+    type: Literal["program"]
+    """The type of the item. Always `program`."""
+
+
+class ProgramOutput(BaseModel):
+    id: str
+    """The unique ID of the program output item."""
+
+    call_id: str
+    """The call ID of the program item."""
+
+    result: str
+    """The result produced by the program item."""
+
+    status: Literal["completed", "incomplete"]
+    """The terminal status of the program output item."""
+
+    type: Literal["program_output"]
+    """The type of the item. Always `program_output`."""
 
 
 class ImageGenerationCall(BaseModel):
@@ -210,7 +263,7 @@ class McpCall(BaseModel):
     corresponding tool call.
     """
 
-    error: Optional[str] = None
+    error: Optional[McpToolCallError] = None
     """The error from the tool call, if any."""
 
     output: Optional[str] = None
@@ -235,7 +288,10 @@ ResponseItem: TypeAlias = Annotated[
         ResponseFunctionToolCallOutputItem,
         ResponseToolSearchCall,
         ResponseToolSearchOutputItem,
+        AdditionalTools,
         ResponseReasoningItem,
+        Program,
+        ProgramOutput,
         ResponseCompactionItem,
         ImageGenerationCall,
         ResponseCodeInterpreterToolCall,

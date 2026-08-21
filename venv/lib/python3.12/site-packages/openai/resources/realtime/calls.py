@@ -1,11 +1,11 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# File generated from our OpenAPI spec by Castiron. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
 from typing import List, Union, Optional
 from typing_extensions import Literal
 
-import httpx
+import httpx2
 
 from ... import _legacy_response
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
@@ -69,7 +69,7 @@ class Calls(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> _legacy_response.HttpxBinaryResponseContent:
         """
         Create a new Realtime API call over WebRTC and receive the SDP answer needed to
@@ -123,6 +123,8 @@ class Calls(SyncAPIResource):
                 "gpt-realtime",
                 "gpt-realtime-1.5",
                 "gpt-realtime-2",
+                "gpt-realtime-2.1",
+                "gpt-realtime-2.1-mini",
                 "gpt-realtime-2025-08-28",
                 "gpt-4o-realtime-preview",
                 "gpt-4o-realtime-preview-2024-10-01",
@@ -153,7 +155,7 @@ class Calls(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
         Accept an incoming SIP call and configure the realtime session that will handle
@@ -283,7 +285,7 @@ class Calls(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
         End an active Realtime API call, whether it was initiated over SIP or WebRTC.
@@ -322,7 +324,7 @@ class Calls(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
         Transfer an active SIP call to a new destination using the SIP REFER verb.
@@ -365,7 +367,7 @@ class Calls(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
         Decline an incoming SIP call by returning a SIP status code to the caller.
@@ -429,7 +431,7 @@ class AsyncCalls(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> _legacy_response.HttpxBinaryResponseContent:
         """
         Create a new Realtime API call over WebRTC and receive the SDP answer needed to
@@ -483,6 +485,8 @@ class AsyncCalls(AsyncAPIResource):
                 "gpt-realtime",
                 "gpt-realtime-1.5",
                 "gpt-realtime-2",
+                "gpt-realtime-2.1",
+                "gpt-realtime-2.1-mini",
                 "gpt-realtime-2025-08-28",
                 "gpt-4o-realtime-preview",
                 "gpt-4o-realtime-preview-2024-10-01",
@@ -513,7 +517,7 @@ class AsyncCalls(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
         Accept an incoming SIP call and configure the realtime session that will handle
@@ -643,7 +647,7 @@ class AsyncCalls(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
         End an active Realtime API call, whether it was initiated over SIP or WebRTC.
@@ -682,7 +686,7 @@ class AsyncCalls(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
         Transfer an active SIP call to a new destination using the SIP REFER verb.
@@ -725,7 +729,7 @@ class AsyncCalls(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> None:
         """
         Decline an incoming SIP call by returning a SIP status code to the caller.

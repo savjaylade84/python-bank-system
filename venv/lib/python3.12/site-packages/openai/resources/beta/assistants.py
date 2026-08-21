@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# File generated from our OpenAPI spec by Castiron. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import typing_extensions
 from typing import Union, Iterable, Optional
 from typing_extensions import Literal
 
-import httpx
+import httpx2
 
 from ... import _legacy_response
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
@@ -74,7 +74,7 @@ class Assistants(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> Assistant:
         """
         Create an assistant with a model and instructions.
@@ -100,19 +100,12 @@ class Assistants(SyncAPIResource):
 
           name: The name of the assistant. The maximum length is 256 characters.
 
-          reasoning_effort: Constrains effort on reasoning for
-              [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently
-              supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`.
-              Reducing reasoning effort can result in faster responses and fewer tokens used
-              on reasoning in a response.
-
-              - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported
-                reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool
-                calls are supported for all reasoning values in gpt-5.1.
-              - All models before `gpt-5.1` default to `medium` reasoning effort, and do not
-                support `none`.
-              - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
-              - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+          reasoning_effort: Constrains effort on reasoning for reasoning models. Currently supported values
+              are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Reducing
+              reasoning effort can result in faster responses and fewer tokens used on
+              reasoning in a response. Not all reasoning models support every value. See the
+              [reasoning guide](https://platform.openai.com/docs/guides/reasoning) for
+              model-specific support.
 
           response_format: Specifies the format that the model must output. Compatible with
               [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
@@ -201,7 +194,7 @@ class Assistants(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> Assistant:
         """
         Retrieves an assistant.
@@ -298,7 +291,7 @@ class Assistants(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> Assistant:
         """Modifies an assistant.
 
@@ -325,19 +318,12 @@ class Assistants(SyncAPIResource):
 
           name: The name of the assistant. The maximum length is 256 characters.
 
-          reasoning_effort: Constrains effort on reasoning for
-              [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently
-              supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`.
-              Reducing reasoning effort can result in faster responses and fewer tokens used
-              on reasoning in a response.
-
-              - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported
-                reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool
-                calls are supported for all reasoning values in gpt-5.1.
-              - All models before `gpt-5.1` default to `medium` reasoning effort, and do not
-                support `none`.
-              - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
-              - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+          reasoning_effort: Constrains effort on reasoning for reasoning models. Currently supported values
+              are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Reducing
+              reasoning effort can result in faster responses and fewer tokens used on
+              reasoning in a response. Not all reasoning models support every value. See the
+              [reasoning guide](https://platform.openai.com/docs/guides/reasoning) for
+              model-specific support.
 
           response_format: Specifies the format that the model must output. Compatible with
               [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
@@ -431,7 +417,7 @@ class Assistants(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> SyncCursorPage[Assistant]:
         """Returns a list of assistants.
 
@@ -495,7 +481,7 @@ class Assistants(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> AssistantDeleted:
         """
         Delete an assistant.
@@ -567,7 +553,7 @@ class AsyncAssistants(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> Assistant:
         """
         Create an assistant with a model and instructions.
@@ -593,19 +579,12 @@ class AsyncAssistants(AsyncAPIResource):
 
           name: The name of the assistant. The maximum length is 256 characters.
 
-          reasoning_effort: Constrains effort on reasoning for
-              [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently
-              supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`.
-              Reducing reasoning effort can result in faster responses and fewer tokens used
-              on reasoning in a response.
-
-              - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported
-                reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool
-                calls are supported for all reasoning values in gpt-5.1.
-              - All models before `gpt-5.1` default to `medium` reasoning effort, and do not
-                support `none`.
-              - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
-              - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+          reasoning_effort: Constrains effort on reasoning for reasoning models. Currently supported values
+              are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Reducing
+              reasoning effort can result in faster responses and fewer tokens used on
+              reasoning in a response. Not all reasoning models support every value. See the
+              [reasoning guide](https://platform.openai.com/docs/guides/reasoning) for
+              model-specific support.
 
           response_format: Specifies the format that the model must output. Compatible with
               [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
@@ -694,7 +673,7 @@ class AsyncAssistants(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> Assistant:
         """
         Retrieves an assistant.
@@ -791,7 +770,7 @@ class AsyncAssistants(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> Assistant:
         """Modifies an assistant.
 
@@ -818,19 +797,12 @@ class AsyncAssistants(AsyncAPIResource):
 
           name: The name of the assistant. The maximum length is 256 characters.
 
-          reasoning_effort: Constrains effort on reasoning for
-              [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently
-              supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`.
-              Reducing reasoning effort can result in faster responses and fewer tokens used
-              on reasoning in a response.
-
-              - `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported
-                reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool
-                calls are supported for all reasoning values in gpt-5.1.
-              - All models before `gpt-5.1` default to `medium` reasoning effort, and do not
-                support `none`.
-              - The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
-              - `xhigh` is supported for all models after `gpt-5.1-codex-max`.
+          reasoning_effort: Constrains effort on reasoning for reasoning models. Currently supported values
+              are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Reducing
+              reasoning effort can result in faster responses and fewer tokens used on
+              reasoning in a response. Not all reasoning models support every value. See the
+              [reasoning guide](https://platform.openai.com/docs/guides/reasoning) for
+              model-specific support.
 
           response_format: Specifies the format that the model must output. Compatible with
               [GPT-4o](https://platform.openai.com/docs/models#gpt-4o),
@@ -924,7 +896,7 @@ class AsyncAssistants(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[Assistant, AsyncCursorPage[Assistant]]:
         """Returns a list of assistants.
 
@@ -988,7 +960,7 @@ class AsyncAssistants(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+        timeout: float | httpx2.Timeout | None | NotGiven = not_given,
     ) -> AssistantDeleted:
         """
         Delete an assistant.

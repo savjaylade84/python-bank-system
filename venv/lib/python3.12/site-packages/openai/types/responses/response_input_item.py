@@ -1,13 +1,15 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# File generated from our OpenAPI spec by Castiron. See CONTRIBUTING.md for details.
 
 from typing import Dict, List, Union, Optional
 from typing_extensions import Literal, Annotated, TypeAlias
 
+from .tool import Tool
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
 from .local_environment import LocalEnvironment
 from .easy_input_message import EasyInputMessage
 from .container_reference import ContainerReference
+from .mcp_tool_call_error import McpToolCallError
 from .response_output_message import ResponseOutputMessage
 from .response_reasoning_item import ResponseReasoningItem
 from .response_custom_tool_call import ResponseCustomToolCall
@@ -30,27 +32,46 @@ __all__ = [
     "ComputerCallOutput",
     "ComputerCallOutputAcknowledgedSafetyCheck",
     "FunctionCallOutput",
+    "FunctionCallOutputCaller",
+    "FunctionCallOutputCallerDirect",
+    "FunctionCallOutputCallerProgram",
     "ToolSearchCall",
+    "AdditionalTools",
     "ImageGenerationCall",
     "LocalShellCall",
     "LocalShellCallAction",
     "LocalShellCallOutput",
     "ShellCall",
     "ShellCallAction",
+    "ShellCallCaller",
+    "ShellCallCallerDirect",
+    "ShellCallCallerProgram",
     "ShellCallEnvironment",
     "ShellCallOutput",
+    "ShellCallOutputCaller",
+    "ShellCallOutputCallerDirect",
+    "ShellCallOutputCallerProgram",
     "ApplyPatchCall",
     "ApplyPatchCallOperation",
     "ApplyPatchCallOperationCreateFile",
     "ApplyPatchCallOperationDeleteFile",
     "ApplyPatchCallOperationUpdateFile",
+    "ApplyPatchCallCaller",
+    "ApplyPatchCallCallerDirect",
+    "ApplyPatchCallCallerProgram",
     "ApplyPatchCallOutput",
+    "ApplyPatchCallOutputCaller",
+    "ApplyPatchCallOutputCallerDirect",
+    "ApplyPatchCallOutputCallerProgram",
     "McpListTools",
     "McpListToolsTool",
     "McpApprovalRequest",
     "McpApprovalResponse",
     "McpCall",
+    "CompactionTrigger",
     "ItemReference",
+    "Program",
+    "ProgramOutput",
 ]
 
 
@@ -123,6 +144,24 @@ class ComputerCallOutput(BaseModel):
     """
 
 
+class FunctionCallOutputCallerDirect(BaseModel):
+    type: Literal["direct"]
+    """The caller type. Always `direct`."""
+
+
+class FunctionCallOutputCallerProgram(BaseModel):
+    caller_id: str
+    """The call ID of the program item that produced this tool call."""
+
+    type: Literal["program"]
+    """The caller type. Always `program`."""
+
+
+FunctionCallOutputCaller: TypeAlias = Annotated[
+    Union[FunctionCallOutputCallerDirect, FunctionCallOutputCallerProgram, None], PropertyInfo(discriminator="type")
+]
+
+
 class FunctionCallOutput(BaseModel):
     """The output of a function tool call."""
 
@@ -140,6 +179,15 @@ class FunctionCallOutput(BaseModel):
 
     Populated when this item is returned via API.
     """
+
+    caller: Optional[FunctionCallOutputCaller] = None
+    """The execution context that produced this tool call."""
+
+    name: Optional[str] = None
+    """The name of the tool that produced the output."""
+
+    namespace: Optional[str] = None
+    """The namespace of the tool that produced the output."""
 
     status: Optional[Literal["in_progress", "completed", "incomplete"]] = None
     """The status of the item.
@@ -167,6 +215,20 @@ class ToolSearchCall(BaseModel):
 
     status: Optional[Literal["in_progress", "completed", "incomplete"]] = None
     """The status of the tool search call."""
+
+
+class AdditionalTools(BaseModel):
+    role: Literal["developer"]
+    """The role that provided the additional tools. Only `developer` is supported."""
+
+    tools: List[Tool]
+    """A list of additional tools made available at this item."""
+
+    type: Literal["additional_tools"]
+    """The item type. Always `additional_tools`."""
+
+    id: Optional[str] = None
+    """The unique ID of this additional tools item."""
 
 
 class ImageGenerationCall(BaseModel):
@@ -258,6 +320,23 @@ class ShellCallAction(BaseModel):
     """Maximum wall-clock time in milliseconds to allow the shell commands to run."""
 
 
+class ShellCallCallerDirect(BaseModel):
+    type: Literal["direct"]
+    """The caller type. Always `direct`."""
+
+
+class ShellCallCallerProgram(BaseModel):
+    caller_id: str
+    """The call ID of the program item that produced this tool call."""
+
+    type: Literal["program"]
+    """The caller type. Always `program`."""
+
+
+ShellCallCaller: TypeAlias = Annotated[
+    Union[ShellCallCallerDirect, ShellCallCallerProgram, None], PropertyInfo(discriminator="type")
+]
+
 ShellCallEnvironment: TypeAlias = Annotated[
     Union[LocalEnvironment, ContainerReference, None], PropertyInfo(discriminator="type")
 ]
@@ -281,6 +360,9 @@ class ShellCall(BaseModel):
     Populated when this item is returned via API.
     """
 
+    caller: Optional[ShellCallCaller] = None
+    """The execution context that produced this tool call."""
+
     environment: Optional[ShellCallEnvironment] = None
     """The environment to execute the shell commands in."""
 
@@ -289,6 +371,24 @@ class ShellCall(BaseModel):
 
     One of `in_progress`, `completed`, or `incomplete`.
     """
+
+
+class ShellCallOutputCallerDirect(BaseModel):
+    type: Literal["direct"]
+    """The caller type. Always `direct`."""
+
+
+class ShellCallOutputCallerProgram(BaseModel):
+    caller_id: str
+    """The call ID of the program item that produced this tool call."""
+
+    type: Literal["program"]
+    """The caller type. Always `program`."""
+
+
+ShellCallOutputCaller: TypeAlias = Annotated[
+    Union[ShellCallOutputCallerDirect, ShellCallOutputCallerProgram, None], PropertyInfo(discriminator="type")
+]
 
 
 class ShellCallOutput(BaseModel):
@@ -311,6 +411,9 @@ class ShellCallOutput(BaseModel):
 
     Populated when this item is returned via API.
     """
+
+    caller: Optional[ShellCallOutputCaller] = None
+    """The execution context that produced this tool call."""
 
     max_output_length: Optional[int] = None
     """
@@ -364,6 +467,24 @@ ApplyPatchCallOperation: TypeAlias = Annotated[
 ]
 
 
+class ApplyPatchCallCallerDirect(BaseModel):
+    type: Literal["direct"]
+    """The caller type. Always `direct`."""
+
+
+class ApplyPatchCallCallerProgram(BaseModel):
+    caller_id: str
+    """The call ID of the program item that produced this tool call."""
+
+    type: Literal["program"]
+    """The caller type. Always `program`."""
+
+
+ApplyPatchCallCaller: TypeAlias = Annotated[
+    Union[ApplyPatchCallCallerDirect, ApplyPatchCallCallerProgram, None], PropertyInfo(discriminator="type")
+]
+
+
 class ApplyPatchCall(BaseModel):
     """
     A tool call representing a request to create, delete, or update files using diff patches.
@@ -390,6 +511,27 @@ class ApplyPatchCall(BaseModel):
     Populated when this item is returned via API.
     """
 
+    caller: Optional[ApplyPatchCallCaller] = None
+    """The execution context that produced this tool call."""
+
+
+class ApplyPatchCallOutputCallerDirect(BaseModel):
+    type: Literal["direct"]
+    """The caller type. Always `direct`."""
+
+
+class ApplyPatchCallOutputCallerProgram(BaseModel):
+    caller_id: str
+    """The call ID of the program item that produced this tool call."""
+
+    type: Literal["program"]
+    """The caller type. Always `program`."""
+
+
+ApplyPatchCallOutputCaller: TypeAlias = Annotated[
+    Union[ApplyPatchCallOutputCallerDirect, ApplyPatchCallOutputCallerProgram, None], PropertyInfo(discriminator="type")
+]
+
 
 class ApplyPatchCallOutput(BaseModel):
     """The streamed output emitted by an apply patch tool call."""
@@ -408,6 +550,9 @@ class ApplyPatchCallOutput(BaseModel):
 
     Populated when this item is returned via API.
     """
+
+    caller: Optional[ApplyPatchCallOutputCaller] = None
+    """The execution context that produced this tool call."""
 
     output: Optional[str] = None
     """
@@ -514,7 +659,7 @@ class McpCall(BaseModel):
     corresponding tool call.
     """
 
-    error: Optional[str] = None
+    error: Optional[McpToolCallError] = None
     """The error from the tool call, if any."""
 
     output: Optional[str] = None
@@ -527,6 +672,13 @@ class McpCall(BaseModel):
     """
 
 
+class CompactionTrigger(BaseModel):
+    """Compacts the current context. Must be the final input item."""
+
+    type: Literal["compaction_trigger"]
+    """The type of the item. Always `compaction_trigger`."""
+
+
 class ItemReference(BaseModel):
     """An internal identifier for an item to reference."""
 
@@ -535,6 +687,40 @@ class ItemReference(BaseModel):
 
     type: Optional[Literal["item_reference"]] = None
     """The type of item to reference. Always `item_reference`."""
+
+
+class Program(BaseModel):
+    id: str
+    """The unique ID of this program item."""
+
+    call_id: str
+    """The stable call ID of the program item."""
+
+    code: str
+    """The JavaScript source executed by programmatic tool calling."""
+
+    fingerprint: str
+    """Opaque program replay fingerprint that must be round-tripped."""
+
+    type: Literal["program"]
+    """The item type. Always `program`."""
+
+
+class ProgramOutput(BaseModel):
+    id: str
+    """The unique ID of this program output item."""
+
+    call_id: str
+    """The call ID of the program item."""
+
+    result: str
+    """The result produced by the program item."""
+
+    status: Literal["completed", "incomplete"]
+    """The terminal status of the program output."""
+
+    type: Literal["program_output"]
+    """The item type. Always `program_output`."""
 
 
 ResponseInputItem: TypeAlias = Annotated[
@@ -550,6 +736,7 @@ ResponseInputItem: TypeAlias = Annotated[
         FunctionCallOutput,
         ToolSearchCall,
         ResponseToolSearchOutputItemParam,
+        AdditionalTools,
         ResponseReasoningItem,
         ResponseCompactionItemParam,
         ImageGenerationCall,
@@ -566,7 +753,10 @@ ResponseInputItem: TypeAlias = Annotated[
         McpCall,
         ResponseCustomToolCallOutput,
         ResponseCustomToolCall,
+        CompactionTrigger,
         ItemReference,
+        Program,
+        ProgramOutput,
     ],
     PropertyInfo(discriminator="type"),
 ]
