@@ -52,13 +52,10 @@ function safe_update_packages(){
     local skipped_packages=()
     local failed_packages=()
 
-    # pip list --outdated --format=freeze outputs lines like: pkg==new_version
-    # We need current_version too, so pull that from a separate freeze snapshot map.
-    while IFS='==' read -r pkg new_version _; do
+    # pip list --outdated columns: Package  Version  Latest  Type
+    # NR>2 skips the header row and the "----" separator row
+    while read -r pkg current_version new_version _; do
         [ -z "$pkg" ] && continue
-
-        current_version=$(pip show "$pkg" 2>/dev/null | awk -F': ' '/^Version/ {print $2}')
-        [ -z "$current_version" ] && continue
 
         current_major=$(echo "$current_version" | cut -d. -f1)
         new_major=$(echo "$new_version" | cut -d. -f1)
@@ -73,7 +70,7 @@ function safe_update_packages(){
             echo "[Task]: [ SKIPPING $pkg: $current_version -> $new_version (major version jump, needs manual review) ]"
             skipped_packages+=("$pkg ($current_version -> $new_version)")
         fi
-    done < <(pip list --outdated --format=freeze | grep -v '^\-e')
+    done < <(pip list --outdated | awk 'NR>2 {print $1, $2, $3}')
 
     echo " "
     if [ ${#skipped_packages[@]} -gt 0 ]; then

@@ -1,9 +1,9 @@
 import datetime
-from collections.abc import Mapping
-from typing import Any, Callable, Generic, Literal, TypeVar, final
+from collections.abc import Callable, Mapping
+from typing import Any, Generic, Literal, TypeAlias, TypeVar, final, overload
 
 from _typeshed import SupportsAllComparisons
-from typing_extensions import LiteralString, Self, TypeAlias
+from typing_extensions import LiteralString, Self
 
 from pydantic_core import ErrorDetails, ErrorTypeInfo, InitErrorDetails, MultiHostHost
 from pydantic_core.core_schema import CoreConfig, CoreSchema, ErrorType, ExtraBehavior
@@ -303,7 +303,7 @@ class SchemaSerializer:
 
         Arguments:
             schema: The `CoreSchema` to use for serialization.
-            config: Optionally a [`CoreConfig`][pydantic_core.core_schema.CoreConfig] to to configure serialization.
+            config: Optionally a [`CoreConfig`][pydantic_core.core_schema.CoreConfig] to configure serialization.
             _use_prebuilt: Whether to use pre-built validators (False during rebuilds to avoid stale references).
         """
 
@@ -449,10 +449,31 @@ def to_json(
         by_alias: Whether to use the alias names of fields.
         exclude_none: Whether to exclude fields that have a value of `None`.
         round_trip: Whether to enable serialization and validation round-trip support.
-        timedelta_mode: How to serialize `timedelta` objects, either `'iso8601'` or `'float'`.
-        temporal_mode: How to serialize datetime-like objects (`datetime`, `date`, `time`), either `'iso8601'`, `'seconds'`, or `'milliseconds'`.
-            `iso8601` returns an ISO 8601 string; `seconds` returns the Unix timestamp in seconds as a float; `milliseconds` returns the Unix timestamp in milliseconds as a float.
+        timedelta_mode: The format of serialized timedeltas. Accepts the string values of `'iso8601'` and `'float'`.
 
+            - `'iso8601'` will serialize timedeltas to [ISO 8601 text format](https://en.wikipedia.org/wiki/ISO_8601#Durations).
+            - `'float'` will serialize timedeltas to the total number of seconds.
+
+            /// version-changed | v2.12
+            It is now recommended to use the `temporal_mode` argument. `timedelta_mode` will be deprecated in v3.
+            ///
+        temporal_mode: The format of serialized temporal types from the [`datetime`][] module. This includes:
+
+            - [`datetime.datetime`][]
+            - [`datetime.date`][]
+            - [`datetime.time`][]
+            - [`datetime.timedelta`][]
+
+            Can be one of:
+
+            - `'iso8601'` will serialize date-like types to [ISO 8601 text format](https://en.wikipedia.org/wiki/ISO_8601#Durations).
+            - `'milliseconds'` will serialize date-like types to a floating point number of milliseconds since the epoch.
+            - `'seconds'` will serialize date-like types to a floating point number of seconds since the epoch.
+
+            /// version-added | v2.12
+            This argument replaces `timedelta_mode`, which will be deprecated in v3. `temporal_mode` adds more
+            configurability for the other temporal types. It takes precedence over `timedelta_mode`.
+            ///
         bytes_mode: How to serialize `bytes` objects, either `'utf8'`, `'base64'`, or `'hex'`.
         inf_nan_mode: How to serialize `Infinity`, `-Infinity` and `NaN` values, either `'null'`, `'constants'`, or `'strings'`.
         serialize_unknown: Attempt to serialize unknown types, `str(value)` will be used, if that fails
@@ -534,10 +555,31 @@ def to_jsonable_python(
         by_alias: Whether to use the alias names of fields.
         exclude_none: Whether to exclude fields that have a value of `None`.
         round_trip: Whether to enable serialization and validation round-trip support.
-        timedelta_mode: How to serialize `timedelta` objects, either `'iso8601'` or `'float'`.
-        temporal_mode: How to serialize datetime-like objects (`datetime`, `date`, `time`), either `'iso8601'`, `'seconds'`, or `'milliseconds'`.
-            `iso8601` returns an ISO 8601 string; `seconds` returns the Unix timestamp in seconds as a float; `milliseconds` returns the Unix timestamp in milliseconds as a float.
+        timedelta_mode: The format of serialized timedeltas. Accepts the string values of `'iso8601'` and `'float'`.
 
+            - `'iso8601'` will serialize timedeltas to [ISO 8601 text format](https://en.wikipedia.org/wiki/ISO_8601#Durations).
+            - `'float'` will serialize timedeltas to the total number of seconds.
+
+            /// version-changed | v2.12
+            It is now recommended to use the `temporal_mode` argument. `timedelta_mode` will be deprecated in v3.
+            ///
+        temporal_mode: The format of serialized temporal types from the [`datetime`][] module. This includes:
+
+            - [`datetime.datetime`][]
+            - [`datetime.date`][]
+            - [`datetime.time`][]
+            - [`datetime.timedelta`][]
+
+            Can be one of:
+
+            - `'iso8601'` will serialize date-like types to [ISO 8601 text format](https://en.wikipedia.org/wiki/ISO_8601#Durations).
+            - `'milliseconds'` will serialize date-like types to a floating point number of milliseconds since the epoch.
+            - `'seconds'` will serialize date-like types to a floating point number of seconds since the epoch.
+
+            /// version-added | v2.12
+            This argument replaces `timedelta_mode`, which will be deprecated in v3. `temporal_mode` adds more
+            configurability for the other temporal types. It takes precedence over `timedelta_mode`.
+            ///
         bytes_mode: How to serialize `bytes` objects, either `'utf8'`, `'base64'`, or `'hex'`.
         inf_nan_mode: How to serialize `Infinity`, `-Infinity` and `NaN` values, either `'null'`, `'constants'`, or `'strings'`.
         serialize_unknown: Attempt to serialize unknown types, `str(value)` will be used, if that fails
@@ -625,14 +667,30 @@ class MultiHostUrl(SupportsAllComparisons):
     def __str__(self) -> str: ...
     def __deepcopy__(self, memo: dict) -> Self: ...
     @classmethod
+    @overload
     def build(
         cls,
         *,
         scheme: str,
-        hosts: list[MultiHostHost] | None = None,
+        hosts: list[MultiHostHost],
+        username: None = None,
+        password: None = None,
+        host: None = None,
+        port: None = None,
+        path: str | None = None,
+        query: str | None = None,
+        fragment: str | None = None,
+    ) -> Self: ...
+    @classmethod
+    @overload
+    def build(
+        cls,
+        *,
+        scheme: str,
+        hosts: None = None,
+        host: str,
         username: str | None = None,
         password: str | None = None,
-        host: str | None = None,
         port: int | None = None,
         path: str | None = None,
         query: str | None = None,
@@ -1016,6 +1074,7 @@ def list_all_errors() -> list[ErrorTypeInfo]:
     Returns:
         A list of `ErrorTypeInfo` typed dicts.
     """
+
 @final
 class TzInfo(datetime.tzinfo):
     """An `pydantic-core` implementation of the abstract [`datetime.tzinfo`][] class."""
