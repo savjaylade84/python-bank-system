@@ -18,7 +18,13 @@ class test_account(unit.TestCase):
     def test_password_validation(self) -> None:
         ...
     
+    def test_userid_validation(self) -> None:
+        ...   
+    
     def test_compare_passwords(self) -> None:
+        ...
+        
+    def test_compare_pins(self) -> None:
         ...
         
     def test_pin_encryption(self) -> None:
@@ -26,17 +32,7 @@ class test_account(unit.TestCase):
         
     def test_password_encryption(self) -> None:
         ...
-        
-    def test_pin_validation(self) -> None:
-        self.setup()
-        #test regex of the pin
-        self.assertEqual(validate_pin(self.pin),True)
-
-    def test_password_validation(self) -> None:
-        ...
-        
-    def test_userid_validation(self) -> None:
-        ...       
+            
         
 if __name__ == "__main__":
     unit.main()

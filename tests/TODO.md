@@ -17,9 +17,15 @@
   - [x] divider
   - [x] banner
   - [x] label
-  - [  ] entry
+  - [x] entry
   - [  ] entries
-  - [  ] list
+  - [x] list
   - [  ] menu
-
-###
+- [  ] credential.py
+  - [  ] pin validation
+  - [  ] password validation
+  - [  ] userid validation
+  - [  ] compare passwords
+  - [  ] compare pin
+  - [  ] pin encryption
+  - [  ] password encryption
