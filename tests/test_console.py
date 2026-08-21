@@ -101,10 +101,22 @@ class test_console(unit.TestCase):
         
         self.assertMultiLineEqual(tstream.getvalue(),expected_output)
         
-    def test_entries(self) -> None:
-        ...
-        
     def test_list(self) -> None:
+        
+        tstream:io.StringIO = io.StringIO()
+        
+        test_list:list = ["chicken","cow","hog"]
+        
+        with redirect_stdout(tstream):
+            console.list(test_list)
+        
+        #console.list(test_list)
+        
+        expected_output:str = textwrap.dedent("""[ 1 ] : chicken\n[ 2 ] : cow\n[ 3 ] : hog\n""")
+        
+        self.assertMultiLineEqual(tstream.getvalue(),expected_output)
+        
+    def test_entries(self) -> None:
         ...
         
     def test_menu(self) -> None:

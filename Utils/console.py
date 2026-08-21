@@ -313,7 +313,7 @@ def list(items:list,start="",end="") -> None:
                 [ 3 ] : Exit
     '''
     for index, item in enumerate(items):
-        entry((index + 1,item),start,end)
+        entry((index + 1,item),start,end="\n")
 
 def prompt(label:str,start="",end=""):
     '''
