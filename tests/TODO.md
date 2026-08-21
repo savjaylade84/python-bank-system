@@ -22,9 +22,9 @@
   - [x] list
   - [  ] menu
 - [  ] credential.py
-  - [  ] pin validation
-  - [  ] password validation
-  - [  ] userid validation
+  - [x] pin validation
+  - [x] password validation
+  - [x] userid validation
   - [  ] compare passwords
   - [  ] compare pin
   - [  ] pin encryption
