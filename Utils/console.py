@@ -190,7 +190,7 @@ def label(config:models.DivConfig,title:str,start="",end="") -> None:
     
     print(f"{border}[ {title} ]{border}",start=start,end=end)
 
-def entry(entry:models.LabelEntry | tuple,title="",start="",end="") -> None:
+def entry(entry:models.LabelEntry | tuple,config:models.DivConfig = models.DivConfig(),title="",start="",end="") -> None:
     '''
         print a single labeled data entry in the terminal
         and optionally display a banner header above it
@@ -232,7 +232,7 @@ def entry(entry:models.LabelEntry | tuple,title="",start="",end="") -> None:
         entry = models.LabelEntry._make(entry)
     
     if title:
-        banner(models.DivConfig(),title=title,start=start,end='\n')
+        banner(config,title=title,start=start,end='\n')
     
     print(f"[ {entry.title} ] : {entry.desc}",end=end)
         

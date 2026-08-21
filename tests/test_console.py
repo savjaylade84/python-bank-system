@@ -63,11 +63,13 @@ class test_console(unit.TestCase):
         tstream:io.StringIO = io.StringIO()
         
         with redirect_stdout(tstream):
-            console.banner(config,"Hello")
+            console.banner(config,"Information")
           
-        expected_output:str =   textwrap.dedent("""*************
-**[ Hello ]**
-*************""")
+        #console.banner(config,"Information",end="\n")
+          
+        expected_output:str = textwrap.dedent("""*******************
+**[ Information ]**
+*******************""")
         
         self.assertMultiLineEqual(tstream.getvalue(),expected_output)
         
@@ -82,7 +84,22 @@ class test_console(unit.TestCase):
         self.assertEqual(tstream.getvalue(),"**[ Hello ]**")
         
     def test_entry(self) -> None:
-        ...
+        
+        config:models.DivConfig = models.DivConfig(count=4,style="*")
+        entry:models.DivConfig = models.LabelEntry('Name','John')
+        tstream:io.StringIO = io.StringIO()
+        
+        with redirect_stdout(tstream):
+            console.entry(entry=entry,config=config,title="Information")
+        
+        #console.entry(entry=entry,config=config,title="Information")
+        
+        expected_output:str = textwrap.dedent("""*******************
+**[ Information ]**
+*******************
+[ Name ] : John""")  
+        
+        self.assertMultiLineEqual(tstream.getvalue(),expected_output)
         
     def test_entries(self) -> None:
         ...
