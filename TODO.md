@@ -1,5 +1,10 @@
 # TODO
 
+## TODO file location
+
+- ./TODO.md
+- ./tests/TODO.md
+
 ---
 
 ## [  ] Unfinish - [x] Finish

@@ -74,7 +74,7 @@ def status(status:models.TransactionStatus,message:str,start="",end="") -> None:
             Output:
                 [ Warning ] : Insufficient Balance
     '''
-    print(f"[ {status.name} ] : {message}",start,end)
+    print(f"[ {status.name} ] : {message}",start=start,end=end)
 
 def divider(config:models.DivConfig,start="",end="") -> None:
     '''
@@ -106,7 +106,7 @@ def divider(config:models.DivConfig,start="",end="") -> None:
             Output:
                 =================
     '''
-    print(f"{config.count * config.style}",start,end)
+    print(f"{config.count * config.style}",start=start,end=end)
 
 def banner(config:models.DivConfig,title:str,start="",end="") -> None:
     '''
@@ -144,9 +144,14 @@ def banner(config:models.DivConfig,title:str,start="",end="") -> None:
                 ======[Main Menu]======
                 ===================
     '''
-    border:str = (config.count - 2) * config.style
-    border_side:str = (config.count * 2 + len(title) - 2) * config.style
-    print(f"{border_side}\n{border}[{title}]{border}\n{border_side}",start,end)
+    # border upper and lower 
+    border:str = ((config.count * 2) + len(title)) * config.style
+    
+    
+    print(f"{border}",start=start,end="\n")
+    label(config=config,title=title,end="\n")
+    print(f"{border}",end=end)
+    
 
 def label(config:models.DivConfig,title:str,start="",end="") -> None:
     '''
@@ -177,10 +182,13 @@ def label(config:models.DivConfig,title:str,start="",end="") -> None:
             label(Utils.models.DivConfig(), title='Summary', end='\n')
             
             Output:
-                =====[Account Info]=====
+                =====[ Account Info ]=====
     '''
-    border:str = config.count * config.style
-    print(f"{border}[{title}]{border}",start,end)
+    
+    #border on both side of the title
+    border:str = (config.count - 2) * config.style
+    
+    print(f"{border}[ {title} ]{border}",start=start,end=end)
 
 def entry(entry:models.LabelEntry | tuple,title="",start="",end="") -> None:
     '''
@@ -224,9 +232,9 @@ def entry(entry:models.LabelEntry | tuple,title="",start="",end="") -> None:
         entry = models.LabelEntry._make(entry)
     
     if title:
-        banner(models.DivConfig(),title,start,end)
+        banner(models.DivConfig(),title=title,start=start,end='\n')
     
-    print(f"[ {entry.title} ] : {entry.desc}",start)
+    print(f"[ {entry.title} ] : {entry.desc}",end=end)
         
 
 def entries(labels:list[str],entries:list,title="",start="",end="") -> None:

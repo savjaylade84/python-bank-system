@@ -4,6 +4,17 @@
 
 ## This Branch is Under Refactoring Pls. Don't Use It
 
+### progress can be view on TODO.md and README.md file
+
+### README file location
+
+- ./README.md
+
+### TODO file location
+
+- ./TODO.md
+- ./tests/TODO.md
+
 </br>
 
 Author: John Jayson B. De Leon</br>
