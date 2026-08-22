@@ -131,7 +131,7 @@ def compare_pin(pin:str,encrypt_string:str) -> bool:
             compare_pin('123456', hashed)   -> True
             compare_pin('000000', hashed)   -> False
     '''
-    if(bcrypt.checkpw(pin.encode('utf-8'),encrypt_string.encode('utf-8'))):
+    if(bcrypt.checkpw(pin.encode('utf-8'),encrypt_string)):
         return True
     
     return False
@@ -162,7 +162,7 @@ def compare_password(password:str, encrypt_string:str) -> bool:
             compare_password('Password1!', hashed)  -> True
             compare_password('WrongPass1!', hashed) -> False
     '''
-    if(bcrypt.checkpw(password.encode('utf-8'),encrypt_string.encode('utf-8'))):
+    if(bcrypt.checkpw(password.encode('utf-8'),encrypt_string)):
         return True
     
     return False
