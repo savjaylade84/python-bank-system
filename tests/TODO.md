@@ -21,11 +21,11 @@
   - [  ] entries
   - [x] list
   - [  ] menu
-- [  ] credential.py
+- [x] credential.py
   - [x] pin validation
   - [x] password validation
   - [x] userid validation
-  - [  ] compare passwords
-  - [  ] compare pin
-  - [  ] pin encryption
-  - [  ] password encryption
+  - [x] compare passwords
+  - [x] compare pin
+  - [x] pin encryption
+  - [x] password encryption
