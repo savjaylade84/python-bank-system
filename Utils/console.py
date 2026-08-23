@@ -376,7 +376,7 @@ def prompt_pwd(label:str) -> None:
     '''
     return getpass(f"[ {label} ] : ")
 
-def menu(instruction:str,items:list,prompt_label:str,header:str="",start="",end="") -> str:
+def menu(instruction:str,items:list,prompt_label:str,header:str="",start="",end="") -> str | int:
     '''
         print a complete menu interface composed of a banner header,
         instruction label, numbered list of items, and an input prompt
@@ -433,8 +433,16 @@ def menu(instruction:str,items:list,prompt_label:str,header:str="",start="",end=
         banner(models.DivConfig(),header,start=start,end=end)
     
     if(instruction):
-        banner(models.DivConfig,instruction,start=start,end=end)
-        list(items,end="\n")
-        return prompt(prompt_label,start)
-
-    raise IOError
+        banner(models.DivConfig(),instruction,start=start,end=end)
+    
+    list(items,end="\n")
+    choice:str | int = prompt(prompt_label,start)
+    
+    if(choice.isdigit()):
+        
+        choice = int(choice)
+        
+        if(0 < choice <= len(items) ):
+            return choice 
+    
+    return ""

@@ -118,10 +118,21 @@ class test_console(unit.TestCase):
         
     def test_entries(self) -> None:
         ...
+    
+    @patch('Utils.console.prompt')
+    @patch('Utils.console.banner')
+    @patch('Utils.console.list')
+    def test_menu(self,mock_list,mock_banner,mock_prompt) -> None:
         
-    def test_menu(self) -> None:
-        ...
+        mock_prompt.return_value = "1"
         
+        result:str = console.menu(
+                                    instruction="Mock Test",
+                                    items=["Hello"],
+                                    prompt_label="Enter"
+                                )
+        
+        self.assertEqual(1,result)
         
 if __name__ == '__main__':
     unit.main()
