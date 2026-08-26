@@ -14,7 +14,7 @@ import sys
 from getpass import getpass
 from Utils import models
 
-def print(message:str,start="",end="") -> None:
+def print(message:str,start:str="",end:str="") -> None:
     '''
         write a message directly to the terminal
         using stdout without the default newline behavior
@@ -44,7 +44,7 @@ def print(message:str,start="",end="") -> None:
     '''
     sys.stdout.write(f"{start}{message}{end}")
 
-def status(status:models.TransactionStatus,message:str,start="",end="") -> None:
+def status(status:models.TransactionStatus,message:str,start:str="",end:str="") -> None:
     '''
         print a transaction status notice with a labeled
         style format in the terminal
@@ -76,7 +76,7 @@ def status(status:models.TransactionStatus,message:str,start="",end="") -> None:
     '''
     print(f"[ {status.name} ] : {message}",start=start,end=end)
 
-def divider(config:models.DivConfig,start="",end="") -> None:
+def divider(config:models.DivConfig,start:str="",end:str="") -> None:
     '''
         print a horizontal divider line in the terminal
         based on the provided configuration style and count
@@ -108,7 +108,7 @@ def divider(config:models.DivConfig,start="",end="") -> None:
     '''
     print(f"{config.count * config.style}",start=start,end=end)
 
-def banner(config:models.DivConfig,title:str,start="",end="") -> None:
+def banner(config:models.DivConfig,title:str,start:str="",end:str="") -> None:
     '''
         print a banner with a bordered title header style
         in the terminal using the provided configuration
@@ -153,7 +153,7 @@ def banner(config:models.DivConfig,title:str,start="",end="") -> None:
     print(f"{border}",end=end)
     
 
-def label(config:models.DivConfig,title:str,start="",end="") -> None:
+def label(config:models.DivConfig,title:str,start:str="",end:str="") -> None:
     '''
         print a compact inline label with border style
         on both sides of the title in the terminal
@@ -190,13 +190,13 @@ def label(config:models.DivConfig,title:str,start="",end="") -> None:
     
     print(f"{border}[ {title} ]{border}",start=start,end=end)
 
-def entry(entry:models.LabelEntry | tuple,config:models.DivConfig = models.DivConfig(),title="",start="",end="") -> None:
+def entry(model:models.LabelEntry | tuple,config:models.DivConfig = models.DivConfig(),title:str="",start:str="",end="") -> None:
     '''
         print a single labeled data entry in the terminal
         and optionally display a banner header above it
         
         Args:
-            entry   (Utils.models.LabelEntry | tuple)   : the data entry to display,
+            model   (Utils.models.LabelEntry | tuple)   : the data entry to display,
                                                           accepts a LabelEntry object
                                                           or a plain tuple that will be
                                                           converted automatically
@@ -228,16 +228,16 @@ def entry(entry:models.LabelEntry | tuple,config:models.DivConfig = models.DivCo
     '''
     
     # convert regular tuple into section_header tuple
-    if not isinstance(entry,models.LabelEntry):
-        entry = models.LabelEntry._make(entry)
+    if not isinstance(model,models.LabelEntry):
+        model = models.LabelEntry._make(model)
     
     if title:
         banner(config,title=title,start=start,end='\n')
     
-    print(f"[ {entry.title} ] : {entry.desc}",end=end)
+    print(f"[ {model.title} ] : {model.desc}",end=end)
         
 
-def entries(labels:list[str],entries:list,title="",start="",end="") -> None:
+def entries(labels:list[str],entries:list,title="",start:str="",end:str="") -> None:
     '''
         print multiple labeled data entries in the terminal
         and optionally display a banner header above all entries
@@ -279,12 +279,12 @@ def entries(labels:list[str],entries:list,title="",start="",end="") -> None:
                 [ Status ]  : Active
     '''
     if title:
-        banner(models.DivConfig(),title)
+        banner(models.DivConfig(),title=title,end="\n")
         
-    for entry,info in zip(labels,entries):
-        entry(entry,info,start,end)
+    for label,info in zip(labels,entries):
+        entry((label,info),start=start,end=end)
 
-def list(items:list,start="",end="") -> None:
+def list(items:list,start:str="",end:str="") -> None:
     '''
         print a numbered list of items in the terminal
         using the entry() format style
@@ -315,7 +315,7 @@ def list(items:list,start="",end="") -> None:
     for index, item in enumerate(items):
         entry((index + 1,item),start,end="\n")
 
-def prompt(label:str,start="",end=""):
+def prompt(label:str,start:str="",end:str=""):
     '''
         get user input with a label style prompt in the terminal
         and return the input as a string
@@ -376,7 +376,7 @@ def prompt_pwd(label:str) -> None:
     '''
     return getpass(f"[ {label} ] : ")
 
-def menu(instruction:str,items:list,prompt_label:str,header:str="",start="",end="") -> str | int:
+def menu(instruction:str,items:list,prompt_label:str,header:str="",start:str="",end:str="") -> str | int:
     '''
         print a complete menu interface composed of a banner header,
         instruction label, numbered list of items, and an input prompt

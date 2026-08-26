@@ -86,11 +86,11 @@ class test_console(unit.TestCase):
     def test_entry(self) -> None:
         
         config:models.DivConfig = models.DivConfig(count=4,style="*")
-        entry:models.DivConfig = models.LabelEntry('Name','John')
+        model:models.DivConfig = models.LabelEntry('Name','John')
         tstream:io.StringIO = io.StringIO()
         
         with redirect_stdout(tstream):
-            console.entry(entry=entry,config=config,title="Information")
+            console.entry(model=model,config=config,title="Information")
         
         #console.entry(entry=entry,config=config,title="Information")
         
@@ -117,7 +117,23 @@ class test_console(unit.TestCase):
         self.assertMultiLineEqual(tstream.getvalue(),expected_output)
         
     def test_entries(self) -> None:
-        ...
+        
+        tstream:io.StringIO = io.StringIO()
+        test_entries_labels:list = ["Emp1","Emp2","Emp3"]
+        test_entries_value:list = ["John","Joe","Josh"]
+        
+        with redirect_stdout(tstream):
+            console.entries(test_entries_labels,test_entries_value,title="Emp Name",end="\n")
+        
+        expected_output = textwrap.dedent("""==========================================
+===============[ Emp Name ]===============
+==========================================
+[ Emp1 ] : John
+[ Emp2 ] : Joe
+[ Emp3 ] : Josh
+""")
+        
+        self.assertEqual(tstream.getvalue(),expected_output)
     
     @patch('Utils.console.prompt')
     @patch('Utils.console.banner')
