@@ -9,7 +9,7 @@
 
 ### Utils
 
-- [  ] console.py
+- [x] console.py
   - [x] prompt_pwd
   - [x] prompt
   - [x] print
@@ -18,9 +18,9 @@
   - [x] banner
   - [x] label
   - [x] entry
-  - [  ] entries
+  - [x] entries
   - [x] list
-  - [  ] menu
+  - [x] menu
 - [x] credential.py
   - [x] pin validation
   - [x] password validation
@@ -29,3 +29,6 @@
   - [x] compare pin
   - [x] pin encryption
   - [x] password encryption
+- [  ] Admin
+- [  ] Storage
+- [  ] Account
