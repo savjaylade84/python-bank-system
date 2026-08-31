@@ -1,18 +1,16 @@
-
-''' 
-	this class serve as fetcher of the files in the storage 
-'''
 import json
 import os 
 from LogService.src import logger
 from typing import Final
+from typing_extensions import deprecated
 
 log = logger.Log.initLogging(log_file='storage.log')
 
 VAULT_PATH:Final[str] = "AccountVault"
 VAULT_LIST:Final[str] = "account-list.json"
 ACCOUNT_LIST_FILE:str = f"{VAULT_PATH}/{VAULT_LIST}"
-  
+
+@deprecated("This will be remove if the refractoring is done")
 class Storage:
 
 

@@ -13,13 +13,14 @@ from Utils.console import Print
 from Utils.credential import encrypt_pin, validate_pin,validate_userid,compare_pin,generate_id
 from AccountVault.storage import Storage
 from LogService.src import logger
-
+from typing_extensions import deprecated
 
 transaction_log = logger.Log.initLogging('transaction.log')
 form_log = logger.Log.initLogging('form.log')
 _print = Print()
 _storage = Storage()
 
+@deprecated("this will be remove after refractoring done")
 class Operation:
     
     def __init__(self) -> None:

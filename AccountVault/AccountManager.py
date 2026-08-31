@@ -14,7 +14,7 @@ from LogService.src import logger
 from random import Random
 from AccountVault.AdminManager import AdminManager
 from AccountVault.FileManager import FileManager
-from AccountVault.config import VAULT_PATH
+from AccountVault import config
 from dataclasses import asdict
 av_log = logger.Log.initLogging(log_file='storage.log')
 
@@ -135,7 +135,7 @@ class AccountManager:
             Example:
                 load_path('123-456-7890')  -> '/vault/account-123-456-7890.json'
         '''
-        return f"{VAULT_PATH}/account-{id}.json"
+        return f"{config.VAULT_PATH}/account-{id}.json"
     
     @staticmethod
     def save(id:str,data:dict) -> bool:

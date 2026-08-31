@@ -10,7 +10,6 @@ Github: github.com/savjaylade
 '''
 import json
 
-
 class FileManager:
     '''
         static class that handles all json file read and write
