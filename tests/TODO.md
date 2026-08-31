@@ -31,4 +31,8 @@
   - [x] password encryption
 - [  ] Admin
 - [  ] Storage
+  - [x] File Manager
+    - [x] read_json
+    - [x] write_json
 - [  ] Account
+  
