@@ -32,7 +32,7 @@ class FileManager:
                 path    (str)   : the file path of the json file to read
 
             Return:
-                dict : the parsed json content of the file
+                dict : the parsed json content of the file or error message
 
             Raises:
                 FileNotFoundError : raised when the file does not exist
@@ -48,12 +48,18 @@ class FileManager:
                 read_json('/vault/empty.json')                 -> FileNotFoundError
                 read_json('/vault/missing.json')               -> FileNotFoundError
         '''
+        
+        if not path:
+            return {"File Path Error":"Empty Path Value"}
+        
         with open(path,'r') as file:
             
             temp:dict = json.load(file)
             
-            if temp:
-                return temp
+            if not temp:
+                return {"File Error":"Empty Value"}  
+               
+            return temp
         
         raise FileNotFoundError(f"Either [ Unable to load a json file ] or [ No file exist ]")
 
@@ -84,6 +90,13 @@ class FileManager:
                 write_json('/vault/account-123-456-7890.json', { })                               -> False
                 write_json('/vault/account-123-456-7890.json', None)                              -> False
         '''
+        
+        if not path:
+            return False
+        
+        if not data:
+            return False
+        
         with open(path,'w') as file:
             
             if data:
