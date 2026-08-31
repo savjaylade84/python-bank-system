@@ -10,7 +10,7 @@ Github: github.com/savjaylade
 '''
 import json
 from LogService.src import logger
-from AccountVault.config import ACCOUNT_LIST_FILE
+from AccountVault import config
 from AccountVault.FileManager import FileManager
 
 av_log = logger.Log.initLogging(log_file='storage.log')
@@ -51,7 +51,7 @@ class AdminManager:
                 load_list()  -> { 'Account-List': [ { 'Account-ID': '123-456-7890', ... } ] }
                 load_list()  -> { }
         '''
-        return FileManager.read_json(ACCOUNT_LIST_FILE)
+        return FileManager.read_json(config.ACCOUNT_LIST_FILE)
     
     @staticmethod
     def update_list(data:dict) -> bool:
@@ -77,7 +77,7 @@ class AdminManager:
                 update_list({ 'Account-List': [ { 'Account-ID': '123-456-7890' } ] })  -> True
                 update_list({ })                                                         -> False
         '''
-        if FileManager.write_json(ACCOUNT_LIST_FILE,data):
+        if FileManager.write_json(config.ACCOUNT_LIST_FILE,data):
             return True
         
         return False
@@ -100,6 +100,7 @@ class AdminManager:
                 KeyError          : raised when the account id is not found
                                     in the account list
             
+----------------------------------------------------------------------
             Note:
                 uses next() to get the first matching account entry
                 the file path is stored inside each account entry as 'Path'
@@ -116,7 +117,7 @@ class AdminManager:
             
         # get the first item that meet condition
         account = next(
-                        (account for account in acc_list['Account-List'] if account['Account-ID'] == id),
+                        (account for account in acc_list[config.ACCOUNT_LIST] if account['Account-ID'] == id),
                         None    
                         )
         if not account:
@@ -160,7 +161,7 @@ class AdminManager:
         update_list = {
             **acc_list,
             "Account-List":[
-                account for account in acc_list.get("Account-List",[])
+                account for account in acc_list.get(config.ACCOUNT_LIST,[])
                 if account["Account-ID"] != id
             ]
         }
@@ -168,7 +169,7 @@ class AdminManager:
         if not update_list:
             return False
             
-        if FileManager.write_json(ACCOUNT_LIST_FILE,update_list):
+        if FileManager.write_json(config.ACCOUNT_LIST_FILE,update_list):
             return True
         
         return False
