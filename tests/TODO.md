@@ -29,7 +29,12 @@
   - [x] compare pin
   - [x] pin encryption
   - [x] password encryption
-- [  ] Admin
+- [x] Admin
+  - [x] load_list
+  - [x] append_list
+  - [x] update_list
+  - [x] load_account_path
+  - [x] remove_in_list
 - [  ] Storage
   - [x] File Manager
     - [x] read_json
