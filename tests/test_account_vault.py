@@ -2,7 +2,7 @@ import unittest as unit
 from unittest.mock import patch
 from contextlib import redirect_stdout
 from AccountVault.FileManager import FileManager
-
+from AccountVault.AdminManager import AdminManager
 
 
 class test_account_vault(unit.TestCase):
@@ -18,3 +18,9 @@ class test_account_vault(unit.TestCase):
         result = FileManager.write_json("",{})
         
         self.assertFalse(result)
+        
+    def test_load_list(self) -> None:
+        
+        result:dict = AdminManager.load_list()
+        
+        self.assertIsInstance(result,dict)
