@@ -54,6 +54,47 @@ class AdminManager:
         return FileManager.read_json(config.ACCOUNT_LIST_FILE)
     
     @staticmethod
+    def append_list(data:dict) -> bool:
+        
+        '''
+            write new item to the master account list file with the
+            provided data and return true if successful
+            
+            Args:
+                data    (dict)  : new item 
+                
+            Return:
+                Boolean : True if the file was written successfully
+                          False if the write operation failed
+            
+            Raises:
+                None
+            
+            Note:
+                writes directly to ACCOUNT_LIST_FILE via FileManager
+                completely overwrites the existing file content
+            
+            Example:
+                update_list({ 'Account-ID': '123-456-7890' })  -> True
+                update_list({ })                                                         -> False
+        '''
+        
+        acct_list:dict = AdminManager.load_list()
+
+        if not data:
+            return False
+    
+        if not acct_list:
+            return False
+        
+        acct_list[config.ACCOUNT_LIST].append(data)
+        
+        if FileManager.write_json(config.ACCOUNT_LIST_FILE,acct_list):
+            return True
+        
+        return False
+    
+    @staticmethod
     def update_list(data:dict) -> bool:
         '''
             overwrite the master account list file with the
@@ -74,9 +115,13 @@ class AdminManager:
                 completely overwrites the existing file content
             
             Example:
-                update_list({ 'Account-List': [ { 'Account-ID': '123-456-7890' } ] })  -> True
+                update_list({'Account-List':[{ 'Account-ID': '123-456-7890' }]})  -> True
                 update_list({ })                                                         -> False
         '''
+                
+        if not data:
+            return False
+        
         if FileManager.write_json(config.ACCOUNT_LIST_FILE,data):
             return True
         
@@ -154,6 +199,9 @@ class AdminManager:
                 remove_in_list('123-456-7890')  -> False (empty list)
         '''
         acc_list:dict = AdminManager.load_list()
+        
+        if not id:
+            return False
         
         if not acc_list:
             return False
