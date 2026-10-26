@@ -1,7 +1,7 @@
 annotated-types==0.8.0
 anyio==4.14.2
 bcrypt==5.0.0
-certifi==2026.7.22
+certifi==2026.10.19
 distro==1.9.0
 dotenv==0.9.9
 h11==0.16.0
